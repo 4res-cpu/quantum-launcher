@@ -36,7 +36,7 @@ const bytes = (n) => (n > 1048576 ? `${(n / 1048576).toFixed(1)} MB` : `${Math.r
 function iniciarCuentaAtras(fechaIso) {
   const fecha = new Date(fechaIso);
   const f = new Intl.DateTimeFormat('es', { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(fecha);
-  $('ca-fecha').textContent = `${f.charAt(0).toUpperCase()}${f.slice(1)} (hora de tu PC)`;
+  $('ca-fecha').textContent = `${f.charAt(0).toUpperCase()}${f.slice(1)}`;
   const pad = (n) => String(n).padStart(2, '0');
   const tick = () => {
     const ms = fecha - Date.now();
@@ -75,7 +75,7 @@ function pintarCuentas() {
   cara(activa, $('cuenta-cara'));
   const ul = $('lista-cuentas');
   ul.replaceChildren();
-  if (!estado.cuentas.length) ul.append(el('li', { class: 'vacia' }, 'Todavía no hay cuentas. Añade una para jugar.'));
+  if (!estado.cuentas.length) ul.append(el('li', { class: 'vacia' }, 'Añade una cuenta para jugar.'));
   for (const c of estado.cuentas) {
     const caraNodo = el('span', { class: 'cuenta-cara', 'aria-hidden': 'true' });
     cara(c, caraNodo);
@@ -121,7 +121,7 @@ function configurarAjustes() {
   r.min = ram.min; r.max = ram.max; r.value = a.ramMB;
   const pintarRam = () => {
     $('ram-valor').textContent = mb(Number(r.value));
-    $('ram-ayuda').textContent = `Tu PC tiene ${mb(hw.ramMB)} de RAM. Recomendado: ${mb(ram.recomendado)}. Poner más de la cuenta no da más FPS y puede dejar sin memoria a Windows.${ram.poca ? ' Tu PC va justo de memoria: cierra el navegador y otros programas antes de jugar.' : ''}`;
+    $('ram-ayuda').textContent = `Recomendado: ${mb(ram.recomendado)} · Tu equipo: ${mb(hw.ramMB)}${ram.poca ? ' · Cierra otros programas antes de jugar.' : ''}`;
   };
   pintarRam();
   r.addEventListener('input', pintarRam);
@@ -132,7 +132,7 @@ function configurarAjustes() {
   $('perfil').options[0].textContent = `Automática (${nombres[perfilAuto]} para tu PC)`;
   $('modo-ligero').checked = a.modoLigero ?? perfilAuto === 'bajo';
   $('cerrar-al-jugar').checked = !!a.cerrarAlJugar;
-  $('pc-info').textContent = `Procesador: ${hw.cpu} (${hw.nucleos} hilos). Gráfica: ${hw.gpu}.`;
+  $('pc-info').textContent = `${hw.cpu} · ${hw.gpu}`;
 
   const guardar = async () => {
     estado.ajustes = await llamar(quantum.guardarAjustes, {
@@ -153,7 +153,7 @@ function configurarAjustes() {
   $('btn-optimizar').addEventListener('click', async () => {
     try {
       const p = await llamar(quantum.aplicarPerfil, $('perfil').value);
-      aviso(`Calidad gráfica ${nombres[p]} aplicada. Se notará la próxima vez que abras el juego.`);
+      aviso(`Calidad gráfica ${nombres[p]} aplicada.`);
     } catch (e) { aviso(e.message); }
   });
   $('btn-reparar').addEventListener('click', () => { $('dlg-ajustes').close(); jugar(true); });
@@ -169,7 +169,7 @@ function abrirRegistro(resumen) {
   $('registro').scrollTop = $('registro').scrollHeight;
 }
 function configurarRegistro() {
-  $('btn-registro').addEventListener('click', () => abrirRegistro());
+  $('btn-registro').addEventListener('click', () => { $('dlg-ajustes').close(); abrirRegistro(); });
   $('btn-copiar').addEventListener('click', () => navigator.clipboard.writeText($('registro').textContent));
   $('btn-guardar-reg').addEventListener('click', () => llamar(quantum.guardarRegistro, $('registro').textContent));
   quantum.on('log', (l) => {
@@ -179,7 +179,7 @@ function configurarRegistro() {
 }
 
 // ---------- Progreso y jugar ----------
-const ETAPAS = { cuenta: 'Cuenta', manifiesto: 'Actualizaciones', java: 'Java', minecraft: 'Minecraft', modpack: 'Modpack', juego: 'Juego', listo: 'Listo' };
+const ETAPAS = { cuenta: 'Cuenta', manifiesto: 'Actualizaciones', java: 'Java', minecraft: 'Minecraft', modpack: 'Evento', juego: 'Juego', listo: 'Listo' };
 function progreso(p) {
   $('prog-etapa').textContent = p.texto || ETAPAS[p.etapa] || '';
   const rel = $('prog-relleno');
@@ -222,30 +222,30 @@ async function jugar(reparar = false) {
 }
 
 function textoVersion(pack) {
-  const t = `Modpack ${pack || 'sin instalar'}\nLauncher ${estado.init.version}`;
+  const t = `Versión ${pack || '-'}\nLauncher ${estado.init.version}`;
   const a = $('acerca-version');
-  if (a) a.textContent = `Quantum Launcher ${estado.init.version}${estado.init.portable ? ' (portable)' : ''} · Modpack ${pack || 'sin instalar'}`;
+  if (a) a.textContent = `Quantum Launcher ${estado.init.version}${estado.init.portable ? ' (portable)' : ''} · Evento ${pack || '-'}`;
   return t;
 }
 
 quantum.on('progreso', progreso);
 quantum.on('juego', (j) => {
-  if (j.estado === 'abierto') { botonJugar('En juego', true); finProgreso('Minecraft está abierto. ¡Suerte en el laberinto!'); }
+  if (j.estado === 'abierto') { botonJugar('En juego', true); finProgreso('¡Suerte en el laberinto!'); }
   if (j.estado === 'cerrado') {
     finProgreso('Listo para jugar');
     if (j.fallo) {
-      let resumen = `Minecraft se cerró de forma inesperada (código ${j.code}).`;
-      if (/OutOfMemoryError/.test(j.log + (j.crash?.texto || ''))) resumen += ' Se quedó sin memoria: sube la RAM en Ajustes o activa el modo PC de bajos recursos.';
-      else if (/GLFW error|OpenGL|Pixel format not accelerated/i.test(j.log)) resumen += ' Parece un problema con la tarjeta gráfica: actualiza sus drivers.';
-      if (j.logFile) resumen += ` Registro guardado en: ${j.logFile}`;
+      let resumen = 'El juego se cerró inesperadamente.';
+      if (/OutOfMemoryError/.test(j.log + (j.crash?.texto || ''))) resumen += ' Falta memoria: sube la RAM en Ajustes o activa el modo bajo consumo.';
+      else if (/GLFW error|OpenGL|Pixel format not accelerated/i.test(j.log)) resumen += ' Actualiza los drivers de tu tarjeta gráfica.';
+      else resumen += ' Si se repite, guarda este informe y envíalo al staff por Discord.';
       if (j.crash?.texto) estado.logBuffer.push('----- Informe de error de Minecraft -----', j.crash.texto);
       abrirRegistro(resumen);
     }
   }
 });
 quantum.on('launcher:update', (u) => {
-  if (u.estado === 'descargando') aviso(`Descargando la versión ${u.version} del launcher…`);
-  if (u.estado === 'listo') aviso(`La versión ${u.version} del launcher está lista.`, { texto: 'Reiniciar y actualizar', accion: () => llamar(quantum.instalarActualizacion) });
+  if (u.estado === 'descargando') aviso(`Descargando actualización ${u.version}…`);
+  if (u.estado === 'listo') aviso(`Actualización ${u.version} lista.`, { texto: 'Reiniciar', accion: () => llamar(quantum.instalarActualizacion) });
 });
 
 // ---------- Noticias y estado del servidor ----------
@@ -255,7 +255,7 @@ async function cargarNoticias() {
     const n = await llamar(quantum.noticias);
     const lista = Array.isArray(n) ? n : n.noticias || [];
     ol.replaceChildren();
-    if (!lista.length) { ol.append(el('li', { class: 'noticia vacia' }, 'No hay noticias por ahora.')); return; }
+    if (!lista.length) { ol.append(el('li', { class: 'noticia vacia' }, 'Sin noticias por ahora.')); return; }
     for (const x of lista.slice(0, 20)) {
       let fecha = '';
       if (x.fecha) { const d = new Date(`${x.fecha}${x.fecha.length === 10 ? 'T12:00:00' : ''}`); if (!Number.isNaN(+d)) fecha = new Intl.DateTimeFormat('es', { day: 'numeric', month: 'long' }).format(d); }
@@ -293,8 +293,8 @@ async function estadoServidor() {
 async function comprobarActualizacion() {
   try {
     const u = await llamar(quantum.actualizacion);
-    if (u.hayNueva && u.instalada) aviso(`Hay una versión nueva del modpack (${u.disponible}). Se instalará sola al pulsar Jugar.${u.nota ? ` ${u.nota}` : ''}`);
-    if (u.launcherNuevo && u.launcherDescarga) aviso(`Hay una versión nueva del launcher (${u.launcherVersion}).`, { texto: 'Descargar', accion: () => llamar(quantum.abrirEnlace, u.launcherDescarga) });
+    if (u.hayNueva && u.instalada) aviso(`Nueva versión del evento (${u.disponible}). Se instala al pulsar Jugar.${u.nota ? ` ${u.nota}` : ''}`);
+    if (u.launcherNuevo && u.launcherDescarga) aviso(`Nueva versión del launcher (${u.launcherVersion}).`, { texto: 'Descargar', accion: () => llamar(quantum.abrirEnlace, u.launcherDescarga) });
   } catch { /* sin conexión: se avisa al jugar */ }
 }
 
@@ -332,12 +332,6 @@ function configurarMenus() {
   $('cajon-cerrar').addEventListener('click', () => cajon(false));
   $('cajon-fondo').addEventListener('click', () => cajon(false));
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cajon(false); });
-  $('btn-mapa').addEventListener('click', () => $('dlg-mapa').showModal());
-  for (const fig of document.querySelectorAll('.galeria-grid figure')) {
-    fig.addEventListener('click', () => { $('visor-img').src = fig.querySelector('img').src; $('dlg-visor').showModal(); });
-  }
-  $('btn-carpeta-riel').addEventListener('click', () => llamar(quantum.abrirCarpeta));
-  $('btn-web-mapa').addEventListener('click', () => llamar(quantum.abrirEnlace, 'https://www.jxnasgmng.de/mazerunner/'));
   $('win-max').addEventListener('click', () => quantum.ventana('maximizar'));
   $('estado-srv').addEventListener('click', estadoServidor);
 }
@@ -360,7 +354,7 @@ function configurarMenus() {
   configurarMenus();
   $('discord').addEventListener('click', () => llamar(quantum.abrirEnlace, estado.init.evento.discord));
   $('jugar').addEventListener('click', () => jugar(false));
-  if (!estado.init.instalado) $('prog-etapa').textContent = 'La primera vez descargará alrededor de 1 GB (Java, Minecraft y mods)';
+  if (!estado.init.instalado) $('prog-etapa').textContent = 'Primera instalación: aprox. 1 GB';
   cargarNoticias();
   estadoServidor();
   setInterval(estadoServidor, 30000);

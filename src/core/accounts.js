@@ -58,22 +58,22 @@ function authorizeUrl({ clientId, redirectUri, challenge, state, endpoints = {} 
 
 const XSTS_ERRORES = {
   2148916227: 'Esta cuenta tiene un bloqueo de Xbox.',
-  2148916233: 'Esta cuenta de Microsoft no tiene perfil de Xbox. Entra una vez en minecraft.net o xbox.com para crearlo y vuelve a intentarlo.',
+  2148916233: 'Esta cuenta no tiene perfil de Xbox. Inicia sesión una vez en minecraft.net y vuelve a intentarlo.',
   2148916235: 'Xbox Live no está disponible en el país de esta cuenta.',
   2148916236: 'La cuenta necesita verificación de edad en xbox.com.',
   2148916237: 'La cuenta necesita verificación de edad en xbox.com.',
-  2148916238: 'Es una cuenta de menor de edad: un adulto debe añadirla a un grupo familiar de Microsoft (account.microsoft.com/family).',
+  2148916238: 'Cuenta de menor de edad: un adulto debe añadirla a su grupo familiar de Microsoft.',
 };
 
 function explicar(e, paso) {
   if (e instanceof http.HttpError) {
     const b = e.body || {};
-    if (paso === 'xsts' && b.XErr) return new Error(XSTS_ERRORES[b.XErr] || `Xbox rechazó el inicio de sesión (código ${b.XErr}).`);
-    if (paso === 'mc' && e.status === 403) return new Error('Minecraft rechazó la aplicación del launcher (403). Falta que Microsoft apruebe el Client ID para la API de Minecraft: mira la guía AZURE.md.');
-    if (paso === 'perfil' && e.status === 404) return new Error('Esta cuenta de Microsoft no tiene Minecraft Java comprado (o nunca abrió el launcher oficial para crear el perfil). Usa el modo no premium.');
-    if (paso === 'token' && b.error === 'invalid_grant') return Object.assign(new Error('La sesión de Microsoft caducó. Vuelve a iniciar sesión.'), { reLogin: true });
-    if (paso === 'token' && b.error) return new Error(`Microsoft respondió: ${b.error_description || b.error}`);
-    if (e.status === 429) return new Error('Demasiados intentos. Espera un minuto y vuelve a probar.');
+    if (paso === 'xsts' && b.XErr) return new Error(XSTS_ERRORES[b.XErr] || 'No se pudo iniciar sesión con esta cuenta.');
+    if (paso === 'mc' && e.status === 403) return new Error('El inicio de sesión premium no está disponible por ahora. Puedes jugar con el modo no premium.');
+    if (paso === 'perfil' && e.status === 404) return new Error('Esta cuenta no tiene Minecraft Java. Usa el modo no premium.');
+    if (paso === 'token' && b.error === 'invalid_grant') return Object.assign(new Error('La sesión caducó. Vuelve a iniciar sesión.'), { reLogin: true });
+    if (paso === 'token' && b.error) return new Error('No se pudo iniciar sesión. Inténtalo de nuevo.');
+    if (e.status === 429) return new Error('Demasiados intentos. Espera un minuto.');
   }
   return e;
 }

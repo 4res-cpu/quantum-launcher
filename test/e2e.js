@@ -192,7 +192,7 @@ const exists = (p) => fs.existsSync(p);
     mock.ms.xerr = 2148916238;
     await assert.rejects(run, /menor de edad/);
     mock.ms.xerr = null; mock.ms.mc403 = true;
-    await assert.rejects(run, /AZURE\.md/);
+    await assert.rejects(run, /premium no está disponible/);
     mock.ms.mc403 = false; mock.ms.noProfile = true;
     await assert.rejects(run, /no tiene Minecraft Java/);
     mock.ms.noProfile = false;

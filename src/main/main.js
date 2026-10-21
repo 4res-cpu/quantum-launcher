@@ -87,7 +87,7 @@ function abrirExterno(url) {
 function loginMicrosoft() {
   const { clientId, redirectUri } = cfg.microsoft;
   if (!clientId || clientId.startsWith('PEGA_AQUI')) {
-    return Promise.reject(new Error('El inicio de sesión premium todavía no está configurado (falta el Client ID de Azure). Usa el modo no premium.'));
+    return Promise.reject(new Error('El inicio de sesión premium no está disponible por ahora. Puedes jugar con el modo no premium.'));
   }
   const { verifier, challenge, state } = accounts.pkce();
   const authEp = cfg.endpoints?.auth || {};

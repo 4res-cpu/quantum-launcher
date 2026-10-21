@@ -4,7 +4,7 @@ Ya no necesitas TLauncher ni copiar carpetas. El Quantum Launcher instala todo s
 
 ## 1. Descarga
 
-Entra en **https://github.com/4res-cpu/quantum-launcher/releases/latest** y descarga:
+Entra en **https://github.com/TU_USUARIO/quantum-launcher/releases/latest** y descarga:
 
 - **Windows:** `Quantum-Launcher-Setup-X.Y.Z.exe` (recomendado; se actualiza solo).
   Si no puedes instalar programas, usa `Quantum-Launcher-Portable-X.Y.Z.exe`. Ponlo en su propia
@@ -69,5 +69,5 @@ Los shaders son opcionales y solo para PCs buenos: dentro del juego, Opciones �
 - **Se queda descargando:** revisa tu internet o el antivirus y vuelve a pulsar *Jugar*: continúa
   donde lo dejó.
 - **Premium: "no tiene perfil de Xbox":** entra una vez en minecraft.net con esa cuenta.
-- **Pide ayuda en el Discord:** https://discord.gg/srGGsHJug8 — pulsa *Registro → Guardar en un archivo*
+- **Pide ayuda en el Discord:** https://discord.gg/srGGsHJug8 — pulsa *Ajustes → Instalación → Ver informe técnico → Guardar en un archivo*
   y adjunta ese archivo.

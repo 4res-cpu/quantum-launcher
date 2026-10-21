@@ -125,7 +125,7 @@ Todo está en `evento.config.json` (hace falta compilar una versión nueva del l
 | `instancia` | Nombre de la carpeta del juego. Cámbialo para un evento nuevo y tendrá su propia instalación. |
 
 Para reutilizarlo en otro evento: cambia `evento.config.json` y las imágenes de `assets/`
-(`fondos/fondo-1.jpg`…`fondo-3.jpg` (la lista está al principio de `src/renderer/app.js`, en `FONDOS`), `mapa/` (galería "El laberinto"), `gif/`, `logo-evento.png`, `logo-quantum.png`, `icon.png`). Los colores están al principio de
+(`fondos/fondo-1.jpg`…`fondo-3.jpg` (la lista está al principio de `src/renderer/app.js`, en `FONDOS`), `gif/`, `logo-evento.png`, `logo-quantum.png`, `icon.png`). Los colores están al principio de
 `src/renderer/styles.css`.
 
 ## Dónde está cada cosa en el PC del jugador
@@ -145,6 +145,6 @@ La carpeta `.minecraft` del jugador no se toca.
 
 ## Si un jugador tiene problemas
 
-Pídele que pulse **Registro → Guardar en un archivo** y te lo mande por Discord. Si el juego se cierra
+Pídele que pulse **Ajustes → Instalación → Ver informe técnico → Guardar en un archivo** y te lo mande por Discord. Si el juego se cierra
 con error, el launcher le abre el registro solo y guarda una copia en
 `instancias\quantum-maze-runner\logs\quantum-error-*.log`.

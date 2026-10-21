@@ -56,7 +56,7 @@ Lo más cómodo es dejar que **GitHub Actions** compile todo: sube una etiqueta 
 guía de jugadores). Si más adelante consigues un certificado de firma de código, electron-builder lo
 usa con las variables `CSC_LINK` / `CSC_KEY_PASSWORD`.
 
-Antes de la primera compilación cambia `4res-cpu` (en `evento.config.json`, `package.json` y
+Antes de la primera compilación cambia `TU_USUARIO` (en `evento.config.json`, `package.json` y
 `quantum-datos/manifest.json`) y pon tu Client ID de Azure.
 
 ## Pruebas
@@ -98,5 +98,4 @@ docs/                   guías
   del jugador.
 - El `.mrpack` 3.4.7 trae un `servers.dat` con la IP antigua `pruebasquantum.joinsrv.xyz`. El launcher
   lo ignora, pone el lobby `37.187.159.20:9175` y borra esa IP vieja de la lista del jugador.
-- El fondo es la captura del mapa (`fondo_menu_mapa.jpg`). No se usó el fotograma de la película que
-  venía en el paquete de TLauncher, porque esa imagen es propiedad del estudio.
+- Los fondos están en `assets/fondos/`.

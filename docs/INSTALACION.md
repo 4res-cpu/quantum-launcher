@@ -6,7 +6,7 @@ No hace falta saber programar: todo se hace con el Bloc de notas, la web de GitH
 ## Paso 1. Instala los programas
 
 1. **GitHub:** crea una cuenta en <https://github.com/signup>. Apunta tu nombre de usuario exacto
-   (en esta guía lo llamamos `4res-cpu`).
+   (en esta guía lo llamamos `TU_USUARIO`).
 2. **GitHub Desktop:** descárgalo de <https://desktop.github.com>, instálalo e inicia sesión con tu
    cuenta de GitHub.
 3. **Node.js:** descarga la versión **LTS** de <https://nodejs.org> e instálalo con las opciones por
@@ -22,7 +22,7 @@ aprobación. No hace falta esperar a que la aprueben para seguir con esta guía.
 
 1. Descomprime `quantum-launcher.zip` en una ruta sencilla, por ejemplo `C:\Quantum\quantum-launcher`.
 2. Abre la carpeta con VS Code (*File → Open Folder*).
-3. Pulsa **Ctrl+Shift+H** (reemplazar en todos los archivos). Busca `4res-cpu`, escribe tu usuario de
+3. Pulsa **Ctrl+Shift+H** (reemplazar en todos los archivos). Busca `TU_USUARIO`, escribe tu usuario de
    GitHub y pulsa *Replace All*. Debe cambiar `evento.config.json`, `package.json`,
    `quantum-datos/manifest.json` y las guías.
 4. En `evento.config.json`, sustituye `PEGA_AQUI_TU_CLIENT_ID_DE_AZURE` por tu Client ID.
@@ -39,14 +39,14 @@ aprobación. No hace falta esperar a que la aprueben para seguir con esta guía.
    la carpeta `quantum-datos\`: `manifest.json`, `noticias.json` y `README.md`. Pulsa *Commit changes*.
 3. Sube el modpack:
    1. Haz una copia de tu `Eventos Quantum 3.4.7.mrpack` y renómbrala `Eventos_Quantum_3.4.7.mrpack`
-      (sin espacios). **Tiene que ser exactamente el mismo archivo que me pasaste**: el manifiesto lleva
+      (sin espacios). **Tiene que ser exactamente el mismo archivo**: el manifiesto lleva
       su huella (sha1) y, si subes otro, la descarga fallará.
    2. En `quantum-datos`, columna derecha, **Releases → Create a new release**.
    3. *Choose a tag* → escribe `modpack-3.4.7` → *Create new tag*.
    4. Título: `Modpack 3.4.7`. Arrastra el `.mrpack` a la zona de archivos. Pulsa **Publish release**.
 4. Comprueba que funciona abriendo estas dos direcciones en el navegador (con tu usuario):
-   - `https://raw.githubusercontent.com/4res-cpu/quantum-datos/main/manifest.json` → se ve el JSON.
-   - `https://github.com/4res-cpu/quantum-datos/releases/download/modpack-3.4.7/Eventos_Quantum_3.4.7.mrpack`
+   - `https://raw.githubusercontent.com/TU_USUARIO/quantum-datos/main/manifest.json` → se ve el JSON.
+   - `https://github.com/TU_USUARIO/quantum-datos/releases/download/modpack-3.4.7/Eventos_Quantum_3.4.7.mrpack`
      → se descarga el modpack.
 
 ## Paso 5. Sube el launcher a GitHub (`quantum-launcher`)
@@ -70,7 +70,7 @@ aprobación. No hace falta esperar a que la aprueben para seguir con esta guía.
    `Quantum-Launcher-Setup-1.0.0.exe`, `Quantum-Launcher-Portable-1.0.0.exe`, el `.AppImage`, el `.dmg`
    y `latest.yml` (este último lo usa el actualizador, no lo borres).
 
-Si algo sale en rojo, abre el paso que falló, copia el error y pásamelo.
+Si algo sale en rojo, abre el paso que falló, revisa el error.
 
 ## Paso 7. Pruébalo tú
 
@@ -82,7 +82,7 @@ Si algo sale en rojo, abre el paso que falló, copia el error y pásamelo.
 
 ## Paso 8. Compártelo con los jugadores
 
-- Enlace de descarga: `https://github.com/4res-cpu/quantum-launcher/releases/latest`
+- Enlace de descarga: `https://github.com/TU_USUARIO/quantum-launcher/releases/latest`
 - Guía para ellos: [GUIA-JUGADORES.md](GUIA-JUGADORES.md). Puedes pegarla en un canal del Discord.
 
 ## Después: tareas habituales

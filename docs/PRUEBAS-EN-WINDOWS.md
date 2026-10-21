@@ -57,4 +57,4 @@ Requiere el Client ID aprobado por Microsoft (ver AZURE.md).
 - [ ] Con la versión portable: sube `launcher.version` a `1.0.1` en `manifest.json` y comprueba que
       sale el aviso con el botón Descargar.
 
-Si algo falla, guarda el registro (botón Registro → Guardar en un archivo).
+Si algo falla, guarda el registro (botón Ajustes → Instalación → Ver informe técnico → Guardar en un archivo).
