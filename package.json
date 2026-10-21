@@ -1,0 +1,50 @@
+{
+  "name": "quantum-launcher",
+  "productName": "Quantum Launcher",
+  "version": "1.0.0",
+  "description": "Launcher de Minecraft del clan Quantum para el evento The Maze Runner",
+  "author": "Clan Quantum",
+  "license": "MIT",
+  "private": true,
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "node test/e2e.js && node test/electron-smoke.js",
+    "dist": "electron-builder",
+    "dist:win": "electron-builder --win nsis portable --x64",
+    "dist:linux": "electron-builder --linux AppImage --x64",
+    "dist:mac": "electron-builder --mac dmg",
+    "publicar-modpack": "node tools/publicar-modpack.js"
+  },
+  "dependencies": {
+    "electron-updater": "^6.6.2"
+  },
+  "devDependencies": {
+    "electron": "^37.2.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.clanquantum.launcher",
+    "productName": "Quantum Launcher",
+    "copyright": "Clan Quantum",
+    "directories": { "output": "dist", "buildResources": "assets" },
+    "files": ["src/**/*", "assets/**/*", "evento.config.json", "package.json"],
+    "asar": true,
+    "publish": [{ "provider": "github", "owner": "4res-cpu", "repo": "quantum-launcher", "releaseType": "release" }],
+    "win": {
+      "icon": "assets/icon.png",
+      "target": [{ "target": "nsis", "arch": ["x64"] }, { "target": "portable", "arch": ["x64"] }]
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "artifactName": "Quantum-Launcher-Setup-${version}.${ext}",
+      "shortcutName": "Quantum Launcher",
+      "createDesktopShortcut": "always",
+      "deleteAppDataOnUninstall": false
+    },
+    "portable": { "artifactName": "Quantum-Launcher-Portable-${version}.${ext}" },
+    "linux": { "icon": "assets/icon.png", "target": ["AppImage"], "category": "Game", "artifactName": "Quantum-Launcher-${version}.${ext}" },
+    "mac": { "icon": "assets/icon.png", "target": [{ "target": "dmg", "arch": ["universal"] }], "category": "public.app-category.games", "artifactName": "Quantum-Launcher-${version}-mac.${ext}" }
+  }
+}

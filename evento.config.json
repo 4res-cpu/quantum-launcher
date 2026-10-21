@@ -1,0 +1,43 @@
+{
+  "nombre": "Quantum Eventos",
+  "evento": "The Maze Runner",
+  "organiza": "Sala de Mando · Departamento de Eventos del clan Quantum",
+  "instancia": "quantum-maze-runner",
+
+  "minecraft": "1.21.8",
+  "fabricLoader": "0.19.5",
+  "java": 21,
+  "usarJavaDelSistema": true,
+
+  "servidor": {
+    "nombre": "§6§lQUANTUM §7· §eLobby de eventos",
+    "nombreVisible": "Lobby de eventos",
+    "host": "37.187.159.20",
+    "puerto": 9175
+  },
+  "servidoresAntiguos": ["pruebasquantum.joinsrv.xyz"],
+
+  "discord": "https://discord.gg/srGGsHJug8",
+  "fechaEvento": "2026-11-01T00:00:00-05:00",
+
+  "urls": {
+    "manifiesto": "https://raw.githubusercontent.com/4res-cpu/quantum-datos/main/manifest.json",
+    "noticias": "https://raw.githubusercontent.com/4res-cpu/quantum-datos/main/noticias.json"
+  },
+
+  "microsoft": {
+    "clientId": "PEGA_AQUI_TU_CLIENT_ID_DE_AZURE",
+    "redirectUri": "https://login.microsoftonline.com/common/oauth2/nativeclient"
+  },
+
+  "ram": { "defectoMB": 4096, "minimoMB": 3072 },
+
+  "opcionesIniciales": {
+    "lang": "es_es",
+    "resourcePacks": ["vanilla", "fabric", "file/Quantum_Menu.zip"]
+  },
+
+  "modsLigeros": ["AmbientSounds", "PresenceFootsteps", "fallingleaves", "particlerain", "visuality", "lambdynamiclights"],
+
+  "jvmExtra": []
+}

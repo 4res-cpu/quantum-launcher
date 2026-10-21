@@ -1,0 +1,22 @@
+{
+  "noticias": [
+    {
+      "titulo": "Inscripciones abiertas",
+      "fecha": "2026-10-20",
+      "destacada": true,
+      "texto": "Apúntate en el canal #inscripciones del Discord antes del 30 de octubre.",
+      "enlace": "https://discord.gg/srGGsHJug8",
+      "textoEnlace": "Ir al Discord"
+    },
+    {
+      "titulo": "Nuevo launcher del evento",
+      "fecha": "2026-10-20",
+      "texto": "Ya no hace falta TLauncher ni copiar carpetas: descarga el Quantum Launcher, entra con tu cuenta y pulsa Jugar. Instala Java, Minecraft 1.21.8, Fabric y todos los mods solo."
+    },
+    {
+      "titulo": "Modpack 3.4.7",
+      "fecha": "2026-10-16",
+      "texto": "Versión actual del modpack. Si eres no premium, la primera vez escribe /register <contraseña> <contraseña> en el servidor."
+    }
+  ]
+}

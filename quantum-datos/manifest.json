@@ -1,0 +1,19 @@
+{
+  "_comentario": "Lo lee el launcher al abrirse. Para publicar un modpack nuevo usa tools/publicar-modpack.js (ver GUIA-ORGANIZADOR.md).",
+  "modpack": {
+    "version": "3.4.7",
+    "nombre": "Eventos Quantum",
+    "minecraft": "1.21.8",
+    "fabricLoader": "0.19.5",
+    "url": "https://github.com/4res-cpu/quantum-datos/releases/download/modpack-3.4.7/Eventos_Quantum_3.4.7.mrpack",
+    "size": 19463359,
+    "sha1": "d7743613c4eddefef010a5652969d6e249ac35b7",
+    "sha512": "f5d8b858ce20afb46a91cc9c5889cd0e9076f7802d83cfefb643a597984e9f801872d5a175001c2a9d3bddb95a99e16836a908fda44ce321a49b0106a2049080",
+    "publicado": "2026-10-20T17:13:39.419Z",
+    "nota": ""
+  },
+  "launcher": {
+    "version": "1.0.0",
+    "descarga": "https://github.com/4res-cpu/quantum-launcher/releases/latest"
+  }
+}

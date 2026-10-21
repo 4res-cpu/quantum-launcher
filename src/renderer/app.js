@@ -1,0 +1,298 @@
+'use strict';
+/* global quantum */
+// Interfaz del launcher. Todo el texto que viene de internet se pinta con textContent (nunca innerHTML).
+const $ = (id) => document.getElementById(id);
+const estado = { init: null, cuentas: [], ajustes: null, jugando: false, logBuffer: [] };
+
+function el(tag, attrs = {}, ...hijos) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === 'class') n.className = v;
+    else if (k.startsWith('on')) n.addEventListener(k.slice(2), v);
+    else if (v !== undefined && v !== null && v !== false) n.setAttribute(k, v === true ? '' : v);
+  }
+  for (const h of hijos.flat()) if (h != null) n.append(h.nodeType ? h : String(h));
+  return n;
+}
+
+async function llamar(fn, ...args) {
+  const r = await fn(...args);
+  if (!r.ok) { const e = new Error(r.error); e.reLogin = r.reLogin; throw e; }
+  return r.datos;
+}
+
+function aviso(texto, boton) {
+  const a = $('aviso');
+  a.replaceChildren(el('span', {}, texto));
+  if (boton) a.append(el('button', { type: 'button', onclick: boton.accion }, boton.texto));
+  a.append(el('button', { type: 'button', 'aria-label': 'Cerrar aviso', onclick: () => a.classList.add('oculto') }, '✕'));
+  a.classList.remove('oculto');
+}
+
+const mb = (n) => (n >= 1024 ? `${(n / 1024).toFixed(n % 1024 ? 1 : 0)} GB` : `${n} MB`);
+const bytes = (n) => (n > 1048576 ? `${(n / 1048576).toFixed(1)} MB` : `${Math.round(n / 1024)} KB`);
+
+// ---------- Cuenta atrás ----------
+function iniciarCuentaAtras(fechaIso) {
+  const fecha = new Date(fechaIso);
+  const f = new Intl.DateTimeFormat('es', { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(fecha);
+  $('ca-fecha').textContent = `${f.charAt(0).toUpperCase()}${f.slice(1)} (hora de tu PC)`;
+  const pad = (n) => String(n).padStart(2, '0');
+  const tick = () => {
+    const ms = fecha - Date.now();
+    if (ms <= 0) {
+      $('cuenta-atras').classList.add('en-marcha');
+      $('ca-texto').textContent = 'El laberinto está abierto';
+      return;
+    }
+    const s = Math.floor(ms / 1000);
+    $('ca-d').textContent = pad(Math.floor(s / 86400));
+    $('ca-h').textContent = pad(Math.floor((s % 86400) / 3600));
+    $('ca-m').textContent = pad(Math.floor((s % 3600) / 60));
+    $('ca-s').textContent = pad(s % 60);
+  };
+  tick();
+  setInterval(tick, 1000);
+}
+
+// ---------- Cuentas ----------
+function cara(c, nodo) {
+  nodo.replaceChildren();
+  nodo.style.backgroundImage = '';
+  if (!c) { nodo.textContent = '+'; return; }
+  if (c.tipo === 'microsoft') nodo.style.backgroundImage = `url("https://mc-heads.net/avatar/${encodeURIComponent(c.uuid)}/40")`;
+  else nodo.textContent = c.nombre.charAt(0).toUpperCase();
+}
+
+function pintarCuentas() {
+  const activa = estado.cuentas.find((c) => c.activa);
+  $('cuenta-nombre').textContent = activa ? activa.nombre : 'Añadir cuenta';
+  $('cuenta-tipo').textContent = activa ? (activa.tipo === 'microsoft' ? 'Premium (Microsoft)' : 'No premium') : 'Premium o no premium';
+  cara(activa, $('cuenta-cara'));
+  const ul = $('lista-cuentas');
+  ul.replaceChildren();
+  if (!estado.cuentas.length) ul.append(el('li', { class: 'vacia' }, 'Todavía no hay cuentas. Añade una para jugar.'));
+  for (const c of estado.cuentas) {
+    const caraNodo = el('span', { class: 'cuenta-cara', 'aria-hidden': 'true' });
+    cara(c, caraNodo);
+    ul.append(el('li', {},
+      caraNodo,
+      el('span', { class: 'datos' }, el('b', {}, c.nombre), el('span', {}, c.tipo === 'microsoft' ? 'Premium (Microsoft)' : 'No premium')),
+      el('button', { class: 'usar', type: 'button', disabled: c.activa, onclick: () => usarCuenta(c.id) }, c.activa ? 'En uso' : 'Usar'),
+      el('button', { class: 'quitar', type: 'button', 'aria-label': `Quitar ${c.nombre}`, onclick: () => quitarCuenta(c) }, 'Quitar')));
+  }
+}
+
+async function usarCuenta(id) { estado.cuentas = await llamar(quantum.seleccionarCuenta, id); pintarCuentas(); $('dlg-cuentas').close(); }
+async function quitarCuenta(c) {
+  if (!confirm(`¿Quitar la cuenta ${c.nombre} de este launcher?`)) return;
+  estado.cuentas = await llamar(quantum.eliminarCuenta, c.id); pintarCuentas();
+}
+
+function configurarCuentas() {
+  $('cuenta-chip').addEventListener('click', () => $('dlg-cuentas').showModal());
+  $('btn-ms').addEventListener('click', async () => {
+    const b = $('btn-ms'); b.disabled = true;
+    try {
+      estado.cuentas = await llamar(quantum.cuentaMicrosoft);
+      pintarCuentas(); $('dlg-cuentas').close();
+    } catch (e) { $('offline-error').textContent = e.message; } finally { b.disabled = false; }
+  });
+  const input = $('nombre-offline');
+  input.addEventListener('input', () => { input.value = input.value.replace(/[^A-Za-z0-9_]/g, ''); $('offline-error').textContent = ''; });
+  $('form-offline').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    try {
+      estado.cuentas = await llamar(quantum.cuentaOffline, input.value);
+      input.value = ''; pintarCuentas(); $('dlg-cuentas').close();
+    } catch (e) { $('offline-error').textContent = e.message; }
+  });
+}
+
+// ---------- Ajustes ----------
+function configurarAjustes() {
+  const { ram, hw, perfilAuto } = estado.init;
+  const a = estado.ajustes;
+  const r = $('ram');
+  r.min = ram.min; r.max = ram.max; r.value = a.ramMB;
+  const pintarRam = () => {
+    $('ram-valor').textContent = mb(Number(r.value));
+    $('ram-ayuda').textContent = `Tu PC tiene ${mb(hw.ramMB)} de RAM. Recomendado: ${mb(ram.recomendado)}. Poner más de la cuenta no da más FPS y puede dejar sin memoria a Windows.${ram.poca ? ' Tu PC va justo de memoria: cierra el navegador y otros programas antes de jugar.' : ''}`;
+  };
+  pintarRam();
+  r.addEventListener('input', pintarRam);
+  $('ancho').value = a.ancho; $('alto').value = a.alto;
+  $('pantalla-completa').checked = !!a.pantallaCompleta;
+  $('perfil').value = a.perfil || 'auto';
+  const nombres = { bajo: 'baja', medio: 'media', alto: 'alta', ultra: 'ultra' };
+  $('perfil').options[0].textContent = `Automática (${nombres[perfilAuto]} para tu PC)`;
+  $('modo-ligero').checked = a.modoLigero ?? perfilAuto === 'bajo';
+  $('cerrar-al-jugar').checked = !!a.cerrarAlJugar;
+  $('pc-info').textContent = `Procesador: ${hw.cpu} (${hw.nucleos} hilos). Gráfica: ${hw.gpu}.`;
+
+  const guardar = async () => {
+    estado.ajustes = await llamar(quantum.guardarAjustes, {
+      ramMB: Number(r.value), ancho: Number($('ancho').value), alto: Number($('alto').value),
+      pantallaCompleta: $('pantalla-completa').checked, perfil: $('perfil').value,
+      modoLigero: $('modo-ligero').checked, cerrarAlJugar: $('cerrar-al-jugar').checked,
+    });
+  };
+  for (const id of ['ram', 'ancho', 'alto', 'pantalla-completa', 'perfil', 'modo-ligero', 'cerrar-al-jugar']) $(id).addEventListener('change', guardar);
+  $('btn-ajustes').addEventListener('click', () => $('dlg-ajustes').showModal());
+  $('btn-optimizar').addEventListener('click', async () => {
+    try {
+      const p = await llamar(quantum.aplicarPerfil, $('perfil').value);
+      aviso(`Calidad gráfica ${nombres[p]} aplicada. Se notará la próxima vez que abras el juego.`);
+    } catch (e) { aviso(e.message); }
+  });
+  $('btn-reparar').addEventListener('click', () => { $('dlg-ajustes').close(); jugar(true); });
+  $('btn-carpeta').addEventListener('click', () => llamar(quantum.abrirCarpeta));
+}
+
+// ---------- Registro ----------
+function abrirRegistro(resumen) {
+  const res = $('error-resumen');
+  if (resumen) { res.textContent = resumen; res.classList.remove('oculto'); } else res.classList.add('oculto');
+  $('registro').textContent = estado.logBuffer.join('\n');
+  $('dlg-registro').showModal();
+  $('registro').scrollTop = $('registro').scrollHeight;
+}
+function configurarRegistro() {
+  $('btn-registro').addEventListener('click', () => abrirRegistro());
+  $('btn-copiar').addEventListener('click', () => navigator.clipboard.writeText($('registro').textContent));
+  $('btn-guardar-reg').addEventListener('click', () => llamar(quantum.guardarRegistro, $('registro').textContent));
+  quantum.on('log', (l) => {
+    estado.logBuffer.push(l);
+    if (estado.logBuffer.length > 3000) estado.logBuffer.splice(0, 500);
+  });
+}
+
+// ---------- Progreso y jugar ----------
+const ETAPAS = { cuenta: 'Cuenta', manifiesto: 'Actualizaciones', java: 'Java', minecraft: 'Minecraft', modpack: 'Modpack', juego: 'Juego', listo: 'Listo' };
+function progreso(p) {
+  $('prog-etapa').textContent = p.texto || ETAPAS[p.etapa] || '';
+  const rel = $('prog-relleno');
+  if (p.total) {
+    rel.classList.remove('indet');
+    rel.style.width = `${Math.min(100, (p.actual / p.total) * 100).toFixed(1)}%`;
+    $('prog-detalle').textContent = p.bytes ? `${bytes(p.actual)} de ${bytes(p.total)}` : `${p.actual} de ${p.total}`;
+  } else {
+    rel.classList.add('indet'); rel.style.width = '';
+    $('prog-detalle').textContent = '';
+  }
+}
+function finProgreso(texto) {
+  const rel = $('prog-relleno');
+  rel.classList.remove('indet'); rel.style.width = '0';
+  $('prog-etapa').textContent = texto; $('prog-detalle').textContent = '';
+}
+
+function botonJugar(texto, ocupado) {
+  const b = $('jugar');
+  b.textContent = texto; b.disabled = ocupado; b.classList.toggle('ocupado', ocupado);
+}
+
+async function jugar(reparar = false) {
+  if (estado.jugando) return;
+  if (!estado.cuentas.some((c) => c.activa)) { $('dlg-cuentas').showModal(); return; }
+  estado.jugando = true;
+  botonJugar(reparar ? 'Reparando…' : 'Preparando…', true);
+  try {
+    const r = await llamar(quantum.jugar, { reparar });
+    $('version').textContent = textoVersion(r.packVersion);
+  } catch (e) {
+    finProgreso('No se pudo iniciar');
+    if (e.reLogin) { aviso(e.message, { texto: 'Iniciar sesión', accion: () => $('dlg-cuentas').showModal() }); } else abrirRegistro(e.message);
+  } finally {
+    estado.jugando = false;
+    botonJugar('Jugar', false);
+  }
+}
+
+function textoVersion(pack) {
+  return `Modpack ${pack || 'sin instalar'}\nLauncher ${estado.init.version}`;
+}
+
+quantum.on('progreso', progreso);
+quantum.on('juego', (j) => {
+  if (j.estado === 'abierto') { botonJugar('En juego', true); finProgreso('Minecraft está abierto. ¡Suerte en el laberinto!'); }
+  if (j.estado === 'cerrado') {
+    finProgreso('Listo para jugar');
+    if (j.fallo) {
+      let resumen = `Minecraft se cerró de forma inesperada (código ${j.code}).`;
+      if (/OutOfMemoryError/.test(j.log + (j.crash?.texto || ''))) resumen += ' Se quedó sin memoria: sube la RAM en Ajustes o activa el modo PC de bajos recursos.';
+      else if (/GLFW error|OpenGL|Pixel format not accelerated/i.test(j.log)) resumen += ' Parece un problema con la tarjeta gráfica: actualiza sus drivers.';
+      if (j.logFile) resumen += ` Registro guardado en: ${j.logFile}`;
+      if (j.crash?.texto) estado.logBuffer.push('----- Informe de error de Minecraft -----', j.crash.texto);
+      abrirRegistro(resumen);
+    }
+  }
+});
+quantum.on('launcher:update', (u) => {
+  if (u.estado === 'descargando') aviso(`Descargando la versión ${u.version} del launcher…`);
+  if (u.estado === 'listo') aviso(`La versión ${u.version} del launcher está lista.`, { texto: 'Reiniciar y actualizar', accion: () => llamar(quantum.instalarActualizacion) });
+});
+
+// ---------- Noticias y estado del servidor ----------
+async function cargarNoticias() {
+  const ol = $('noticias');
+  try {
+    const n = await llamar(quantum.noticias);
+    const lista = Array.isArray(n) ? n : n.noticias || [];
+    ol.replaceChildren();
+    if (!lista.length) { ol.append(el('li', { class: 'noticia vacia' }, 'No hay noticias por ahora.')); return; }
+    for (const x of lista.slice(0, 20)) {
+      let fecha = '';
+      if (x.fecha) { const d = new Date(`${x.fecha}${x.fecha.length === 10 ? 'T12:00:00' : ''}`); if (!Number.isNaN(+d)) fecha = new Intl.DateTimeFormat('es', { day: 'numeric', month: 'long' }).format(d); }
+      const li = el('li', { class: `noticia${x.destacada ? ' destacada' : ''}` },
+        el('h3', {}, x.titulo || ''),
+        fecha ? el('time', { datetime: x.fecha }, fecha) : null,
+        x.imagen && /^https:\/\//.test(x.imagen) ? el('img', { src: x.imagen, alt: '' }) : null,
+        el('p', {}, x.texto || ''),
+        x.enlace && /^https:\/\//.test(x.enlace) ? el('button', { class: 'enlace', type: 'button', onclick: () => llamar(quantum.abrirEnlace, x.enlace) }, x.textoEnlace || 'Ver más') : null);
+      ol.append(li);
+    }
+  } catch { ol.replaceChildren(el('li', { class: 'noticia vacia' }, 'No se pudieron cargar las noticias.')); }
+}
+
+async function estadoServidor() {
+  try {
+    const s = await llamar(quantum.estadoServidor);
+    $('led').className = `led ${s.online ? 'on' : 'off'}`;
+    $('estado-txt').textContent = s.online
+      ? `${estado.init.evento.servidor}: ${s.jugadores}/${s.max} jugadores, ${s.latencia} ms`
+      : `${estado.init.evento.servidor} fuera de línea`;
+  } catch { $('led').className = 'led off'; $('estado-txt').textContent = 'No se pudo comprobar el lobby'; }
+}
+
+async function comprobarActualizacion() {
+  try {
+    const u = await llamar(quantum.actualizacion);
+    if (u.hayNueva && u.instalada) aviso(`Hay una versión nueva del modpack (${u.disponible}). Se instalará sola al pulsar Jugar.${u.nota ? ` ${u.nota}` : ''}`);
+    if (u.launcherNuevo && u.launcherDescarga) aviso(`Hay una versión nueva del launcher (${u.launcherVersion}).`, { texto: 'Descargar', accion: () => llamar(quantum.abrirEnlace, u.launcherDescarga) });
+  } catch { /* sin conexión: se avisa al jugar */ }
+}
+
+// ---------- Arranque ----------
+(async () => {
+  $('win-min').addEventListener('click', () => quantum.ventana('minimizar'));
+  $('win-cerrar').addEventListener('click', () => quantum.ventana('cerrar'));
+  estado.init = await llamar(quantum.init);
+  estado.cuentas = estado.init.cuentas;
+  estado.ajustes = estado.init.ajustes;
+  document.title = `${estado.init.evento.nombre}: ${estado.init.evento.evento}`;
+  $('version').textContent = textoVersion(estado.init.instalado);
+  iniciarCuentaAtras(estado.init.evento.fechaEvento);
+  pintarCuentas();
+  configurarCuentas();
+  configurarAjustes();
+  configurarRegistro();
+  $('discord').addEventListener('click', () => llamar(quantum.abrirEnlace, estado.init.evento.discord));
+  $('jugar').addEventListener('click', () => jugar(false));
+  if (!estado.init.instalado) $('prog-etapa').textContent = 'La primera vez descargará alrededor de 1 GB (Java, Minecraft y mods)';
+  cargarNoticias();
+  estadoServidor();
+  setInterval(estadoServidor, 30000);
+  comprobarActualizacion();
+  if (!estado.cuentas.length) $('dlg-cuentas').showModal();
+})();

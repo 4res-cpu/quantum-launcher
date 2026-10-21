@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; connect-src 'none'">
+  <title>Quantum Launcher</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@600;800&family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="fondo" aria-hidden="true"></div>
+
+  <header class="barra">
+    <img class="barra-logo" src="../../assets/logo-quantum.png" alt="Clan Quantum">
+    <nav class="barra-nav">
+      <button class="nav-btn" id="btn-ajustes" type="button">Ajustes</button>
+      <button class="nav-btn" id="btn-registro" type="button">Registro</button>
+    </nav>
+    <div class="ventana">
+      <button type="button" class="win-btn" id="win-min" aria-label="Minimizar"><svg viewBox="0 0 12 12"><path d="M2 6h8" /></svg></button>
+      <button type="button" class="win-btn cerrar" id="win-cerrar" aria-label="Cerrar"><svg viewBox="0 0 12 12"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" /></svg></button>
+    </div>
+  </header>
+
+  <div class="aviso oculto" id="aviso" role="status"></div>
+
+  <main class="principal">
+    <section class="hero">
+      <img class="logo-evento" src="../../assets/logo-evento.png" alt="The Maze Runner">
+      <div class="cuenta-atras" id="cuenta-atras" aria-live="polite">
+        <p class="ca-texto" id="ca-texto">Las puertas del laberinto se abren en</p>
+        <div class="ca-numeros" id="ca-numeros">
+          <span class="ca-bloque"><b id="ca-d">--</b><i>días</i></span>
+          <span class="ca-bloque"><b id="ca-h">--</b><i>horas</i></span>
+          <span class="ca-bloque"><b id="ca-m">--</b><i>min</i></span>
+          <span class="ca-bloque"><b id="ca-s">--</b><i>seg</i></span>
+        </div>
+        <p class="ca-fecha" id="ca-fecha"></p>
+      </div>
+
+      <div class="accion">
+        <button class="cuenta-chip" id="cuenta-chip" type="button" aria-haspopup="dialog">
+          <span class="cuenta-cara" id="cuenta-cara" aria-hidden="true"></span>
+          <span class="cuenta-txt">
+            <span class="cuenta-nombre" id="cuenta-nombre">Añadir cuenta</span>
+            <span class="cuenta-tipo" id="cuenta-tipo">Premium o no premium</span>
+          </span>
+          <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" /></svg>
+        </button>
+        <button class="jugar" id="jugar" type="button">Jugar</button>
+      </div>
+    </section>
+
+    <aside class="lateral">
+      <h2 class="lat-titulo">Noticias del evento</h2>
+      <ol class="noticias" id="noticias"><li class="noticia vacia">Cargando noticias…</li></ol>
+      <button class="discord" id="discord" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.3 4.4A19.6 19.6 0 0 0 15.4 3l-.6 1.3a18 18 0 0 0-5.6 0L8.6 3a19.5 19.5 0 0 0-4.9 1.5C.6 9.1-.3 13.6.1 18a19.8 19.8 0 0 0 6 3l1.3-2.1a12.8 12.8 0 0 1-2-1l.5-.4a14 14 0 0 0 12.2 0l.5.4c-.6.4-1.3.7-2 1L17.9 21a19.7 19.7 0 0 0 6-3c.5-5.1-.8-9.6-3.6-13.6ZM8 15.3c-1.2 0-2.2-1.1-2.2-2.4S6.8 10.5 8 10.5s2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Zm8 0c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Z"/></svg>
+        Entrar al Discord del clan
+      </button>
+    </aside>
+  </main>
+
+  <footer class="pie">
+    <div class="estado-srv" id="estado-srv"><span class="led" id="led"></span><span id="estado-txt">Comprobando el lobby…</span></div>
+    <div class="progreso" id="progreso">
+      <div class="prog-texto"><span id="prog-etapa">Listo para jugar</span><span id="prog-detalle"></span></div>
+      <div class="prog-barra"><div class="prog-relleno" id="prog-relleno"></div></div>
+    </div>
+    <div class="version" id="version"></div>
+  </footer>
+
+  <!-- Cuentas -->
+  <dialog class="modal" id="dlg-cuentas" aria-labelledby="t-cuentas">
+    <form method="dialog" class="modal-cab"><h2 id="t-cuentas">Cuentas</h2><button class="x" aria-label="Cerrar">✕</button></form>
+    <ul class="lista-cuentas" id="lista-cuentas"></ul>
+    <div class="anadir">
+      <button class="btn btn-ms" id="btn-ms" type="button">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path fill="#f25022" d="M1 1h8.5v8.5H1z"/><path fill="#7fba00" d="M10.5 1H19v8.5h-8.5z"/><path fill="#00a4ef" d="M1 10.5h8.5V19H1z"/><path fill="#ffb900" d="M10.5 10.5H19V19h-8.5z"/></svg>
+        Iniciar sesión con Microsoft (premium)
+      </button>
+      <form class="offline" id="form-offline" novalidate>
+        <label for="nombre-offline">Jugar sin cuenta premium</label>
+        <div class="fila">
+          <input id="nombre-offline" autofocus maxlength="16" autocomplete="off" spellcheck="false" placeholder="Tu nombre en el juego">
+          <button class="btn" type="submit">Añadir</button>
+        </div>
+        <p class="ayuda" id="offline-error" role="alert"></p>
+        <p class="nota">En el servidor tendrás que registrarte con <code>/register &lt;contraseña&gt; &lt;contraseña&gt;</code> la primera vez y luego entrar con <code>/login &lt;contraseña&gt;</code>. No uses la misma contraseña que en otras páginas.</p>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Ajustes -->
+  <dialog class="modal ancho" id="dlg-ajustes" aria-labelledby="t-ajustes">
+    <form method="dialog" class="modal-cab"><h2 id="t-ajustes">Ajustes</h2><button class="x" aria-label="Cerrar">✕</button></form>
+    <div class="ajustes">
+      <section>
+        <h3>Memoria para el juego</h3>
+        <div class="ram"><input type="range" id="ram" step="256"><output id="ram-valor"></output></div>
+        <p class="ayuda" id="ram-ayuda"></p>
+      </section>
+      <section>
+        <h3>Pantalla</h3>
+        <div class="fila">
+          <label class="campo">Ancho<input type="number" id="ancho" min="640" max="7680"></label>
+          <label class="campo">Alto<input type="number" id="alto" min="480" max="4320"></label>
+          <label class="interruptor"><input type="checkbox" id="pantalla-completa"><span>Pantalla completa</span></label>
+        </div>
+      </section>
+      <section>
+        <h3>Rendimiento</h3>
+        <p class="ayuda" id="pc-info"></p>
+        <div class="fila">
+          <label class="campo">Calidad gráfica
+            <select id="perfil">
+              <option value="auto">Automática</option><option value="bajo">Baja</option><option value="medio">Media</option><option value="alto">Alta</option><option value="ultra">Ultra</option>
+            </select>
+          </label>
+          <button class="btn" id="btn-optimizar" type="button">Aplicar al juego</button>
+        </div>
+        <label class="interruptor"><input type="checkbox" id="modo-ligero"><span>Modo PC de bajos recursos (desactiva sonidos ambientales, hojas, lluvia de partículas y luces dinámicas)</span></label>
+        <label class="interruptor"><input type="checkbox" id="cerrar-al-jugar"><span>Ocultar el launcher mientras juego</span></label>
+      </section>
+      <section>
+        <h3>Instalación</h3>
+        <div class="fila">
+          <button class="btn" id="btn-reparar" type="button">Reparar instalación</button>
+          <button class="btn" id="btn-carpeta" type="button">Abrir carpeta del juego</button>
+        </div>
+        <p class="ayuda">Reparar vuelve a comprobar Java, Minecraft y todos los mods, y descarga lo que falte o esté dañado. Tus mundos, capturas y opciones no se tocan.</p>
+      </section>
+    </div>
+  </dialog>
+
+  <!-- Registro / error -->
+  <dialog class="modal ancho" id="dlg-registro" aria-labelledby="t-registro">
+    <form method="dialog" class="modal-cab"><h2 id="t-registro">Registro</h2><button class="x" aria-label="Cerrar">✕</button></form>
+    <p class="error-resumen oculto" id="error-resumen"></p>
+    <pre class="registro" id="registro" tabindex="0" autofocus></pre>
+    <div class="fila derecha">
+      <button class="btn" id="btn-copiar" type="button">Copiar</button>
+      <button class="btn" id="btn-guardar-reg" type="button">Guardar en un archivo</button>
+    </div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
