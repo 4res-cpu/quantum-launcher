@@ -30,6 +30,14 @@ function cleanEnv() {
   return env;
 }
 
+/** Lista resourcePacks del options.txt que trae el .mrpack (paquetes que el evento necesita). */
+function texturasDelPack(overrides) {
+  const e = overrides?.get('options.txt');
+  if (!e) return [];
+  const l = e.getData().toString('utf8').split(/\r?\n/).find((x) => x.startsWith('resourcePacks:'));
+  try { const v = JSON.parse(l.slice('resourcePacks:'.length)); return Array.isArray(v) ? v.filter((p) => typeof p === 'string' && p.startsWith('file/')) : []; } catch { return []; }
+}
+
 class QuantumCore {
   /**
    * @param {object} cfg  evento.config.json
@@ -144,7 +152,7 @@ class QuantumCore {
     }
 
     const { readPack } = require('./modpack');
-    const { index } = await readPack(mrpack);
+    const { index, overrides } = await readPack(mrpack);
     const mcVersion = index.dependencies.minecraft || this.cfg.minecraft;
     const loaderVersion = index.dependencies['fabric-loader'] || this.cfg.fabricLoader;
 
@@ -182,7 +190,7 @@ class QuantumCore {
       await fsp.writeFile(optFile, hardware.optionsTxt(perfil, this.cfg.opcionesIniciales || {}));
       this.log(`options.txt creado con el perfil gráfico "${perfil}"`);
     }
-    await this.texturas(sinTexturas);
+    await this.texturas(sinTexturas, texturasDelPack(overrides));
     this.onProgress({ etapa: 'listo', texto: 'Todo listo' });
     this.log(`Instalación verificada en ${((Date.now() - t0) / 1000).toFixed(1)} s`);
     return { java, install, packVersion, mcVersion, loaderVersion, reporte: rep };
@@ -202,10 +210,12 @@ class QuantumCore {
   }
 
   /**
-   * Modo seguro: abre el juego sin paquetes de texturas y guarda la lista que tenía el jugador.
-   * En el siguiente inicio normal se restaura si el jugador no las activó a mano dentro del juego.
+   * Paquetes de texturas del evento.
+   * - Modo seguro: abre el juego sin paquetes y guarda la lista que tenía el jugador.
+   * - Inicio normal: restaura esa lista (si el jugador no activó nada a mano) y deja los paquetes
+   *   obligatorios del modpack activados y encima de los demás, en el orden del options.txt del .mrpack.
    */
-  async texturas(sinTexturas) {
+  async texturas(sinTexturas, obligatorias = []) {
     const optFile = path.join(this.dirs.game, 'options.txt');
     const guardadas = path.join(this.dirs.game, '.quantum', 'texturas.json');
     const base = ['vanilla', 'fabric'];
@@ -215,6 +225,7 @@ class QuantumCore {
     const i = lineas.findIndex((l) => l.startsWith('resourcePacks:'));
     let actual = [];
     try { actual = i >= 0 ? JSON.parse(lineas[i].slice('resourcePacks:'.length)) : []; } catch { actual = []; }
+    if (!Array.isArray(actual)) actual = [];
     const soloBase = actual.every((p) => base.includes(p));
     const escribir = async (lista) => {
       const l = `resourcePacks:${JSON.stringify(lista)}`;
@@ -232,14 +243,23 @@ class QuantumCore {
       this.log('Modo seguro: inicio sin paquetes de texturas');
       return;
     }
-    if (!(await http.exists(guardadas))) return;
-    try {
-      if (soloBase) {
-        const lista = JSON.parse(await fsp.readFile(guardadas, 'utf8'));
-        if (Array.isArray(lista) && lista.length) { await escribir(lista); this.log('Paquetes de texturas restaurados'); }
-      }
-    } catch { /* archivo dañado: se ignora */ }
-    await fsp.rm(guardadas, { force: true });
+    let lista = actual;
+    if (await http.exists(guardadas)) {
+      try {
+        const g = JSON.parse(await fsp.readFile(guardadas, 'utf8'));
+        if (soloBase && Array.isArray(g) && g.length) { lista = g; this.log('Paquetes de texturas restaurados'); }
+      } catch { /* archivo dañado: se ignora */ }
+      await fsp.rm(guardadas, { force: true });
+    }
+    // Obligatorios: solo los que existen en resourcepacks/, siempre al final (prioridad más alta)
+    const presentes = [];
+    for (const p of obligatorias) {
+      if (!p.startsWith('file/')) continue;
+      if (await http.exists(path.join(this.dirs.game, 'resourcepacks', p.slice(5)))) presentes.push(p);
+    }
+    const final = [...lista.filter((p) => !presentes.includes(p)), ...presentes];
+    for (const b of [...base].reverse()) if (!final.includes(b)) final.unshift(b);
+    if (JSON.stringify(final) !== JSON.stringify(actual)) await escribir(final);
   }
 
   // ---------- Lanzar ----------
@@ -319,4 +339,4 @@ class QuantumCore {
   detener() { if (this.child) this.child.kill(); }
 }
 
-module.exports = { QuantumCore, cmpVersion };
+module.exports = { QuantumCore, cmpVersion, texturasDelPack };

@@ -322,6 +322,36 @@ const exists = (p) => fs.existsSync(p);
     assert.equal(fs.existsSync(path.join(core.dirs.game, '.quantum', 'texturas.json')), false);
   });
 
+  await prueba('Paquetes obligatorios del modpack: se activan encima de los demás y el modo seguro los quita', async () => {
+    const { texturasDelPack } = require('../src/core/launcher');
+    const fake = new Map([['options.txt', { getData: () => Buffer.from('lang:es_es\nresourcePacks:["vanilla","fabric","file/Mapa.zip","file/Menu.zip"]\n') }]]);
+    const obl = texturasDelPack(fake);
+    assert.deepEqual(obl, ['file/Mapa.zip', 'file/Menu.zip']);
+    assert.deepEqual(texturasDelPack(new Map()), []);
+    const dd = await fsp.mkdtemp(path.join(os.tmpdir(), 'qobl-'));
+    const core = new QuantumCore({ instancia: 'prueba', servidor: { host: 'x', puerto: 1 } }, dd);
+    const rp = path.join(core.dirs.game, 'resourcepacks');
+    await fsp.mkdir(rp, { recursive: true });
+    for (const f of ['Mapa.zip', 'Menu.zip', 'FA.zip']) await fsp.writeFile(path.join(rp, f), 'x');
+    const opt = path.join(core.dirs.game, 'options.txt');
+    await fsp.writeFile(opt, 'lang:es_es\nresourcePacks:["vanilla","fabric","file/Menu.zip","file/FA.zip"]\nfov:0.5\n');
+    const leer = async () => JSON.parse((await fsp.readFile(opt, 'utf8')).match(/^resourcePacks:(.*)$/m)[1]);
+    await core.texturas(false, obl);
+    assert.deepEqual(await leer(), ['vanilla', 'fabric', 'file/FA.zip', 'file/Mapa.zip', 'file/Menu.zip']);
+    assert.match(await fsp.readFile(opt, 'utf8'), /fov:0\.5/);
+    await core.texturas(false, obl); // idempotente
+    assert.deepEqual(await leer(), ['vanilla', 'fabric', 'file/FA.zip', 'file/Mapa.zip', 'file/Menu.zip']);
+    await core.texturas(true, obl);
+    assert.deepEqual(await leer(), ['vanilla', 'fabric']);
+    await core.texturas(false, obl);
+    assert.deepEqual(await leer(), ['vanilla', 'fabric', 'file/FA.zip', 'file/Mapa.zip', 'file/Menu.zip']);
+    // si falta el archivo, no se añade
+    await fsp.rm(path.join(rp, 'Mapa.zip'));
+    await fsp.writeFile(opt, 'resourcePacks:["vanilla","fabric"]\n');
+    await core.texturas(false, obl);
+    assert.deepEqual(await leer(), ['vanilla', 'fabric', 'file/Menu.zip']);
+  });
+
   await prueba('Herramienta publicar-modpack genera un manifiesto válido', async () => {
     const out = path.join(work, 'manifest.json');
     execFileSync(process.execPath, [path.join(__dirname, '..', 'tools', 'publicar-modpack.js'), path.join(mock.dir, 'Eventos_Quantum_3.4.8.mrpack'), '--version', '3.4.8', '--url', 'https://example.com/p.mrpack', '--manifest', out]);

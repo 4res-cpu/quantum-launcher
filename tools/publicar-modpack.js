@@ -3,7 +3,7 @@
 // Prepara quantum-datos/manifest.json para publicar una versión nueva del modpack.
 // Uso:
 //   node tools/publicar-modpack.js "Eventos Quantum 3.4.8.mrpack" --version 3.4.8 \
-//        --url https://github.com/4res-cpu/quantum-datos/releases/download/modpack-3.4.8/Eventos_Quantum_3.4.8.mrpack
+//        --url https://github.com/TU_USUARIO/quantum-datos/releases/download/modpack-3.4.8/Eventos_Quantum_3.4.8.mrpack
 // Opcional: --manifest ruta/al/manifest.json  --nota "Texto que verán los jugadores"
 const fs = require('fs');
 const path = require('path');
@@ -34,7 +34,7 @@ async function main() {
     if (!f.hashes?.sha1) avisos.push(`Sin sha1: ${f.path}`);
     if (!f.downloads?.length) avisos.push(`Sin URL de descarga: ${f.path}`);
   }
-  if (overrides.has('options.txt')) avisos.push('El paquete trae options.txt: el launcher lo ignora (no pisa las opciones del jugador).');
+  if (overrides.has('options.txt')) avisos.push('El paquete trae options.txt: el launcher solo usa su lista resourcePacks (paquetes que activa siempre); el resto de opciones del jugador no se toca.');
   if (overrides.has('servers.dat')) avisos.push('El paquete trae servers.dat: el launcher lo ignora y añade el lobby desde evento.config.json.');
 
   let manifest = {};
