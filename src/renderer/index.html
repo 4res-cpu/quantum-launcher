@@ -5,113 +5,187 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; connect-src 'none'">
   <title>Quantum Launcher</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@600;800&family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@600;800;900&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800&display=swap">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="fondo" aria-hidden="true"></div>
+  <!-- Fondo: fotos del evento que se van cambiando, niebla y velo oscuro -->
+  <div class="fondos" id="fondos" aria-hidden="true"></div>
+  <div class="velo" aria-hidden="true"></div>
+  <div class="niebla" aria-hidden="true"><i></i><i></i></div>
+  <div class="grano" aria-hidden="true"></div>
 
   <header class="barra">
-    <img class="barra-logo" src="../../assets/logo-quantum.png" alt="Clan Quantum">
-    <nav class="barra-nav">
-      <button class="nav-btn" id="btn-ajustes" type="button">Ajustes</button>
-      <button class="nav-btn" id="btn-registro" type="button">Registro</button>
-    </nav>
+    <div class="marca">
+      <img class="marca-logo" src="../../assets/logo-quantum.png" alt="Clan Quantum">
+      <span class="marca-txt">Eventos<b>The Maze Runner</b></span>
+    </div>
     <div class="ventana">
       <button type="button" class="win-btn" id="win-min" aria-label="Minimizar"><svg viewBox="0 0 12 12"><path d="M2 6h8" /></svg></button>
+      <button type="button" class="win-btn" id="win-max" aria-label="Maximizar"><svg viewBox="0 0 12 12"><rect x="2.5" y="2.5" width="7" height="7" /></svg></button>
       <button type="button" class="win-btn cerrar" id="win-cerrar" aria-label="Cerrar"><svg viewBox="0 0 12 12"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" /></svg></button>
     </div>
   </header>
 
+  <!-- Barra lateral de iconos (como un panel de mando de CRUEL) -->
+  <nav class="riel" aria-label="Menú">
+    <button class="riel-btn" id="btn-ajustes" type="button" aria-label="Ajustes">
+      <svg viewBox="0 0 24 24"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
+      <span>Ajustes</span>
+    </button>
+    <button class="riel-btn" id="btn-noticias" type="button" aria-label="Noticias">
+      <svg viewBox="0 0 24 24"><path d="M4 5h13v14H6a2 2 0 0 1-2-2V5Z"/><path d="M17 9h3v8a2 2 0 0 1-2 2h-1"/><path d="M7.5 9h6M7.5 12.5h6M7.5 16h4"/></svg>
+      <span>Noticias</span><em class="punto oculto" id="noticias-punto"></em>
+    </button>
+    <button class="riel-btn" id="btn-mapa" type="button" aria-label="El laberinto">
+      <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M8 4v8h4M16 8v8h-4v4M4 16h4M12 8h4"/></svg>
+      <span>El laberinto</span>
+    </button>
+    <button class="riel-btn" id="discord" type="button" aria-label="Discord">
+      <svg viewBox="0 0 24 24" class="relleno"><path d="M20.3 4.4A19.6 19.6 0 0 0 15.4 3l-.6 1.3a18 18 0 0 0-5.6 0L8.6 3a19.5 19.5 0 0 0-4.9 1.5C.6 9.1-.3 13.6.1 18a19.8 19.8 0 0 0 6 3l1.3-2.1a12.8 12.8 0 0 1-2-1l.5-.4a14 14 0 0 0 12.2 0l.5.4c-.6.4-1.3.7-2 1L17.9 21a19.7 19.7 0 0 0 6-3c.5-5.1-.8-9.6-3.6-13.6ZM8 15.3c-1.2 0-2.2-1.1-2.2-2.4S6.8 10.5 8 10.5s2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Zm8 0c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Z"/></svg>
+      <span>Discord</span>
+    </button>
+    <span class="riel-sep" aria-hidden="true"></span>
+    <button class="riel-btn" id="btn-carpeta-riel" type="button" aria-label="Carpeta del juego">
+      <svg viewBox="0 0 24 24"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H9l2 2.5h8.5A1.5 1.5 0 0 1 21 9v9.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5v-12Z"/></svg>
+      <span>Carpeta del juego</span>
+    </button>
+    <button class="riel-btn" id="btn-registro" type="button" aria-label="Registro">
+      <svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h7M9 15.5h7M9 9h3"/></svg>
+      <span>Registro</span>
+    </button>
+  </nav>
+
   <div class="aviso oculto" id="aviso" role="status"></div>
 
-  <main class="principal">
-    <section class="hero">
-      <img class="logo-evento" src="../../assets/logo-evento.png" alt="The Maze Runner">
-      <div class="cuenta-atras" id="cuenta-atras" aria-live="polite">
-        <p class="ca-texto" id="ca-texto">Las puertas del laberinto se abren en</p>
-        <div class="ca-numeros" id="ca-numeros">
-          <span class="ca-bloque"><b id="ca-d">--</b><i>días</i></span>
-          <span class="ca-bloque"><b id="ca-h">--</b><i>horas</i></span>
-          <span class="ca-bloque"><b id="ca-m">--</b><i>min</i></span>
-          <span class="ca-bloque"><b id="ca-s">--</b><i>seg</i></span>
-        </div>
-        <p class="ca-fecha" id="ca-fecha"></p>
-      </div>
+  <!-- Noticia destacada (arriba a la derecha) -->
+  <button class="destacada oculto" id="destacada" type="button">
+    <span class="destacada-tag">Última noticia</span>
+    <b id="destacada-titulo"></b>
+    <span class="destacada-ver">Ver noticias →</span>
+  </button>
 
-      <div class="accion">
-        <button class="cuenta-chip" id="cuenta-chip" type="button" aria-haspopup="dialog">
-          <span class="cuenta-cara" id="cuenta-cara" aria-hidden="true"></span>
-          <span class="cuenta-txt">
-            <span class="cuenta-nombre" id="cuenta-nombre">Añadir cuenta</span>
-            <span class="cuenta-tipo" id="cuenta-tipo">Premium o no premium</span>
-          </span>
-          <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" /></svg>
-        </button>
-        <button class="jugar" id="jugar" type="button">Jugar</button>
-      </div>
-    </section>
+  <main class="escena">
+    <img class="logo-evento" src="../../assets/logo-evento.png" alt="The Maze Runner">
+    <p class="lema"><span>Evento del clan Quantum</span><i></i><span>¿Lograrás escapar?</span></p>
 
-    <aside class="lateral">
-      <h2 class="lat-titulo">Noticias del evento</h2>
-      <ol class="noticias" id="noticias"><li class="noticia vacia">Cargando noticias…</li></ol>
-      <button class="discord" id="discord" type="button">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.3 4.4A19.6 19.6 0 0 0 15.4 3l-.6 1.3a18 18 0 0 0-5.6 0L8.6 3a19.5 19.5 0 0 0-4.9 1.5C.6 9.1-.3 13.6.1 18a19.8 19.8 0 0 0 6 3l1.3-2.1a12.8 12.8 0 0 1-2-1l.5-.4a14 14 0 0 0 12.2 0l.5.4c-.6.4-1.3.7-2 1L17.9 21a19.7 19.7 0 0 0 6-3c.5-5.1-.8-9.6-3.6-13.6ZM8 15.3c-1.2 0-2.2-1.1-2.2-2.4S6.8 10.5 8 10.5s2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Zm8 0c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Z"/></svg>
-        Entrar al Discord del clan
-      </button>
-    </aside>
+    <div class="cuenta-atras" id="cuenta-atras" aria-live="polite">
+      <p class="ca-texto" id="ca-texto">Las puertas del laberinto se abren en</p>
+      <div class="ca-numeros" id="ca-numeros">
+        <span class="ca-bloque"><b id="ca-d">--</b><i>Días</i></span>
+        <span class="ca-sep">:</span>
+        <span class="ca-bloque"><b id="ca-h">--</b><i>Horas</i></span>
+        <span class="ca-sep">:</span>
+        <span class="ca-bloque"><b id="ca-m">--</b><i>Min</i></span>
+        <span class="ca-sep">:</span>
+        <span class="ca-bloque"><b id="ca-s">--</b><i>Seg</i></span>
+      </div>
+      <p class="ca-fecha" id="ca-fecha"></p>
+    </div>
   </main>
 
-  <footer class="pie">
-    <div class="estado-srv" id="estado-srv"><span class="led" id="led"></span><span id="estado-txt">Comprobando el lobby…</span></div>
-    <div class="progreso" id="progreso">
-      <div class="prog-texto"><span id="prog-etapa">Listo para jugar</span><span id="prog-detalle"></span></div>
-      <div class="prog-barra"><div class="prog-relleno" id="prog-relleno"></div></div>
+  <footer class="mando">
+    <button class="cuenta-chip" id="cuenta-chip" type="button" aria-haspopup="dialog">
+      <span class="cuenta-cara" id="cuenta-cara" aria-hidden="true"></span>
+      <span class="cuenta-txt">
+        <span class="cuenta-nombre" id="cuenta-nombre">Añadir cuenta</span>
+        <span class="cuenta-tipo" id="cuenta-tipo">Premium o no premium</span>
+      </span>
+      <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" /></svg>
+    </button>
+
+    <div class="estado-srv" id="estado-srv">
+      <span class="srv-titulo"><span class="led" id="led"></span><span id="srv-nombre">Lobby</span></span>
+      <span class="srv-jugadores"><b id="srv-jug">--</b><i id="srv-max"></i></span>
+      <span class="srv-detalle" id="estado-txt">Comprobando el lobby…</span>
+    </div>
+
+    <div class="lanzar">
+      <div class="progreso" id="progreso">
+        <img class="corre oculto" id="corre" src="../../assets/gif/corre.gif" alt="">
+        <div class="prog-texto"><span id="prog-etapa">Listo para jugar</span><span id="prog-detalle"></span></div>
+        <div class="prog-barra"><div class="prog-relleno" id="prog-relleno"></div></div>
+      </div>
+      <button class="jugar" id="jugar" type="button"><span class="jugar-txt" id="jugar-txt">Jugar</span></button>
     </div>
     <div class="version" id="version"></div>
   </footer>
 
+  <!-- Cajón de noticias -->
+  <aside class="cajon" id="cajon" aria-labelledby="t-noticias" aria-hidden="true">
+    <div class="cajon-cab">
+      <img src="../../assets/gif/laberinto.gif" alt="">
+      <div><h2 id="t-noticias">Noticias del evento</h2><p>Lo último del Departamento de Eventos</p></div>
+      <button class="x" id="cajon-cerrar" type="button" aria-label="Cerrar">✕</button>
+    </div>
+    <ol class="noticias" id="noticias"><li class="noticia vacia">Cargando noticias…</li></ol>
+  </aside>
+  <div class="cajon-fondo" id="cajon-fondo"></div>
+
   <!-- Cuentas -->
   <dialog class="modal" id="dlg-cuentas" aria-labelledby="t-cuentas">
-    <form method="dialog" class="modal-cab"><h2 id="t-cuentas">Cuentas</h2><button class="x" aria-label="Cerrar">✕</button></form>
+    <div class="modal-portada">
+      <img src="../../assets/gif/claro.gif" alt="">
+      <div>
+        <p class="sobre">Bienvenido al Claro</p>
+        <h2 id="t-cuentas">Cuentas</h2>
+        <p class="sub">Elige con qué cuenta entras al laberinto.</p>
+      </div>
+      <form method="dialog"><button class="x" aria-label="Cerrar">✕</button></form>
+    </div>
     <ul class="lista-cuentas" id="lista-cuentas"></ul>
     <div class="anadir">
       <button class="btn btn-ms" id="btn-ms" type="button">
         <svg viewBox="0 0 20 20" aria-hidden="true"><path fill="#f25022" d="M1 1h8.5v8.5H1z"/><path fill="#7fba00" d="M10.5 1H19v8.5h-8.5z"/><path fill="#00a4ef" d="M1 10.5h8.5V19H1z"/><path fill="#ffb900" d="M10.5 10.5H19V19h-8.5z"/></svg>
         Iniciar sesión con Microsoft (premium)
       </button>
+      <div class="o"><span>o</span></div>
       <form class="offline" id="form-offline" novalidate>
         <label for="nombre-offline">Jugar sin cuenta premium</label>
         <div class="fila">
           <input id="nombre-offline" autofocus maxlength="16" autocomplete="off" spellcheck="false" placeholder="Tu nombre en el juego">
-          <button class="btn" type="submit">Añadir</button>
+          <button class="btn btn-verde" type="submit">Añadir</button>
         </div>
-        <p class="ayuda" id="offline-error" role="alert"></p>
+        <p class="ayuda error" id="offline-error" role="alert"></p>
         <p class="nota">En el servidor tendrás que registrarte con <code>/register &lt;contraseña&gt; &lt;contraseña&gt;</code> la primera vez y luego entrar con <code>/login &lt;contraseña&gt;</code>. No uses la misma contraseña que en otras páginas.</p>
       </form>
     </div>
   </dialog>
 
   <!-- Ajustes -->
-  <dialog class="modal ancho" id="dlg-ajustes" aria-labelledby="t-ajustes">
-    <form method="dialog" class="modal-cab"><h2 id="t-ajustes">Ajustes</h2><button class="x" aria-label="Cerrar">✕</button></form>
-    <div class="ajustes">
-      <section>
+  <dialog class="modal panel" id="dlg-ajustes" aria-labelledby="t-ajustes">
+    <div class="panel-lado">
+      <h2 id="t-ajustes">Ajustes</h2>
+      <nav class="pestanas" role="tablist">
+        <button type="button" role="tab" data-tab="juego" aria-selected="true">Juego</button>
+        <button type="button" role="tab" data-tab="memoria">Memoria</button>
+        <button type="button" role="tab" data-tab="rendimiento">Rendimiento</button>
+        <button type="button" role="tab" data-tab="instalacion">Instalación</button>
+        <button type="button" role="tab" data-tab="acerca">Acerca de</button>
+      </nav>
+      <form method="dialog"><button class="btn volver">← Volver al inicio</button></form>
+    </div>
+    <div class="panel-cuerpo">
+      <section data-panel="juego">
+        <h3>Pantalla del juego</h3>
+        <p class="sub">Tamaño de la ventana de Minecraft al abrirse.</p>
+        <div class="fila">
+          <label class="campo">Ancho<input type="number" id="ancho" min="640" max="7680"></label>
+          <span class="por">×</span>
+          <label class="campo">Alto<input type="number" id="alto" min="480" max="4320"></label>
+        </div>
+        <label class="interruptor"><input type="checkbox" id="pantalla-completa"><span class="sw"></span><span>Abrir en pantalla completa</span></label>
+        <label class="interruptor"><input type="checkbox" id="cerrar-al-jugar"><span class="sw"></span><span>Ocultar el launcher mientras juego</span></label>
+      </section>
+      <section data-panel="memoria" hidden>
         <h3>Memoria para el juego</h3>
+        <p class="sub">Cantidad de RAM que puede usar Minecraft.</p>
         <div class="ram"><input type="range" id="ram" step="256"><output id="ram-valor"></output></div>
         <p class="ayuda" id="ram-ayuda"></p>
       </section>
-      <section>
-        <h3>Pantalla</h3>
-        <div class="fila">
-          <label class="campo">Ancho<input type="number" id="ancho" min="640" max="7680"></label>
-          <label class="campo">Alto<input type="number" id="alto" min="480" max="4320"></label>
-          <label class="interruptor"><input type="checkbox" id="pantalla-completa"><span>Pantalla completa</span></label>
-        </div>
-      </section>
-      <section>
+      <section data-panel="rendimiento" hidden>
         <h3>Rendimiento</h3>
-        <p class="ayuda" id="pc-info"></p>
+        <p class="sub" id="pc-info"></p>
         <div class="fila">
           <label class="campo">Calidad gráfica
             <select id="perfil">
@@ -120,23 +194,55 @@
           </label>
           <button class="btn" id="btn-optimizar" type="button">Aplicar al juego</button>
         </div>
-        <label class="interruptor"><input type="checkbox" id="modo-ligero"><span>Modo PC de bajos recursos (desactiva sonidos ambientales, hojas, lluvia de partículas y luces dinámicas)</span></label>
-        <label class="interruptor"><input type="checkbox" id="cerrar-al-jugar"><span>Ocultar el launcher mientras juego</span></label>
+        <label class="interruptor"><input type="checkbox" id="modo-ligero"><span class="sw"></span><span>Modo PC de bajos recursos <small>Quita sonidos ambientales, hojas que caen, lluvia de partículas y luces dinámicas.</small></span></label>
       </section>
-      <section>
+      <section data-panel="instalacion" hidden>
         <h3>Instalación</h3>
+        <p class="sub">Si algo falla o borraste archivos sin querer.</p>
         <div class="fila">
           <button class="btn" id="btn-reparar" type="button">Reparar instalación</button>
           <button class="btn" id="btn-carpeta" type="button">Abrir carpeta del juego</button>
         </div>
         <p class="ayuda">Reparar vuelve a comprobar Java, Minecraft y todos los mods, y descarga lo que falte o esté dañado. Tus mundos, capturas y opciones no se tocan.</p>
       </section>
+      <section data-panel="acerca" hidden>
+        <h3>Acerca de</h3>
+        <img class="acerca-logo" src="../../assets/logo-quantum.png" alt="Clan Quantum">
+        <p class="ayuda" id="acerca-version"></p>
+        <p class="ayuda">Organiza: Sala de Mando · Departamento de Eventos del clan Quantum.<br>Mapa original: <b>The Maze Runner</b> by JxnasGmng.</p>
+        <div class="fila">
+          <button class="btn" id="btn-web-mapa" type="button">Web del mapa</button>
+        </div>
+      </section>
     </div>
   </dialog>
 
+  <!-- El laberinto (galería) -->
+  <dialog class="modal galeria" id="dlg-mapa" aria-labelledby="t-mapa">
+    <div class="galeria-cab">
+      <div>
+        <p class="sobre">Sector 1 · 8 secciones · 1 código</p>
+        <h2 id="t-mapa">El laberinto</h2>
+      </div>
+      <form method="dialog"><button class="x" aria-label="Cerrar">✕</button></form>
+    </div>
+    <div class="galeria-grid">
+      <figure class="g-grande"><img src="../../assets/mapa/mapa-2.jpg" alt=""><figcaption>Un laberinto sin salida</figcaption></figure>
+      <figure><img src="../../assets/mapa/mapa-1.jpg" alt=""><figcaption>El Claro</figcaption></figure>
+      <figure><img src="../../assets/mapa/mapa-3.jpg" alt=""><figcaption>Los pasillos</figcaption></figure>
+      <figure><img src="../../assets/mapa/mapa-4.jpg" alt=""><figcaption>Los muros se mueven</figcaption></figure>
+      <figure class="g-doble"><img src="../../assets/mapa/mapa-5.jpg" alt=""><figcaption>Sector 7</figcaption></figure>
+      <figure class="g-ancha"><img src="../../assets/mapa/mapa-6.jpg" alt=""><figcaption>Las puertas</figcaption></figure>
+    </div>
+    <p class="galeria-pie">Capturas del mapa del evento · Mapa original <b>The Maze Runner</b> by JxnasGmng</p>
+  </dialog>
+
+  <!-- Visor de imagen grande -->
+  <dialog class="visor" id="dlg-visor"><form method="dialog"><button class="visor-cerrar"><img id="visor-img" alt=""></button></form></dialog>
+
   <!-- Registro / error -->
   <dialog class="modal ancho" id="dlg-registro" aria-labelledby="t-registro">
-    <form method="dialog" class="modal-cab"><h2 id="t-registro">Registro</h2><button class="x" aria-label="Cerrar">✕</button></form>
+    <div class="modal-cab"><h2 id="t-registro">Registro</h2><form method="dialog"><button class="x" aria-label="Cerrar">✕</button></form></div>
     <p class="error-resumen oculto" id="error-resumen"></p>
     <pre class="registro" id="registro" tabindex="0" autofocus></pre>
     <div class="fila derecha">

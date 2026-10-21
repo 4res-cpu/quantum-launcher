@@ -66,8 +66,8 @@ async function detectarHardware() {
 
 function crearVentana() {
   win = new BrowserWindow({
-    width: 1180, height: 720, minWidth: 980, minHeight: 640,
-    frame: false, backgroundColor: '#161a15', show: false,
+    width: 1280, height: 760, minWidth: 1000, minHeight: 640,
+    frame: false, backgroundColor: '#090c09', show: false,
     title: `${cfg.nombre}: ${cfg.evento}`,
     icon: path.join(__dirname, '..', '..', 'assets', 'icon.png'),
     webPreferences: { preload: path.join(__dirname, 'preload.js'), contextIsolation: true, sandbox: true, nodeIntegration: false },
@@ -193,6 +193,7 @@ function registrarIpc() {
   ipcMain.on('ventana', (_e, accion) => {
     if (!win) return;
     if (accion === 'minimizar') win.minimize();
+    if (accion === 'maximizar') { if (win.isMaximized()) win.unmaximize(); else win.maximize(); }
     if (accion === 'cerrar') { if (jugando) win.hide(); else app.quit(); }
   });
 }

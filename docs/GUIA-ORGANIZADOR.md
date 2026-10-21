@@ -23,7 +23,7 @@ Se separan en dos repositorios para que las versiones del modpack no se mezclen 
    proyecto.
 2. En `quantum-datos` → **Releases** → **Draft a new release** → etiqueta `modpack-3.4.7` → adjunta
    `Eventos_Quantum_3.4.7.mrpack` (sin espacios en el nombre) → **Publish release**.
-3. Cambia `4res-cpu` por tu usuario de GitHub en:
+3. Cambia `TU_USUARIO` por tu usuario de GitHub en:
    - `evento.config.json` (las dos `urls`)
    - `package.json` (`build.publish.owner`)
    - `quantum-datos/manifest.json` (las dos URL)
@@ -31,7 +31,7 @@ Se separan en dos repositorios para que las versiones del modpack no se mezclen 
 5. Sube este proyecto al repositorio `quantum-launcher` y publica la primera versión:
    `git tag v1.0.0 && git push origin v1.0.0`. GitHub Actions compila el instalador, la versión
    portable, Linux y macOS, y los deja en *Releases* (tarda unos 10 minutos).
-6. Comparte con los jugadores el enlace `https://github.com/4res-cpu/quantum-launcher/releases/latest`.
+6. Comparte con los jugadores el enlace `https://github.com/TU_USUARIO/quantum-launcher/releases/latest`.
 
 ## Publicar una versión nueva del modpack (lo que harás más a menudo)
 
@@ -45,7 +45,7 @@ Se separan en dos repositorios para que las versiones del modpack no se mezclen 
 
    ```bat
    node tools\publicar-modpack.js Eventos_Quantum_3.4.8.mrpack --version 3.4.8 ^
-     --url https://github.com/4res-cpu/quantum-datos/releases/download/modpack-3.4.8/Eventos_Quantum_3.4.8.mrpack ^
+     --url https://github.com/TU_USUARIO/quantum-datos/releases/download/modpack-3.4.8/Eventos_Quantum_3.4.8.mrpack ^
      --manifest ..\quantum-datos\manifest.json --nota "Arreglado el portón del sector 7"
    ```
 
@@ -125,7 +125,7 @@ Todo está en `evento.config.json` (hace falta compilar una versión nueva del l
 | `instancia` | Nombre de la carpeta del juego. Cámbialo para un evento nuevo y tendrá su propia instalación. |
 
 Para reutilizarlo en otro evento: cambia `evento.config.json` y las imágenes de `assets/`
-(`fondo.jpg`, `logo-evento.png`, `logo-quantum.png`, `icon.png`). Los colores están al principio de
+(`fondos/fondo-1.jpg`…`fondo-3.jpg` (la lista está al principio de `src/renderer/app.js`, en `FONDOS`), `mapa/` (galería "El laberinto"), `gif/`, `logo-evento.png`, `logo-quantum.png`, `icon.png`). Los colores están al principio de
 `src/renderer/styles.css`.
 
 ## Dónde está cada cosa en el PC del jugador

@@ -60,8 +60,12 @@ function cara(c, nodo) {
   nodo.replaceChildren();
   nodo.style.backgroundImage = '';
   if (!c) { nodo.textContent = '+'; return; }
-  if (c.tipo === 'microsoft') nodo.style.backgroundImage = `url("https://mc-heads.net/avatar/${encodeURIComponent(c.uuid)}/40")`;
-  else nodo.textContent = c.nombre.charAt(0).toUpperCase();
+  nodo.textContent = c.nombre.charAt(0).toUpperCase();   // se ve si la cara no carga (sin internet)
+  // cara de la skin: premium por UUID; no premium por nombre (la ponen SkinRestorer/el servidor)
+  const url = `https://mc-heads.net/avatar/${encodeURIComponent(c.tipo === 'microsoft' ? c.uuid : c.nombre)}/96`;
+  const img = new Image();
+  img.onload = () => { nodo.textContent = ''; nodo.style.backgroundImage = `url("${url}")`; };
+  img.src = url;
 }
 
 function pintarCuentas() {
@@ -75,7 +79,7 @@ function pintarCuentas() {
   for (const c of estado.cuentas) {
     const caraNodo = el('span', { class: 'cuenta-cara', 'aria-hidden': 'true' });
     cara(c, caraNodo);
-    ul.append(el('li', {},
+    ul.append(el('li', { class: c.activa ? 'activa' : '' },
       caraNodo,
       el('span', { class: 'datos' }, el('b', {}, c.nombre), el('span', {}, c.tipo === 'microsoft' ? 'Premium (Microsoft)' : 'No premium')),
       el('button', { class: 'usar', type: 'button', disabled: c.activa, onclick: () => usarCuenta(c.id) }, c.activa ? 'En uso' : 'Usar'),
@@ -139,6 +143,13 @@ function configurarAjustes() {
   };
   for (const id of ['ram', 'ancho', 'alto', 'pantalla-completa', 'perfil', 'modo-ligero', 'cerrar-al-jugar']) $(id).addEventListener('change', guardar);
   $('btn-ajustes').addEventListener('click', () => $('dlg-ajustes').showModal());
+  const tabs = [...document.querySelectorAll('.pestanas [data-tab]')];
+  for (const t of tabs) {
+    t.addEventListener('click', () => {
+      for (const o of tabs) o.setAttribute('aria-selected', String(o === t));
+      for (const sec of document.querySelectorAll('.panel-cuerpo [data-panel]')) sec.hidden = sec.dataset.panel !== t.dataset.tab;
+    });
+  }
   $('btn-optimizar').addEventListener('click', async () => {
     try {
       const p = await llamar(quantum.aplicarPerfil, $('perfil').value);
@@ -189,7 +200,8 @@ function finProgreso(texto) {
 
 function botonJugar(texto, ocupado) {
   const b = $('jugar');
-  b.textContent = texto; b.disabled = ocupado; b.classList.toggle('ocupado', ocupado);
+  $('jugar-txt').textContent = texto; b.disabled = ocupado; b.classList.toggle('ocupado', ocupado);
+  $('corre').classList.toggle('oculto', !ocupado || texto === 'En juego');
 }
 
 async function jugar(reparar = false) {
@@ -210,7 +222,10 @@ async function jugar(reparar = false) {
 }
 
 function textoVersion(pack) {
-  return `Modpack ${pack || 'sin instalar'}\nLauncher ${estado.init.version}`;
+  const t = `Modpack ${pack || 'sin instalar'}\nLauncher ${estado.init.version}`;
+  const a = $('acerca-version');
+  if (a) a.textContent = `Quantum Launcher ${estado.init.version}${estado.init.portable ? ' (portable)' : ''} · Modpack ${pack || 'sin instalar'}`;
+  return t;
 }
 
 quantum.on('progreso', progreso);
@@ -244,13 +259,19 @@ async function cargarNoticias() {
     for (const x of lista.slice(0, 20)) {
       let fecha = '';
       if (x.fecha) { const d = new Date(`${x.fecha}${x.fecha.length === 10 ? 'T12:00:00' : ''}`); if (!Number.isNaN(+d)) fecha = new Intl.DateTimeFormat('es', { day: 'numeric', month: 'long' }).format(d); }
-      const li = el('li', { class: `noticia${x.destacada ? ' destacada' : ''}` },
+      const li = el('li', { class: `noticia${x.destacada ? ' destacada-n' : ''}` },
         el('h3', {}, x.titulo || ''),
         fecha ? el('time', { datetime: x.fecha }, fecha) : null,
         x.imagen && /^https:\/\//.test(x.imagen) ? el('img', { src: x.imagen, alt: '' }) : null,
         el('p', {}, x.texto || ''),
         x.enlace && /^https:\/\//.test(x.enlace) ? el('button', { class: 'enlace', type: 'button', onclick: () => llamar(quantum.abrirEnlace, x.enlace) }, x.textoEnlace || 'Ver más') : null);
       ol.append(li);
+    }
+    const top = lista.find((x) => x.destacada) || lista[0];
+    if (top && top.titulo) {
+      $('destacada-titulo').textContent = top.titulo;
+      $('destacada').classList.remove('oculto');
+      $('noticias-punto').classList.remove('oculto');
     }
   } catch { ol.replaceChildren(el('li', { class: 'noticia vacia' }, 'No se pudieron cargar las noticias.')); }
 }
@@ -259,10 +280,14 @@ async function estadoServidor() {
   try {
     const s = await llamar(quantum.estadoServidor);
     $('led').className = `led ${s.online ? 'on' : 'off'}`;
-    $('estado-txt').textContent = s.online
-      ? `${estado.init.evento.servidor}: ${s.jugadores}/${s.max} jugadores, ${s.latencia} ms`
-      : `${estado.init.evento.servidor} fuera de línea`;
-  } catch { $('led').className = 'led off'; $('estado-txt').textContent = 'No se pudo comprobar el lobby'; }
+    $('srv-nombre').textContent = s.online ? 'Jugadores' : 'Lobby';
+    $('srv-jug').textContent = s.online ? s.jugadores : 'OFF';
+    $('srv-max').textContent = s.online ? `/${s.max}` : '';
+    $('estado-txt').textContent = s.online ? `${estado.init.evento.servidor} · ${s.latencia} ms` : `${estado.init.evento.servidor} fuera de línea`;
+  } catch {
+    $('led').className = 'led off'; $('srv-nombre').textContent = 'Lobby'; $('srv-jug').textContent = '--'; $('srv-max').textContent = '';
+    $('estado-txt').textContent = 'No se pudo comprobar el lobby';
+  }
 }
 
 async function comprobarActualizacion() {
@@ -273,8 +298,53 @@ async function comprobarActualizacion() {
   } catch { /* sin conexión: se avisa al jugar */ }
 }
 
+// ---------- Fondo que va cambiando ----------
+const FONDOS = ['fondo-1.jpg', 'fondo-2.jpg', 'fondo-3.jpg'];
+function iniciarFondos() {
+  const cont = $('fondos');
+  const diapos = FONDOS.map((f) => {
+    const d = el('div', { class: 'diapo' });
+    d.style.backgroundImage = `url("../../assets/fondos/${f}")`;
+    cont.append(d);
+    return d;
+  });
+  let i = 0;
+  const mostrar = () => {
+    diapos.forEach((d, k) => {
+      if (k === i) { d.classList.remove('activa'); void d.offsetWidth; d.classList.add('activa'); } else d.classList.remove('activa');
+    });
+  };
+  mostrar();
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  setInterval(() => { i = (i + 1) % diapos.length; mostrar(); }, 10000);
+}
+
+// ---------- Cajón de noticias, galería y menú lateral ----------
+function cajon(abrir) {
+  $('cajon').classList.toggle('abierto', abrir);
+  $('cajon-fondo').classList.toggle('abierto', abrir);
+  $('cajon').setAttribute('aria-hidden', String(!abrir));
+  if (abrir) $('noticias-punto').classList.add('oculto');
+}
+function configurarMenus() {
+  $('btn-noticias').addEventListener('click', () => cajon(true));
+  $('destacada').addEventListener('click', () => cajon(true));
+  $('cajon-cerrar').addEventListener('click', () => cajon(false));
+  $('cajon-fondo').addEventListener('click', () => cajon(false));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cajon(false); });
+  $('btn-mapa').addEventListener('click', () => $('dlg-mapa').showModal());
+  for (const fig of document.querySelectorAll('.galeria-grid figure')) {
+    fig.addEventListener('click', () => { $('visor-img').src = fig.querySelector('img').src; $('dlg-visor').showModal(); });
+  }
+  $('btn-carpeta-riel').addEventListener('click', () => llamar(quantum.abrirCarpeta));
+  $('btn-web-mapa').addEventListener('click', () => llamar(quantum.abrirEnlace, 'https://www.jxnasgmng.de/mazerunner/'));
+  $('win-max').addEventListener('click', () => quantum.ventana('maximizar'));
+  $('estado-srv').addEventListener('click', estadoServidor);
+}
+
 // ---------- Arranque ----------
 (async () => {
+  iniciarFondos();
   $('win-min').addEventListener('click', () => quantum.ventana('minimizar'));
   $('win-cerrar').addEventListener('click', () => quantum.ventana('cerrar'));
   estado.init = await llamar(quantum.init);
@@ -287,6 +357,7 @@ async function comprobarActualizacion() {
   configurarCuentas();
   configurarAjustes();
   configurarRegistro();
+  configurarMenus();
   $('discord').addEventListener('click', () => llamar(quantum.abrirEnlace, estado.init.evento.discord));
   $('jugar').addEventListener('click', () => jugar(false));
   if (!estado.init.instalado) $('prog-etapa').textContent = 'La primera vez descargará alrededor de 1 GB (Java, Minecraft y mods)';
