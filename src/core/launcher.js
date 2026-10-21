@@ -120,7 +120,7 @@ class QuantumCore {
   /**
    * Deja todo listo para jugar. ajustes: { modoLigero, perfil, ramMB, ... }
    */
-  async preparar({ reparar = false, ajustes = {}, hw = null } = {}) {
+  async preparar({ reparar = false, ajustes = {}, hw = null, sinTexturas = false } = {}) {
     const t0 = Date.now();
     this.log(`Preparando instalación${reparar ? ' (reparación completa)' : ''}`);
     await fsp.mkdir(this.dirs.game, { recursive: true });
@@ -182,6 +182,7 @@ class QuantumCore {
       await fsp.writeFile(optFile, hardware.optionsTxt(perfil, this.cfg.opcionesIniciales || {}));
       this.log(`options.txt creado con el perfil gráfico "${perfil}"`);
     }
+    await this.texturas(sinTexturas);
     this.onProgress({ etapa: 'listo', texto: 'Todo listo' });
     this.log(`Instalación verificada en ${((Date.now() - t0) / 1000).toFixed(1)} s`);
     return { java, install, packVersion, mcVersion, loaderVersion, reporte: rep };
@@ -198,6 +199,47 @@ class QuantumCore {
     if (!map.size) { await fsp.mkdir(this.dirs.game, { recursive: true }); await fsp.writeFile(optFile, hardware.optionsTxt(perfilId, this.cfg.opcionesIniciales || {})); return; }
     for (const k of ['renderDistance', 'simulationDistance', 'graphicsMode', 'particles', 'entityShadows', 'biomeBlendRadius', 'maxFps']) map.set(k, String(p[k]));
     await fsp.writeFile(optFile, `${[...map].map(([k, v]) => `${k}:${v}`).join('\n')}\n`);
+  }
+
+  /**
+   * Modo seguro: abre el juego sin paquetes de texturas y guarda la lista que tenía el jugador.
+   * En el siguiente inicio normal se restaura si el jugador no las activó a mano dentro del juego.
+   */
+  async texturas(sinTexturas) {
+    const optFile = path.join(this.dirs.game, 'options.txt');
+    const guardadas = path.join(this.dirs.game, '.quantum', 'texturas.json');
+    const base = ['vanilla', 'fabric'];
+    let txt = '';
+    try { txt = await fsp.readFile(optFile, 'utf8'); } catch { return; }
+    const lineas = txt.split(/\r?\n/).filter(Boolean);
+    const i = lineas.findIndex((l) => l.startsWith('resourcePacks:'));
+    let actual = [];
+    try { actual = i >= 0 ? JSON.parse(lineas[i].slice('resourcePacks:'.length)) : []; } catch { actual = []; }
+    const soloBase = actual.every((p) => base.includes(p));
+    const escribir = async (lista) => {
+      const l = `resourcePacks:${JSON.stringify(lista)}`;
+      if (i >= 0) lineas[i] = l; else lineas.push(l);
+      const j = lineas.findIndex((x) => x.startsWith('incompatibleResourcePacks:'));
+      if (j >= 0) lineas[j] = 'incompatibleResourcePacks:[]';
+      await fsp.writeFile(optFile, `${lineas.join('\n')}\n`);
+    };
+    if (sinTexturas) {
+      if (!soloBase) {
+        await fsp.mkdir(path.dirname(guardadas), { recursive: true });
+        if (!(await http.exists(guardadas))) await fsp.writeFile(guardadas, JSON.stringify(actual));
+        await escribir(base);
+      }
+      this.log('Modo seguro: inicio sin paquetes de texturas');
+      return;
+    }
+    if (!(await http.exists(guardadas))) return;
+    try {
+      if (soloBase) {
+        const lista = JSON.parse(await fsp.readFile(guardadas, 'utf8'));
+        if (Array.isArray(lista) && lista.length) { await escribir(lista); this.log('Paquetes de texturas restaurados'); }
+      }
+    } catch { /* archivo dañado: se ignora */ }
+    await fsp.rm(guardadas, { force: true });
   }
 
   // ---------- Lanzar ----------

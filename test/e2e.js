@@ -299,6 +299,29 @@ const exists = (p) => fs.existsSync(p);
     const n = await core.leerNoticias();
     assert.equal(n.noticias[0].titulo, 'Prueba');
   });
+  await prueba('Modo seguro: inicia sin texturas y las restaura en el siguiente inicio normal', async () => {
+    const dd = await fsp.mkdtemp(path.join(os.tmpdir(), 'qseg-'));
+    const core = new QuantumCore({ instancia: 'prueba', servidor: { host: 'x', puerto: 1 } }, dd);
+    const opt = path.join(core.dirs.game, 'options.txt');
+    await fsp.mkdir(core.dirs.game, { recursive: true });
+    const packs = '["vanilla","fabric","file/Quantum_Menu.zip","file/FreshAnimations_v1.10.4.zip"]';
+    await fsp.writeFile(opt, `lang:es_es\nresourcePacks:${packs}\nincompatibleResourcePacks:["file/x.zip"]\nmaxFps:120\n`);
+    const leer = async () => (await fsp.readFile(opt, 'utf8')).match(/^resourcePacks:(.*)$/m)[1];
+    await core.texturas(true);
+    assert.equal(await leer(), '["vanilla","fabric"]');
+    assert.match(await fsp.readFile(opt, 'utf8'), /incompatibleResourcePacks:\[\]/);
+    assert.match(await fsp.readFile(opt, 'utf8'), /maxFps:120/);
+    await core.texturas(true); // segundo inicio seguro: no pierde la lista guardada
+    await core.texturas(false);
+    assert.equal(await leer(), packs);
+    // si el jugador las activó a mano dentro del juego, se respeta su elección
+    await core.texturas(true);
+    await fsp.writeFile(opt, (await fsp.readFile(opt, 'utf8')).replace(/^resourcePacks:.*$/m, 'resourcePacks:["vanilla","fabric","file/Quantum_Menu.zip"]'));
+    await core.texturas(false);
+    assert.equal(await leer(), '["vanilla","fabric","file/Quantum_Menu.zip"]');
+    assert.equal(fs.existsSync(path.join(core.dirs.game, '.quantum', 'texturas.json')), false);
+  });
+
   await prueba('Herramienta publicar-modpack genera un manifiesto válido', async () => {
     const out = path.join(work, 'manifest.json');
     execFileSync(process.execPath, [path.join(__dirname, '..', 'tools', 'publicar-modpack.js'), path.join(mock.dir, 'Eventos_Quantum_3.4.8.mrpack'), '--version', '3.4.8', '--url', 'https://example.com/p.mrpack', '--manifest', out]);

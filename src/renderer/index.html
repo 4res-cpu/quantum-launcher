@@ -182,6 +182,7 @@
           <button class="btn" id="btn-optimizar" type="button">Aplicar al juego</button>
         </div>
         <label class="interruptor"><input type="checkbox" id="modo-ligero"><span class="sw"></span><span>Modo bajo consumo <small>Desactiva efectos visuales y sonidos ambientales.</small></span></label>
+        <label class="interruptor"><input type="checkbox" id="modo-seguro"><span class="sw"></span><span>Modo seguro <small>Al pulsar Jugar podrás iniciar sin paquetes de texturas. Úsalo si el juego se cierra mientras carga.</small></span></label>
       </section>
       <section data-panel="instalacion" hidden>
         <h3>Instalación</h3>
@@ -199,6 +200,19 @@
         <p class="ayuda" id="acerca-version"></p>
         <p class="ayuda">Departamento de Eventos · Clan Quantum</p>
       </section>
+    </div>
+  </dialog>
+
+  <!-- Modo seguro -->
+  <dialog class="modal" id="dlg-seguro" aria-labelledby="t-seguro">
+    <div class="modal-cab"><h2 id="t-seguro">Modo seguro</h2><form method="dialog"><button class="x" aria-label="Cerrar">✕</button></form></div>
+    <div class="seguro-cuerpo">
+      <p>El juego se abrirá sin paquetes de texturas.</p>
+      <p class="ayuda">Cuando estés dentro del servidor, actívalos en <b>Opciones → Paquetes de recursos</b>.</p>
+    </div>
+    <div class="fila derecha">
+      <button class="btn" id="seguro-normal" type="button">Iniciar normal</button>
+      <button class="btn btn-verde" id="seguro-sin" type="button">Iniciar sin texturas</button>
     </div>
   </dialog>
 

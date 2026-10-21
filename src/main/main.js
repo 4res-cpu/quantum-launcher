@@ -33,7 +33,7 @@ function send(canal, datos) { if (win && !win.isDestroyed()) win.webContents.sen
 
 function leerAjustes() {
   const lim = hardware.limitesRam(hw.ramMB, cfg.ram);
-  const def = { ramMB: lim.recomendado, ancho: 1280, alto: 720, pantallaCompleta: false, perfil: 'auto', modoLigero: null, conectarDirecto: true, cerrarAlJugar: false };
+  const def = { ramMB: lim.recomendado, ancho: 1280, alto: 720, pantallaCompleta: false, perfil: 'auto', modoLigero: null, modoSeguro: false, conectarDirecto: true, cerrarAlJugar: false };
   try { return { ...def, ...JSON.parse(fs.readFileSync(ajustesFile, 'utf8')) }; } catch { return def; }
 }
 function guardarAjustes(a) {
@@ -164,7 +164,7 @@ function registrarIpc() {
   });
   manejar('launcher:instalarActualizacion', async () => { autoUpdater?.quitAndInstall(true, true); });
 
-  manejar('jugar', async ({ reparar = false } = {}) => {
+  manejar('jugar', async ({ reparar = false, sinTexturas = false } = {}) => {
     if (jugando) throw new Error('El juego ya está abierto.');
     let cuenta = store.active();
     if (!cuenta) throw new Error('Elige o añade una cuenta antes de jugar.');
@@ -176,7 +176,7 @@ function registrarIpc() {
         cuenta = await accounts.renovarSiHaceFalta(cuenta, { clientId: cfg.microsoft.clientId, endpoints: cfg.endpoints?.auth });
         await store.upsert(cuenta);
       }
-      const prep = await core.preparar({ reparar, ajustes, hw });
+      const prep = await core.preparar({ reparar, ajustes, hw, sinTexturas: !!sinTexturas });
       send('progreso', { etapa: 'juego', texto: 'Abriendo Minecraft…' });
       const r = await core.lanzar(prep, cuenta, ajustes, {
         onStarted: () => {

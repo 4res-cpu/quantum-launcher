@@ -63,9 +63,10 @@ Los shaders son opcionales y solo para PCs buenos: dentro del juego, Opciones �
 
 ## Si algo falla
 
-- **El juego se cierra al abrir:** el launcher te enseña el registro. Si dice que se quedó sin memoria,
-  sube la RAM en Ajustes o activa el modo de bajos recursos. Si menciona la tarjeta gráfica,
-  actualiza sus drivers.
+- **El juego se cierra al abrir:** sube la RAM en *Ajustes → Memoria*, activa el *Modo bajo consumo*
+  y actualiza los drivers de tu tarjeta gráfica.
+- **Se cierra mientras carga (pantalla de Mojang):** activa *Ajustes → Rendimiento → Modo seguro* y
+  pulsa *Iniciar sin texturas*. Dentro del servidor, activa los paquetes en *Opciones → Paquetes de recursos*.
 - **Se queda descargando:** revisa tu internet o el antivirus y vuelve a pulsar *Jugar*: continúa
   donde lo dejó.
 - **Premium: "no tiene perfil de Xbox":** entra una vez en minecraft.net con esa cuenta.

@@ -132,16 +132,17 @@ function configurarAjustes() {
   $('perfil').options[0].textContent = `Automática (${nombres[perfilAuto]} para tu PC)`;
   $('modo-ligero').checked = a.modoLigero ?? perfilAuto === 'bajo';
   $('cerrar-al-jugar').checked = !!a.cerrarAlJugar;
+  $('modo-seguro').checked = !!a.modoSeguro;
   $('pc-info').textContent = `${hw.cpu} · ${hw.gpu}`;
 
   const guardar = async () => {
     estado.ajustes = await llamar(quantum.guardarAjustes, {
       ramMB: Number(r.value), ancho: Number($('ancho').value), alto: Number($('alto').value),
       pantallaCompleta: $('pantalla-completa').checked, perfil: $('perfil').value,
-      modoLigero: $('modo-ligero').checked, cerrarAlJugar: $('cerrar-al-jugar').checked,
+      modoLigero: $('modo-ligero').checked, modoSeguro: $('modo-seguro').checked, cerrarAlJugar: $('cerrar-al-jugar').checked,
     });
   };
-  for (const id of ['ram', 'ancho', 'alto', 'pantalla-completa', 'perfil', 'modo-ligero', 'cerrar-al-jugar']) $(id).addEventListener('change', guardar);
+  for (const id of ['ram', 'ancho', 'alto', 'pantalla-completa', 'perfil', 'modo-ligero', 'modo-seguro', 'cerrar-al-jugar']) $(id).addEventListener('change', guardar);
   $('btn-ajustes').addEventListener('click', () => $('dlg-ajustes').showModal());
   const tabs = [...document.querySelectorAll('.pestanas [data-tab]')];
   for (const t of tabs) {
@@ -204,13 +205,31 @@ function botonJugar(texto, ocupado) {
   $('corre').classList.toggle('oculto', !ocupado || texto === 'En juego');
 }
 
+// Modo seguro: pregunta si iniciar sin paquetes de texturas
+function elegirTexturas() {
+  return new Promise((resolve) => {
+    const d = $('dlg-seguro');
+    const fin = (v) => { d.removeEventListener('close', cerrar); $('seguro-sin').onclick = null; $('seguro-normal').onclick = null; if (d.open) d.close(); resolve(v); };
+    const cerrar = () => fin(null);
+    $('seguro-sin').onclick = () => fin(true);
+    $('seguro-normal').onclick = () => fin(false);
+    d.addEventListener('close', cerrar);
+    d.showModal();
+  });
+}
+
 async function jugar(reparar = false) {
   if (estado.jugando) return;
   if (!estado.cuentas.some((c) => c.activa)) { $('dlg-cuentas').showModal(); return; }
+  let sinTexturas = false;
+  if (estado.ajustes?.modoSeguro) {
+    sinTexturas = await elegirTexturas();
+    if (sinTexturas === null) return;
+  }
   estado.jugando = true;
   botonJugar(reparar ? 'Reparando…' : 'Preparando…', true);
   try {
-    const r = await llamar(quantum.jugar, { reparar });
+    const r = await llamar(quantum.jugar, { reparar, sinTexturas });
     $('version').textContent = textoVersion(r.packVersion);
   } catch (e) {
     finProgreso('No se pudo iniciar');
@@ -240,6 +259,13 @@ quantum.on('juego', (j) => {
       else resumen += ' Si se repite, guarda este informe y envíalo al staff por Discord.';
       if (j.crash?.texto) estado.logBuffer.push('----- Informe de error de Minecraft -----', j.crash.texto);
       abrirRegistro(resumen);
+      if (!estado.ajustes?.modoSeguro) {
+        aviso('Si el juego se cierra mientras carga, prueba el modo seguro.', { texto: 'Activar', accion: async () => {
+          estado.ajustes = await llamar(quantum.guardarAjustes, { modoSeguro: true });
+          $('modo-seguro').checked = true;
+          aviso('Modo seguro activado. Pulsa Jugar para elegir cómo iniciar.');
+        } });
+      }
     }
   }
 });
