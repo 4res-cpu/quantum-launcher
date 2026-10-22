@@ -8,6 +8,7 @@ const http = require('./http');
 const DEFAULT_AUTH = {
   authorize: 'https://login.microsoftonline.com/consumers/oauth2/v2.0/authorize',
   token: 'https://login.microsoftonline.com/consumers/oauth2/v2.0/token',
+  devicecode: 'https://login.microsoftonline.com/consumers/oauth2/v2.0/devicecode',
   xbl: 'https://user.auth.xboxlive.com/user/authenticate',
   xsts: 'https://xsts.auth.xboxlive.com/xsts/authorize',
   mcLogin: 'https://api.minecraftservices.com/authentication/login_with_xbox',
@@ -116,6 +117,43 @@ async function canjearCodigo({ code, verifier, clientId, redirectUri, endpoints 
   return { id: `ms:${mc.uuid}`, tipo: 'microsoft', ...mc, refreshToken: t.refresh_token };
 }
 
+// ---------- Código de dispositivo (se inicia sesión en el navegador normal del PC) ----------
+/** Pide un código: el jugador lo escribe en microsoft.com/link. */
+async function pedirCodigoDispositivo({ clientId, endpoints = {} }) {
+  const ep = { ...DEFAULT_AUTH, ...endpoints };
+  const r = await http.postForm(ep.devicecode, { client_id: clientId, scope: SCOPE });
+  if (!r?.device_code) throw new Error('Microsoft no devolvió un código.');
+  return {
+    deviceCode: r.device_code, codigo: r.user_code, url: r.verification_uri || 'https://www.microsoft.com/link',
+    intervalo: Math.max(2, r.interval || 5), expira: Date.now() + (r.expires_in || 900) * 1000,
+  };
+}
+
+/** Espera a que el jugador acepte en el navegador y devuelve la cuenta. `cancelado()` corta la espera. */
+async function esperarCodigoDispositivo(dc, { clientId, endpoints = {}, cancelado = () => false }) {
+  const ep = { ...DEFAULT_AUTH, ...endpoints };
+  let espera = dc.intervalo * 1000;
+  while (Date.now() < dc.expira) {
+    await http.sleep(espera);
+    if (cancelado()) throw new Error('Cancelaste el inicio de sesión.');
+    let t;
+    try {
+      t = await http.postForm(ep.token, { client_id: clientId, grant_type: 'urn:ietf:params:oauth:grant-type:device_code', device_code: dc.deviceCode });
+    } catch (e) {
+      const err = e?.body?.error;
+      if (err === 'authorization_pending') continue;
+      if (err === 'slow_down') { espera += 5000; continue; }
+      if (err === 'authorization_declined') throw new Error('Cancelaste el inicio de sesión.');
+      if (err === 'expired_token' || err === 'code_expired') break;
+      if (!(e instanceof http.HttpError)) continue;   // sin internet un momento: se sigue esperando
+      throw explicar(e, 'token');
+    }
+    const mc = await minecraftDesdeMicrosoft(t.access_token, endpoints);
+    return { id: `ms:${mc.uuid}`, tipo: 'microsoft', ...mc, refreshToken: t.refresh_token };
+  }
+  throw new Error('El código caducó. Pulsa otra vez "Iniciar sesión con Microsoft".');
+}
+
 /** Renueva la sesión si al token de Minecraft le quedan menos de 10 minutos. */
 async function renovarSiHaceFalta(cuenta, { clientId, endpoints = {} }, force = false) {
   if (cuenta.tipo !== 'microsoft') return cuenta;
@@ -181,4 +219,4 @@ class AccountStore {
   async select(id) { if (this.data.cuentas.some((x) => x.id === id)) { this.data.activa = id; await this.save(); } }
 }
 
-module.exports = { validarNombre, offlineUUID, crearOffline, pkce, authorizeUrl, canjearCodigo, renovarSiHaceFalta, minecraftDesdeMicrosoft, AccountStore, DEFAULT_AUTH };
+module.exports = { validarNombre, offlineUUID, crearOffline, pkce, authorizeUrl, canjearCodigo, pedirCodigoDispositivo, esperarCodigoDispositivo, renovarSiHaceFalta, minecraftDesdeMicrosoft, AccountStore, DEFAULT_AUTH };

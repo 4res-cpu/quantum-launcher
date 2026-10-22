@@ -96,12 +96,25 @@ async function quitarCuenta(c) {
 function configurarCuentas() {
   $('cuenta-chip').addEventListener('click', () => $('dlg-cuentas').showModal());
   $('btn-ms').addEventListener('click', async () => {
-    const b = $('btn-ms'); b.disabled = true;
+    const b = $('btn-ms'); b.disabled = true; $('offline-error').textContent = '';
     try {
       estado.cuentas = await llamar(quantum.cuentaMicrosoft);
       pintarCuentas(); $('dlg-cuentas').close();
-    } catch (e) { $('offline-error').textContent = e.message; } finally { b.disabled = false; }
+    } catch (e) { $('offline-error').textContent = e.message; } finally { b.disabled = false; $('ms-codigo').hidden = true; }
   });
+  // 1.1.4: inicio de sesión con código (en el navegador normal)
+  let codigoMs = null;
+  quantum.on('cuentas:codigo', (d) => {
+    codigoMs = d;
+    $('ms-codigo').hidden = !d;
+    if (d) { $('ms-num').textContent = d.codigo; $('ms-estado').textContent = 'Esperando a que aceptes en el navegador… esta ventana se actualiza sola.'; }
+  });
+  $('ms-abrir').addEventListener('click', () => { if (codigoMs) quantum.abrirEnlace(`https://www.microsoft.com/link?otc=${encodeURIComponent(codigoMs.codigo)}`); });
+  $('ms-copiar').addEventListener('click', async () => {
+    if (!codigoMs) return;
+    try { await navigator.clipboard.writeText(codigoMs.codigo); $('ms-estado').textContent = 'Código copiado. Pégalo en la página de Microsoft.'; } catch { /* */ }
+  });
+  $('ms-cancelar').addEventListener('click', () => { quantum.cancelarMicrosoft(); $('ms-estado').textContent = 'Cancelando…'; });
   const input = $('nombre-offline');
   input.addEventListener('input', () => { input.value = input.value.replace(/[^A-Za-z0-9_]/g, ''); $('offline-error').textContent = ''; });
   $('form-offline').addEventListener('submit', async (ev) => {

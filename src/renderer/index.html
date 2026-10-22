@@ -126,6 +126,16 @@
         <svg viewBox="0 0 20 20" aria-hidden="true"><path fill="#f25022" d="M1 1h8.5v8.5H1z"/><path fill="#7fba00" d="M10.5 1H19v8.5h-8.5z"/><path fill="#00a4ef" d="M1 10.5h8.5V19H1z"/><path fill="#ffb900" d="M10.5 10.5H19V19h-8.5z"/></svg>
         Iniciar sesión con Microsoft (premium)
       </button>
+      <div class="ms-codigo" id="ms-codigo" hidden>
+        <p class="ms-paso">Se abrió tu navegador. Inicia sesión con tu cuenta de Minecraft y, si te lo pide, escribe este código:</p>
+        <div class="ms-num" id="ms-num">—</div>
+        <div class="fila">
+          <button class="btn btn-verde" id="ms-abrir" type="button">Abrir microsoft.com/link</button>
+          <button class="btn" id="ms-copiar" type="button">Copiar código</button>
+        </div>
+        <p class="nota" id="ms-estado">Esperando a que aceptes en el navegador… esta ventana se actualiza sola.</p>
+        <button class="btn btn-link" id="ms-cancelar" type="button">Cancelar</button>
+      </div>
       <div class="o"><span>o</span></div>
       <form class="offline" id="form-offline" novalidate>
         <label for="nombre-offline">Jugar sin cuenta premium</label>

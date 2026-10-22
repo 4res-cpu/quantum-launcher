@@ -472,3 +472,10 @@ code { font-family: Consolas, 'Cascadia Mono', monospace; font-size: 12.5px; bac
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* 1.1.4 · inicio de sesión con código */
+.ms-codigo { margin-top: 12px; padding: 14px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(0,0,0,.25); text-align: center; }
+.ms-codigo .ms-paso { margin: 0 0 8px; font-size: 14px; }
+.ms-codigo .ms-num { font: 700 30px/1.2 ui-monospace, Consolas, monospace; letter-spacing: 4px; color: #b9e36a; margin: 6px 0 12px; user-select: all; }
+.ms-codigo .fila { display: flex; gap: 8px; justify-content: center; }
+.ms-codigo .btn-link { background: none; border: 0; color: inherit; opacity: .7; text-decoration: underline; margin-top: 6px; cursor: pointer; }

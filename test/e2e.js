@@ -40,7 +40,7 @@ const exists = (p) => fs.existsSync(p);
     endpoints: {
       versionManifest: mock.url('/mojang/version_manifest_v2.json'),
       fabricMeta: mock.url('/fabric'), assets: mock.url('/assets'), adoptium: mock.url('/adoptium'),
-      auth: { token: mock.url('/ms/token'), xbl: mock.url('/xbox/user'), xsts: mock.url('/xbox/xsts'), mcLogin: mock.url('/mcs/login'), mcProfile: mock.url('/mcs/profile') },
+      auth: { token: mock.url('/ms/token'), devicecode: mock.url('/ms/devicecode'), xbl: mock.url('/xbox/user'), xsts: mock.url('/xbox/xsts'), mcLogin: mock.url('/mcs/login'), mcProfile: mock.url('/mcs/profile') },
     },
   };
   const dataDir = path.join(fakeHome, 'AppData', 'Roaming', 'QuantumLauncher');
@@ -162,6 +162,16 @@ const exists = (p) => fs.existsSync(p);
     assert.ok(!raw.includes(premium.refreshToken) && !raw.includes(premium.accessToken), 'los tokens se guardan cifrados');
     assert.equal(store.list().length, 2);
     assert.equal(store.active().refreshToken, premium.refreshToken);
+  });
+  await prueba('Inicio de sesión con código (microsoft.com/link): espera y entra', async () => {
+    const dc = await accounts.pedirCodigoDispositivo({ clientId: 'test-client-id', endpoints: cfg.endpoints.auth });
+    assert.equal(dc.codigo, 'ABCD-EFGH');
+    dc.intervalo = 0.2;
+    const c = await accounts.esperarCodigoDispositivo(dc, { clientId: 'test-client-id', endpoints: cfg.endpoints.auth });
+    assert.equal(c.tipo, 'microsoft'); assert.ok(c.refreshToken && c.accessToken);
+    const dc2 = await accounts.pedirCodigoDispositivo({ clientId: 'test-client-id', endpoints: cfg.endpoints.auth });
+    dc2.intervalo = 0.2;
+    await assert.rejects(() => accounts.esperarCodigoDispositivo(dc2, { clientId: 'test-client-id', endpoints: cfg.endpoints.auth, cancelado: () => true }), /Cancelaste/);
   });
   await prueba('Renueva el token solo (refresh token) y recuerda la sesión', async () => {
     const store2 = await new accounts.AccountStore(store.file, store.cipher).load(); // reinicio del launcher

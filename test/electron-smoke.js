@@ -37,7 +37,9 @@ Module._load = function (req, ...rest) { return req === 'electron' ? electron : 
   fs.writeFileSync(cfgFile, JSON.stringify({ ...base, usarJavaDelSistema: false,
     urls: { manifiesto: mock.url('/remote/manifest.json'), noticias: mock.url('/remote/noticias.json') },
     servidor: { ...base.servidor, host: '127.0.0.1', puerto: await mock.startMinecraftServer({ online: 7, max: 50 }) },
-    endpoints: { versionManifest: mock.url('/mojang/version_manifest_v2.json'), fabricMeta: mock.url('/fabric'), assets: mock.url('/assets'), adoptium: mock.url('/adoptium') } }));
+    microsoft: { ...base.microsoft, clientId: 'test-client-id' },
+    endpoints: { auth: { token: mock.url('/ms/token'), devicecode: mock.url('/ms/devicecode'), xbl: mock.url('/xbox/user'), xsts: mock.url('/xbox/xsts'), mcLogin: mock.url('/mcs/login'), mcProfile: mock.url('/mcs/profile') },
+      versionManifest: mock.url('/mojang/version_manifest_v2.json'), fabricMeta: mock.url('/fabric'), assets: mock.url('/assets'), adoptium: mock.url('/adoptium') } }));
   process.env.QUANTUM_CONFIG = cfgFile;
   process.env.APPDATA = tmp;
   require('../src/main/main.js');
@@ -50,7 +52,11 @@ Module._load = function (req, ...rest) { return req === 'electron' ? electron : 
   const r1 = await handlers.get('cuentas:offline')({}, 'ab');
   assert.equal(r1.ok, false); console.log('  nombre corto rechazado:', r1.error);
   const r2 = await handlers.get('cuentas:microsoft')({});
-  assert.equal(r2.ok, false); console.log('  premium sin Client ID:', r2.error);
+  assert.equal(r2.ok, true, r2.error);
+  const cod = eventos.find(([c, d]) => c === 'cuentas:codigo' && d);
+  assert.ok(cod && cod[1].codigo === 'ABCD-EFGH', 'la interfaz recibe el código');
+  assert.ok(eventos.some(([c, d]) => c === 'cuentas:codigo' && d === null), 'y luego se oculta');
+  console.log('  premium con código microsoft.com/link:', cod[1].codigo, '→', r2.datos.find((c) => c.tipo === 'microsoft')?.nombre);
   await call('cuentas:offline', 'Prueba_Quantum');
   const aj = await call('ajustes:guardar', { ramMB: 99999, ancho: 1600, alto: 900 });
   assert.equal(aj.ramMB, init.ram.max); console.log('  RAM limitada al máximo del PC:', aj.ramMB);

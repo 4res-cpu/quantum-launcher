@@ -57,9 +57,19 @@ class Mock {
 
   auth(u, req, body, res) {
     const p = u.pathname;
+    if (p === '/ms/devicecode') {
+      const f = new URLSearchParams(body);
+      if (f.get('client_id') !== 'test-client-id') return this.json(res, 400, { error: 'unauthorized_client' });
+      this.dcPolls = 0;
+      return this.json(res, 200, { device_code: 'dev-123', user_code: 'ABCD-EFGH', verification_uri: 'https://www.microsoft.com/link', interval: 1, expires_in: 60 });
+    }
     if (p === '/ms/token') {
       const f = new URLSearchParams(body);
       if (f.get('client_id') !== 'test-client-id') return this.json(res, 400, { error: 'unauthorized_client' });
+      if (f.get('grant_type') === 'urn:ietf:params:oauth:grant-type:device_code') {
+        if (f.get('device_code') !== 'dev-123') return this.json(res, 400, { error: 'invalid_grant' });
+        if (++this.dcPolls < 2) return this.json(res, 400, { error: 'authorization_pending' });
+      }
       if (f.get('grant_type') === 'authorization_code') {
         if (f.get('code') !== 'codigo-bueno') return this.json(res, 400, { error: 'invalid_grant', error_description: 'bad code' });
         const ch = crypto.createHash('sha256').update(f.get('code_verifier') || '').digest('base64url');

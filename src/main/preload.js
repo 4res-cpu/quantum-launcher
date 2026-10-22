@@ -11,6 +11,7 @@ contextBridge.exposeInMainWorld('quantum', {
   actualizacion: invoke('actualizacion'),
   cuentaOffline: invoke('cuentas:offline'),
   cuentaMicrosoft: invoke('cuentas:microsoft'),
+  cancelarMicrosoft: invoke('cuentas:cancelarMicrosoft'),
   seleccionarCuenta: invoke('cuentas:seleccionar'),
   eliminarCuenta: invoke('cuentas:eliminar'),
   guardarAjustes: invoke('ajustes:guardar'),
@@ -23,7 +24,7 @@ contextBridge.exposeInMainWorld('quantum', {
   jugar: invoke('jugar'),
   ventana: (accion) => ipcRenderer.send('ventana', accion),
   on: (canal, fn) => {
-    if (!['progreso', 'log', 'juego', 'launcher:update'].includes(canal)) return;
+    if (!['progreso', 'log', 'juego', 'launcher:update', 'cuentas:codigo'].includes(canal)) return;
     ipcRenderer.on(canal, (_e, datos) => fn(datos));
   },
 });

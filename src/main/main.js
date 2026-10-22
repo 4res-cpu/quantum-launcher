@@ -84,19 +84,43 @@ function abrirExterno(url) {
 }
 
 // ---------- Inicio de sesión de Microsoft ----------
-function loginMicrosoft() {
-  const { clientId, redirectUri } = cfg.microsoft;
+// 1.1.4: primero con CÓDIGO (se entra en el navegador normal del PC, en microsoft.com/link: es lo que usan los
+// launchers grandes y no depende de la ventana interna). Si Microsoft no da código, se usa la ventana interna.
+let loginActivo = null;   // { cancelado }
+const UA_CHROME = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36';
+
+async function loginMicrosoft() {
+  const { clientId } = cfg.microsoft;
   if (!clientId || clientId.startsWith('PEGA_AQUI')) {
-    return Promise.reject(new Error('El inicio de sesión premium no está disponible por ahora. Puedes jugar con el modo no premium.'));
+    throw new Error('El inicio de sesión premium no está disponible por ahora. Puedes jugar con el modo no premium.');
   }
+  const authEp = cfg.endpoints?.auth || {};
+  let dc = null;
+  try { dc = await accounts.pedirCodigoDispositivo({ clientId, endpoints: authEp }); }
+  catch (e) { core?.log(`Inicio de sesión con código no disponible (${e.body?.error || e.message}); se usa la ventana.`); }
+  if (!dc) return loginVentana();
+  const estadoLogin = { cancelado: false };
+  loginActivo = estadoLogin;
+  send('cuentas:codigo', { codigo: dc.codigo, url: dc.url, expira: dc.expira });
+  abrirExterno(`https://www.microsoft.com/link?otc=${encodeURIComponent(dc.codigo)}`);
+  try {
+    return await accounts.esperarCodigoDispositivo(dc, { clientId, endpoints: authEp, cancelado: () => estadoLogin.cancelado });
+  } finally { if (loginActivo === estadoLogin) loginActivo = null; send('cuentas:codigo', null); }
+}
+
+function loginVentana() {
+  const { clientId, redirectUri } = cfg.microsoft;
   const { verifier, challenge, state } = accounts.pkce();
   const authEp = cfg.endpoints?.auth || {};
   return new Promise((resolve, reject) => {
     const w = new BrowserWindow({
       parent: win, modal: true, width: 520, height: 680, autoHideMenuBar: true,
       title: 'Iniciar sesión con Microsoft', backgroundColor: '#ffffff',
-      webPreferences: { partition: `msauth-${Date.now()}`, sandbox: true, contextIsolation: true },
+      webPreferences: { partition: 'persist:msauth', sandbox: true, contextIsolation: true },
     });
+    // Microsoft enseña una página en blanco a navegadores que no reconoce: se presenta como Chrome normal.
+    w.webContents.setUserAgent(UA_CHROME);
+    w.webContents.setWindowOpenHandler(({ url }) => { w.loadURL(url); return { action: 'deny' }; });
     let terminado = false;
     const fin = (err, val) => { if (terminado) return; terminado = true; if (!w.isDestroyed()) w.close(); if (err) reject(err); else resolve(val); };
     const revisar = (e, url) => {
@@ -113,6 +137,11 @@ function loginMicrosoft() {
     w.webContents.on('will-redirect', revisar);
     w.webContents.on('will-navigate', revisar);
     w.webContents.on('did-navigate', (e, url) => revisar(null, url));
+    w.webContents.on('did-fail-load', (_e, code, desc, url, principal) => {
+      if (!principal || code === -3 || url.startsWith(redirectUri)) return;   // -3 = cancelada (la redirección final)
+      core?.log(`Inicio de sesión: no cargó ${url} (${desc})`);
+      fin(new Error('No se pudo abrir la página de Microsoft. Revisa tu internet o el antivirus y vuelve a intentarlo.'));
+    });
     w.on('closed', () => fin(new Error('Cancelaste el inicio de sesión.')));
     w.loadURL(accounts.authorizeUrl({ clientId, redirectUri, challenge, state, endpoints: authEp }));
   });
@@ -150,6 +179,7 @@ function registrarIpc() {
 
   manejar('cuentas:offline', async (nombre) => { const c = accounts.crearOffline(String(nombre || '').trim()); await store.upsert(c); return store.list(); });
   manejar('cuentas:microsoft', async () => { const c = await loginMicrosoft(); await store.upsert(c); return store.list(); });
+  manejar('cuentas:cancelarMicrosoft', async () => { if (loginActivo) loginActivo.cancelado = true; return true; });
   manejar('cuentas:seleccionar', async (id) => { await store.select(id); return store.list(); });
   manejar('cuentas:eliminar', async (id) => { await store.remove(id); return store.list(); });
 

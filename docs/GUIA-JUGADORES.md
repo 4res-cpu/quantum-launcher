@@ -15,7 +15,16 @@ Entra en **https://github.com/TU_USUARIO/quantum-launcher/releases/latest** y de
 ## 2. Instala
 
 Abre el archivo. Como el launcher no está firmado, Windows puede mostrar *"Windows protegió su PC"*:
-pulsa **Más información → Ejecutar de todas formas**. En Mac: clic derecho sobre la app → **Abrir**.
+pulsa **Más información → Ejecutar de todas formas**.
+
+**Mac:** abre el `.dmg` y arrastra **Quantum Launcher** a **Aplicaciones**. Si al abrirlo sale
+*"está dañado"* o *"no se puede abrir"*, abre la app **Terminal** y pega esto (luego pulsa Enter):
+
+```
+xattr -cr "/Applications/Quantum Launcher.app"
+```
+
+Después ábrelo normal desde Aplicaciones. Solo hace falta la primera vez.
 
 No hace falta tener Java ni Minecraft instalados: el launcher descarga Java 21 y Minecraft 1.21.8
 de sus páginas oficiales.
@@ -24,8 +33,9 @@ de sus páginas oficiales.
 
 La primera vez se abre la ventana **Cuentas**:
 
-- **Premium:** pulsa *Iniciar sesión con Microsoft* y entra con la cuenta con la que compraste
-  Minecraft. El launcher recuerda la sesión: no tendrás que volver a ponerla.
+- **Premium:** pulsa *Iniciar sesión con Microsoft*. Se abre tu navegador en microsoft.com/link con un
+  código ya puesto (también lo ves en el launcher; si te lo pide, escríbelo). Entra con la cuenta con la que
+  compraste Minecraft y acepta. El launcher se actualiza solo y recuerda la sesión.
 - **No premium:** escribe tu nombre (de 3 a 16 caracteres; solo letras, números y `_`, sin espacios
   ni tildes) y pulsa *Añadir*.
 
