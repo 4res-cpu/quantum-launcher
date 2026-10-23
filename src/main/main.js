@@ -95,6 +95,11 @@ async function loginMicrosoft() {
     throw new Error('El inicio de sesión premium no está disponible por ahora. Puedes jugar con el modo no premium.');
   }
   const authEp = cfg.endpoints?.auth || {};
+  // 1.1.5: con NUESTRA aplicación de Azure el inicio con código (microsoft.com/link) da el error de Microsoft
+  // "aplicación de primera parte ... preautorización" (Xbox Live no acepta ese flujo para apps nuevas).
+  // La ventana de inicio de sesión sí funciona (es la que se usaba hasta la 1.1.3), así que va primero.
+  // Para volver a probar el código: "microsoft": { "usarCodigo": true } en evento.config.json.
+  if (!cfg.microsoft.usarCodigo) return loginVentana();
   let dc = null;
   try { dc = await accounts.pedirCodigoDispositivo({ clientId, endpoints: authEp }); }
   catch (e) { core?.log(`Inicio de sesión con código no disponible (${e.body?.error || e.message}); se usa la ventana.`); }
