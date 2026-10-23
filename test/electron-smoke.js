@@ -37,7 +37,7 @@ Module._load = function (req, ...rest) { return req === 'electron' ? electron : 
   fs.writeFileSync(cfgFile, JSON.stringify({ ...base, usarJavaDelSistema: false,
     urls: { manifiesto: mock.url('/remote/manifest.json'), noticias: mock.url('/remote/noticias.json') },
     servidor: { ...base.servidor, host: '127.0.0.1', puerto: await mock.startMinecraftServer({ online: 7, max: 50 }) },
-    microsoft: { ...base.microsoft, clientId: 'test-client-id' },
+    microsoft: { ...base.microsoft, clientId: 'test-client-id', usarCodigo: true },   // la prueba sigue comprobando el inicio con código
     endpoints: { auth: { token: mock.url('/ms/token'), devicecode: mock.url('/ms/devicecode'), xbl: mock.url('/xbox/user'), xsts: mock.url('/xbox/xsts'), mcLogin: mock.url('/mcs/login'), mcProfile: mock.url('/mcs/profile') },
       versionManifest: mock.url('/mojang/version_manifest_v2.json'), fabricMeta: mock.url('/fabric'), assets: mock.url('/assets'), adoptium: mock.url('/adoptium') } }));
   process.env.QUANTUM_CONFIG = cfgFile;
