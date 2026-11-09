@@ -173,7 +173,8 @@ function manejar(canal, fn) {
 
 function registrarIpc() {
   manejar('init', async () => ({
-    evento: { nombre: cfg.nombre, evento: cfg.evento, organiza: cfg.organiza, discord: cfg.discord, fechaEvento: cfg.fechaEvento, servidor: cfg.servidor.nombreVisible, ip: `${cfg.servidor.host}:${cfg.servidor.puerto}` },
+    evento: { nombre: cfg.nombre, evento: cfg.evento, organiza: cfg.organiza, discord: cfg.discord, fechaEvento: cfg.fechaEvento, servidor: cfg.servidor.nombreVisible, ip: `${cfg.servidor.host}:${cfg.servidor.puerto}`,
+      textos: cfg.textos || {}, fondos: cfg.fondos || null, logo: cfg.logo || null, gifs: cfg.gifs !== false },
     version: VERSION, portable: PORTABLE,
     hw, ram: hardware.limitesRam(hw.ramMB, cfg.ram), perfilAuto: hardware.perfilAuto(hw),
     ajustes: leerAjustes(), cuentas: store.list(), instalado: (await core.estadoInstalacion())?.packVersion || null,

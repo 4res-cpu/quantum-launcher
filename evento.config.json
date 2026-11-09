@@ -1,43 +1,66 @@
 {
-  "nombre": "Quantum Eventos",
-  "evento": "The Maze Runner",
-  "organiza": "Sala de Mando · Departamento de Eventos del clan Quantum",
-  "instancia": "quantum-maze-runner",
-
+  "nombre": "Quantum",
+  "evento": "Quantum Zombies",
+  "organiza": "Clan Quantum",
+  "instancia": "quantum-zombies",
   "minecraft": "1.21.8",
   "fabricLoader": "0.19.5",
   "java": 21,
   "usarJavaDelSistema": true,
-
   "servidor": {
-    "nombre": "§6§lQUANTUM §7· §eLobby de eventos",
-    "nombreVisible": "Lobby de eventos",
+    "nombre": "§4§l☣ §c§lQUANTUM ZOMBIES",
+    "nombreVisible": "Quantum Zombies",
     "host": "37.187.159.20",
-    "puerto": 9175
+    "puerto": 9236
   },
-  "servidoresAntiguos": ["pruebasquantum.joinsrv.xyz"],
-
+  "servidoresAntiguos": [
+    "pruebasquantum.joinsrv.xyz"
+  ],
   "discord": "https://discord.gg/srGGsHJug8",
-  "fechaEvento": "2026-11-01T00:00:00-05:00",
-
+  "fechaEvento": "2026-11-09T19:00:00-05:00",
+  "textos": {
+    "marca": "Zombies",
+    "lema1": "Supervivencia del clan Quantum",
+    "lema2": "¿Sobrevivirás a la noche?",
+    "cuentaAtras": "La infección empieza en",
+    "abierto": "El servidor está abierto: sobrevive",
+    "suerte": "¡Que no te muerdan!",
+    "noticiasSub": "Lo último del clan Quantum",
+    "cuentasSobre": "Superviviente",
+    "cuentasSub": "Elige con qué cuenta entras al apocalipsis."
+  },
+  "fondos": [
+    "zombies-1.jpg",
+    "zombies-2.jpg",
+    "zombies-3.jpg"
+  ],
+  "logo": "logo-zombies.png",
+  "gifs": false,
   "urls": {
     "manifiesto": "https://raw.githubusercontent.com/4res-cpu/quantum-datos/main/manifest.json",
     "noticias": "https://raw.githubusercontent.com/4res-cpu/quantum-datos/main/noticias.json"
   },
-
   "microsoft": {
     "clientId": "570c7fc6-9a3a-4a41-9dbf-8cb5ead6110b",
     "redirectUri": "https://login.microsoftonline.com/common/oauth2/nativeclient"
   },
-
-  "ram": { "defectoMB": 4096, "minimoMB": 3072 },
-
+  "ram": {
+    "defectoMB": 5120,
+    "minimoMB": 3072
+  },
   "opcionesIniciales": {
     "lang": "es_es",
-    "resourcePacks": ["vanilla", "fabric", "file/Quantum_Menu.zip"]
+    "resourcePacks": [
+      "vanilla",
+      "fabric"
+    ]
   },
-
-  "modsLigeros": ["AmbientSounds", "PresenceFootsteps", "fallingleaves", "particlerain", "visuality", "lambdynamiclights"],
-
+  "modsLigeros": [
+    "AmbientSounds",
+    "PresenceFootsteps",
+    "lambdynamiclights",
+    "notenoughanimations",
+    "tenseambience"
+  ],
   "jvmExtra": []
 }

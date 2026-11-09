@@ -1,8 +1,8 @@
 {
   "name": "quantum-launcher",
   "productName": "Quantum Launcher",
-  "version": "1.1.6",
-  "description": "Launcher de Minecraft del clan Quantum para el evento The Maze Runner",
+  "version": "1.2.0",
+  "description": "Launcher de Minecraft del clan Quantum",
   "author": "Clan Quantum",
   "license": "MIT",
   "private": true,

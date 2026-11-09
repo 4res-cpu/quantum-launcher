@@ -18,7 +18,7 @@
   <header class="barra">
     <div class="marca">
       <img class="marca-logo" src="../../assets/logo-quantum.png" alt="Clan Quantum">
-      <span class="marca-txt">Eventos<b>The Maze Runner</b></span>
+      <span class="marca-txt">Eventos<b id="t-marca">Quantum</b></span>
     </div>
     <div class="ventana">
       <button type="button" class="win-btn" id="win-min" aria-label="Minimizar"><svg viewBox="0 0 12 12"><path d="M2 6h8" /></svg></button>
@@ -27,7 +27,7 @@
     </div>
   </header>
 
-  <!-- Barra lateral de iconos (como un panel de mando de CRUEL) -->
+  <!-- Barra lateral de iconos -->
   <nav class="riel" aria-label="Menú">
     <button class="riel-btn" id="btn-ajustes" type="button" aria-label="Ajustes">
       <svg viewBox="0 0 24 24"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
@@ -53,11 +53,11 @@
   </button>
 
   <main class="escena">
-    <img class="logo-evento" src="../../assets/logo-evento.png" alt="The Maze Runner">
-    <p class="lema"><span>Evento del clan Quantum</span><i></i><span>¿Lograrás escapar?</span></p>
+    <img class="logo-evento" id="logo-evento" src="../../assets/logo-evento.png" alt="">
+    <p class="lema"><span id="t-lema1">Evento del clan Quantum</span><i></i><span id="t-lema2"></span></p>
 
     <div class="cuenta-atras" id="cuenta-atras" aria-live="polite">
-      <p class="ca-texto" id="ca-texto">Las puertas del laberinto se abren en</p>
+      <p class="ca-texto" id="ca-texto">Empieza en</p>
       <div class="ca-numeros" id="ca-numeros">
         <span class="ca-bloque"><b id="ca-d">--</b><i>Días</i></span>
         <span class="ca-sep">:</span>
@@ -82,9 +82,9 @@
     </button>
 
     <div class="estado-srv" id="estado-srv">
-      <span class="srv-titulo"><span class="led" id="led"></span><span id="srv-nombre">Lobby</span></span>
+      <span class="srv-titulo"><span class="led" id="led"></span><span id="srv-nombre">Servidor</span></span>
       <span class="srv-jugadores"><b id="srv-jug">--</b><i id="srv-max"></i></span>
-      <span class="srv-detalle" id="estado-txt">Comprobando el lobby…</span>
+      <span class="srv-detalle" id="estado-txt">Comprobando el servidor…</span>
     </div>
 
     <div class="lanzar">
@@ -101,8 +101,8 @@
   <!-- Cajón de noticias -->
   <aside class="cajon" id="cajon" aria-labelledby="t-noticias" aria-hidden="true">
     <div class="cajon-cab">
-      <img src="../../assets/gif/laberinto.gif" alt="">
-      <div><h2 id="t-noticias">Noticias del evento</h2><p>Lo último del Departamento de Eventos</p></div>
+      <img id="gif-noticias" src="../../assets/gif/laberinto.gif" alt="">
+      <div><h2 id="t-noticias">Noticias del evento</h2><p id="t-noticias-sub">Lo último del clan Quantum</p></div>
       <button class="x" id="cajon-cerrar" type="button" aria-label="Cerrar">✕</button>
     </div>
     <ol class="noticias" id="noticias"><li class="noticia vacia">Cargando noticias…</li></ol>
@@ -112,11 +112,11 @@
   <!-- Cuentas -->
   <dialog class="modal" id="dlg-cuentas" aria-labelledby="t-cuentas">
     <div class="modal-portada">
-      <img src="../../assets/gif/claro.gif" alt="">
+      <img id="gif-cuentas" src="../../assets/gif/claro.gif" alt="">
       <div>
-        <p class="sobre">Bienvenido al Claro</p>
+        <p class="sobre" id="t-cuentas-sobre">Bienvenido</p>
         <h2 id="t-cuentas">Cuentas</h2>
-        <p class="sub">Elige con qué cuenta entras al laberinto.</p>
+        <p class="sub" id="t-cuentas-sub">Elige con qué cuenta entras.</p>
       </div>
       <form method="dialog"><button class="x" aria-label="Cerrar">✕</button></form>
     </div>

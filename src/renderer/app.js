@@ -42,7 +42,7 @@ function iniciarCuentaAtras(fechaIso) {
     const ms = fecha - Date.now();
     if (ms <= 0) {
       $('cuenta-atras').classList.add('en-marcha');
-      $('ca-texto').textContent = 'El laberinto está abierto';
+      $('ca-texto').textContent = TX.abierto || 'El servidor está abierto';
       return;
     }
     const s = Math.floor(ms / 1000);
@@ -262,7 +262,7 @@ function textoVersion(pack) {
 
 quantum.on('progreso', progreso);
 quantum.on('juego', (j) => {
-  if (j.estado === 'abierto') { botonJugar('En juego', true); finProgreso('¡Suerte en el laberinto!'); }
+  if (j.estado === 'abierto') { botonJugar('En juego', true); finProgreso(TX.suerte || '¡Suerte!'); }
   if (j.estado === 'cerrado') {
     finProgreso('Listo para jugar');
     if (j.fallo) {
@@ -319,13 +319,13 @@ async function estadoServidor() {
   try {
     const s = await llamar(quantum.estadoServidor);
     $('led').className = `led ${s.online ? 'on' : 'off'}`;
-    $('srv-nombre').textContent = s.online ? 'Jugadores' : 'Lobby';
+    $('srv-nombre').textContent = s.online ? 'Jugadores' : 'Servidor';
     $('srv-jug').textContent = s.online ? s.jugadores : 'OFF';
     $('srv-max').textContent = s.online ? `/${s.max}` : '';
     $('estado-txt').textContent = s.online ? `${estado.init.evento.servidor} · ${s.latencia} ms` : `${estado.init.evento.servidor} fuera de línea`;
   } catch {
-    $('led').className = 'led off'; $('srv-nombre').textContent = 'Lobby'; $('srv-jug').textContent = '--'; $('srv-max').textContent = '';
-    $('estado-txt').textContent = 'No se pudo comprobar el lobby';
+    $('led').className = 'led off'; $('srv-nombre').textContent = 'Servidor'; $('srv-jug').textContent = '--'; $('srv-max').textContent = '';
+    $('estado-txt').textContent = 'No se pudo comprobar el servidor';
   }
 }
 
@@ -338,10 +338,11 @@ async function comprobarActualizacion() {
 }
 
 // ---------- Fondo que va cambiando ----------
+let TX = {};
 const FONDOS = ['fondo-1.jpg', 'fondo-2.jpg', 'fondo-3.jpg'];
-function iniciarFondos() {
+function iniciarFondos(lista) {
   const cont = $('fondos');
-  const diapos = FONDOS.map((f) => {
+  const diapos = (lista && lista.length ? lista : FONDOS).map((f) => {
     const d = el('div', { class: 'diapo' });
     d.style.backgroundImage = `url("../../assets/fondos/${f}")`;
     cont.append(d);
@@ -356,6 +357,19 @@ function iniciarFondos() {
   mostrar();
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   setInterval(() => { i = (i + 1) % diapos.length; mostrar(); }, 10000);
+}
+
+// ---------- Textos, logo y gifs del evento (evento.config.json) ----------
+function aplicarTextos(ev) {
+  TX = ev.textos || {};
+  const poner = (id, t) => { if (t && $(id)) $(id).textContent = t; };
+  poner('t-marca', TX.marca || ev.evento);
+  poner('t-lema1', TX.lema1); poner('t-lema2', TX.lema2);
+  poner('ca-texto', TX.cuentaAtras);
+  poner('t-noticias-sub', TX.noticiasSub);
+  poner('t-cuentas-sobre', TX.cuentasSobre); poner('t-cuentas-sub', TX.cuentasSub);
+  if (ev.logo) { $('logo-evento').src = `../../assets/${ev.logo}`; $('logo-evento').alt = ev.evento; }
+  if (!ev.gifs) for (const id of ['corre', 'gif-noticias', 'gif-cuentas']) if ($(id)) $(id).style.display = 'none';
 }
 
 // ---------- Cajón de noticias, galería y menú lateral ----------
@@ -377,13 +391,14 @@ function configurarMenus() {
 
 // ---------- Arranque ----------
 (async () => {
-  iniciarFondos();
   $('win-min').addEventListener('click', () => quantum.ventana('minimizar'));
   $('win-cerrar').addEventListener('click', () => quantum.ventana('cerrar'));
   estado.init = await llamar(quantum.init);
   estado.cuentas = estado.init.cuentas;
   estado.ajustes = estado.init.ajustes;
   document.title = `${estado.init.evento.nombre}: ${estado.init.evento.evento}`;
+  aplicarTextos(estado.init.evento);
+  iniciarFondos(estado.init.evento.fondos);
   $('version').textContent = textoVersion(estado.init.instalado);
   iniciarCuentaAtras(estado.init.evento.fechaEvento);
   pintarCuentas();
