@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Fondo: fotos del evento que se van cambiando, niebla y velo oscuro -->
+  <!-- Fondo: ilustraciones que se van cambiando, niebla y velo oscuro -->
   <div class="fondos" id="fondos" aria-hidden="true"></div>
   <div class="velo" aria-hidden="true"></div>
   <div class="niebla" aria-hidden="true"><i></i><i></i></div>
@@ -17,8 +17,8 @@
 
   <header class="barra">
     <div class="marca">
-      <img class="marca-logo" src="../../assets/logo-quantum.png" alt="Clan Quantum">
-      <span class="marca-txt">Eventos<b id="t-marca">Quantum</b></span>
+      <img class="marca-logo" src="../../assets/marca.png" alt="Quantum">
+      <span class="marca-txt"><b id="t-marca">Network</b></span>
     </div>
     <div class="ventana">
       <button type="button" class="win-btn" id="win-min" aria-label="Minimizar"><svg viewBox="0 0 12 12"><path d="M2 6h8" /></svg></button>
@@ -32,6 +32,10 @@
     <button class="riel-btn" id="btn-ajustes" type="button" aria-label="Ajustes">
       <svg viewBox="0 0 24 24"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
       <span>Ajustes</span>
+    </button>
+    <button class="riel-btn" id="btn-modulos" type="button" aria-label="Módulos">
+      <svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><path d="M17 14v6M14 17h6"/></svg>
+      <span>Módulos</span>
     </button>
     <button class="riel-btn" id="btn-noticias" type="button" aria-label="Noticias">
       <svg viewBox="0 0 24 24"><path d="M4 5h13v14H6a2 2 0 0 1-2-2V5Z"/><path d="M17 9h3v8a2 2 0 0 1-2 2h-1"/><path d="M7.5 9h6M7.5 12.5h6M7.5 16h4"/></svg>
@@ -53,8 +57,8 @@
   </button>
 
   <main class="escena">
-    <img class="logo-evento" id="logo-evento" src="../../assets/logo-evento.png" alt="">
-    <p class="lema"><span id="t-lema1">Evento del clan Quantum</span><i></i><span id="t-lema2"></span></p>
+    <img class="logo-evento" id="logo-evento" src="../../assets/logo-network.png" alt="">
+    <p class="lema"><span id="t-lema1">Quantum Network</span><i></i><span id="t-lema2"></span></p>
 
     <div class="cuenta-atras" id="cuenta-atras" aria-live="polite">
       <p class="ca-texto" id="ca-texto">Empieza en</p>
@@ -89,7 +93,7 @@
 
     <div class="lanzar">
       <div class="progreso" id="progreso">
-        <img class="corre oculto" id="corre" src="../../assets/gif/corre.gif" alt="">
+        <img class="corre" id="corre" src="../../assets/gif/progreso.gif" alt="">
         <div class="prog-texto"><span id="prog-etapa">Listo para jugar</span><span id="prog-detalle"></span></div>
         <div class="prog-barra"><div class="prog-relleno" id="prog-relleno"></div></div>
       </div>
@@ -101,8 +105,8 @@
   <!-- Cajón de noticias -->
   <aside class="cajon" id="cajon" aria-labelledby="t-noticias" aria-hidden="true">
     <div class="cajon-cab">
-      <img id="gif-noticias" src="../../assets/gif/laberinto.gif" alt="">
-      <div><h2 id="t-noticias">Noticias del evento</h2><p id="t-noticias-sub">Lo último del clan Quantum</p></div>
+      <img id="gif-noticias" src="../../assets/gif/noticias.gif" alt="">
+      <div><h2 id="t-noticias">Noticias</h2><p id="t-noticias-sub">Lo último de Quantum Network</p></div>
       <button class="x" id="cajon-cerrar" type="button" aria-label="Cerrar">✕</button>
     </div>
     <ol class="noticias" id="noticias"><li class="noticia vacia">Cargando noticias…</li></ol>
@@ -112,7 +116,7 @@
   <!-- Cuentas -->
   <dialog class="modal" id="dlg-cuentas" aria-labelledby="t-cuentas">
     <div class="modal-portada">
-      <img id="gif-cuentas" src="../../assets/gif/claro.gif" alt="">
+      <img id="gif-cuentas" src="../../assets/gif/cuentas.gif" alt="">
       <div>
         <p class="sobre" id="t-cuentas-sobre">Bienvenido</p>
         <h2 id="t-cuentas">Cuentas</h2>
@@ -155,6 +159,7 @@
       <h2 id="t-ajustes">Ajustes</h2>
       <nav class="pestanas" role="tablist">
         <button type="button" role="tab" data-tab="juego" aria-selected="true">Juego</button>
+        <button type="button" role="tab" data-tab="modulos">Módulos</button>
         <button type="button" role="tab" data-tab="memoria">Memoria</button>
         <button type="button" role="tab" data-tab="rendimiento">Rendimiento</button>
         <button type="button" role="tab" data-tab="instalacion">Instalación</button>
@@ -194,6 +199,11 @@
         <label class="interruptor"><input type="checkbox" id="modo-ligero"><span class="sw"></span><span>Modo bajo consumo <small>Desactiva efectos visuales y sonidos ambientales.</small></span></label>
         <label class="interruptor"><input type="checkbox" id="modo-seguro"><span class="sw"></span><span>Modo seguro <small>Al pulsar Jugar podrás iniciar sin paquetes de texturas. Úsalo si el juego se cierra mientras carga.</small></span></label>
       </section>
+      <section data-panel="modulos" hidden>
+        <h3>Módulos</h3>
+        <p class="sub">Enciende solo lo que usas: lo apagado no se instala y el juego va más ligero. Los cambios se aplican la próxima vez que pulses Jugar. <b id="mod-cuenta"></b></p>
+        <div class="modulos" id="modulos"></div>
+      </section>
       <section data-panel="instalacion" hidden>
         <h3>Instalación</h3>
         <p class="sub">Si el juego no abre o falta algún archivo.</p>
@@ -206,9 +216,9 @@
       </section>
       <section data-panel="acerca" hidden>
         <h3>Acerca de</h3>
-        <img class="acerca-logo" src="../../assets/logo-quantum.png" alt="Clan Quantum">
+        <img class="acerca-logo" src="../../assets/logo-network.png" alt="Quantum Network">
         <p class="ayuda" id="acerca-version"></p>
-        <p class="ayuda">Departamento de Eventos · Clan Quantum</p>
+        <p class="ayuda">Quantum Network</p>
       </section>
     </div>
   </dialog>

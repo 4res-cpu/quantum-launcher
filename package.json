@@ -1,9 +1,9 @@
 {
   "name": "quantum-launcher",
   "productName": "Quantum Launcher",
-  "version": "1.2.0",
-  "description": "Launcher de Minecraft del clan Quantum",
-  "author": "Clan Quantum",
+  "version": "1.3.0",
+  "description": "Launcher de Minecraft de Quantum Network",
+  "author": "Quantum Network",
   "license": "MIT",
   "private": true,
   "main": "src/main/main.js",
@@ -26,7 +26,7 @@
   "build": {
     "appId": "com.clanquantum.launcher",
     "productName": "Quantum Launcher",
-    "copyright": "Clan Quantum",
+    "copyright": "Quantum Network",
     "directories": { "output": "dist", "buildResources": "assets" },
     "files": ["src/**/*", "assets/**/*", "evento.config.json", "package.json"],
     "asar": true,

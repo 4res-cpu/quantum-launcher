@@ -127,6 +127,11 @@ function configurarCuentas() {
 }
 
 // ---------- Ajustes ----------
+function leerModulos() {
+  const o = {};
+  for (const i of document.querySelectorAll('#modulos input[data-mod]')) o[i.dataset.mod] = i.checked;
+  return o;
+}
 function configurarAjustes() {
   const { ram, hw, perfilAuto } = estado.init;
   const a = estado.ajustes;
@@ -153,10 +158,25 @@ function configurarAjustes() {
       ramMB: Number(r.value), ancho: Number($('ancho').value), alto: Number($('alto').value),
       pantallaCompleta: $('pantalla-completa').checked, perfil: $('perfil').value,
       modoLigero: $('modo-ligero').checked, modoSeguro: $('modo-seguro').checked, cerrarAlJugar: $('cerrar-al-jugar').checked,
+      modulos: leerModulos(),
     });
   };
   for (const id of ['ram', 'ancho', 'alto', 'pantalla-completa', 'perfil', 'modo-ligero', 'modo-seguro', 'cerrar-al-jugar']) $(id).addEventListener('change', guardar);
+  // Módulos opcionales
+  const lista = estado.init.evento.modulos || [];
+  const cont = $('modulos');
+  const contar = () => { $('mod-cuenta').textContent = lista.length ? `${cont.querySelectorAll('input:checked').length} de ${lista.length} activos.` : ''; };
+  for (const m of lista) {
+    const inp = el('input', { type: 'checkbox' }); inp.dataset.mod = m.id;
+    inp.checked = (a.modulos || {})[m.id] ?? m.defecto;
+    inp.addEventListener('change', () => { contar(); guardar(); });
+    const txt = el('span', {}, m.nombre, el('small', {}, m.desc || ''));
+    cont.append(el('label', { class: 'interruptor modulo' }, inp, el('span', { class: 'sw' }), txt));
+  }
+  contar();
+  if (!lista.length) { document.querySelector('.pestanas [data-tab="modulos"]').hidden = true; $('btn-modulos').hidden = true; }
   $('btn-ajustes').addEventListener('click', () => $('dlg-ajustes').showModal());
+  $('btn-modulos').addEventListener('click', () => { $('dlg-ajustes').showModal(); document.querySelector('.pestanas [data-tab="modulos"]').click(); });
   const tabs = [...document.querySelectorAll('.pestanas [data-tab]')];
   for (const t of tabs) {
     t.addEventListener('click', () => {
@@ -193,7 +213,7 @@ function configurarRegistro() {
 }
 
 // ---------- Progreso y jugar ----------
-const ETAPAS = { cuenta: 'Cuenta', manifiesto: 'Actualizaciones', java: 'Java', minecraft: 'Minecraft', modpack: 'Evento', juego: 'Juego', listo: 'Listo' };
+const ETAPAS = { cuenta: 'Cuenta', manifiesto: 'Actualizaciones', java: 'Java', minecraft: 'Minecraft', modpack: 'Modpack', juego: 'Juego', listo: 'Listo' };
 function progreso(p) {
   $('prog-etapa').textContent = p.texto || ETAPAS[p.etapa] || '';
   const rel = $('prog-relleno');
@@ -215,7 +235,6 @@ function finProgreso(texto) {
 function botonJugar(texto, ocupado) {
   const b = $('jugar');
   $('jugar-txt').textContent = texto; b.disabled = ocupado; b.classList.toggle('ocupado', ocupado);
-  $('corre').classList.toggle('oculto', !ocupado || texto === 'En juego');
 }
 
 // Modo seguro: pregunta si iniciar sin paquetes de texturas
@@ -256,7 +275,7 @@ async function jugar(reparar = false) {
 function textoVersion(pack) {
   const t = `Versión ${pack || '-'}\nLauncher ${estado.init.version}`;
   const a = $('acerca-version');
-  if (a) a.textContent = `Quantum Launcher ${estado.init.version}${estado.init.portable ? ' (portable)' : ''} · Evento ${pack || '-'}`;
+  if (a) a.textContent = `Quantum Launcher ${estado.init.version}${estado.init.portable ? ' (portable)' : ''} · Modpack ${pack || '-'}`;
   return t;
 }
 
@@ -332,14 +351,14 @@ async function estadoServidor() {
 async function comprobarActualizacion() {
   try {
     const u = await llamar(quantum.actualizacion);
-    if (u.hayNueva && u.instalada) aviso(`Nueva versión del evento (${u.disponible}). Se instala al pulsar Jugar.${u.nota ? ` ${u.nota}` : ''}`);
+    if (u.hayNueva && u.instalada) aviso(`Nueva versión del modpack (${u.disponible}). Se instala al pulsar Jugar.${u.nota ? ` ${u.nota}` : ''}`);
     if (u.launcherNuevo && u.launcherDescarga) aviso(`Nueva versión del launcher (${u.launcherVersion}).`, { texto: 'Descargar', accion: () => llamar(quantum.abrirEnlace, u.launcherDescarga) });
   } catch { /* sin conexión: se avisa al jugar */ }
 }
 
 // ---------- Fondo que va cambiando ----------
 let TX = {};
-const FONDOS = ['fondo-1.jpg', 'fondo-2.jpg', 'fondo-3.jpg'];
+const FONDOS = ['arte-1.jpg', 'arte-2.jpg', 'arte-3.jpg'];
 function iniciarFondos(lista) {
   const cont = $('fondos');
   const diapos = (lista && lista.length ? lista : FONDOS).map((f) => {
@@ -369,7 +388,12 @@ function aplicarTextos(ev) {
   poner('t-noticias-sub', TX.noticiasSub);
   poner('t-cuentas-sobre', TX.cuentasSobre); poner('t-cuentas-sub', TX.cuentasSub);
   if (ev.logo) { $('logo-evento').src = `../../assets/${ev.logo}`; $('logo-evento').alt = ev.evento; }
-  if (!ev.gifs) for (const id of ['corre', 'gif-noticias', 'gif-cuentas']) if ($(id)) $(id).style.display = 'none';
+  const G = { corre: 'progreso', 'gif-noticias': 'noticias', 'gif-cuentas': 'cuentas' };
+  for (const id of Object.keys(G)) {
+    if (!$(id)) continue;
+    const f = ev.gifs && typeof ev.gifs === 'object' ? ev.gifs[G[id]] : null;
+    if (f) $(id).src = `../../assets/gif/${f}`; else if (ev.gifs === false || (ev.gifs && typeof ev.gifs === 'object')) $(id).style.display = 'none';
+  }
 }
 
 // ---------- Cajón de noticias, galería y menú lateral ----------
@@ -396,7 +420,7 @@ function configurarMenus() {
   estado.init = await llamar(quantum.init);
   estado.cuentas = estado.init.cuentas;
   estado.ajustes = estado.init.ajustes;
-  document.title = `${estado.init.evento.nombre}: ${estado.init.evento.evento}`;
+  document.title = estado.init.evento.nombre === estado.init.evento.evento ? estado.init.evento.nombre : `${estado.init.evento.nombre}: ${estado.init.evento.evento}`;
   aplicarTextos(estado.init.evento);
   iniciarFondos(estado.init.evento.fondos);
   $('version').textContent = textoVersion(estado.init.instalado);

@@ -1,41 +1,52 @@
 {
-  "nombre": "Quantum",
-  "evento": "Quantum Zombies",
-  "organiza": "Clan Quantum",
-  "instancia": "quantum-zombies",
-  "minecraft": "1.21.8",
+  "nombre": "Quantum Network",
+  "evento": "Quantum Network",
+  "organiza": "Quantum Network",
+  "instancia": "quantum-network",
+  "minecraft": "1.21.1",
   "fabricLoader": "0.19.5",
   "java": 21,
   "usarJavaDelSistema": true,
   "servidor": {
-    "nombre": "§4§l☣ §c§lQUANTUM ZOMBIES",
-    "nombreVisible": "Quantum Zombies",
+    "nombre": "§d§lQUANTUM §b§lNETWORK",
+    "nombreVisible": "Quantum Network",
     "host": "37.187.159.20",
-    "puerto": 9236
+    "puerto": 9175
   },
   "servidoresAntiguos": [
-    "pruebasquantum.joinsrv.xyz"
+    "pruebasquantum.joinsrv.xyz",
+    "quantumeventos.joinsrv.xyz",
+    "37.187.159.20:9236"
   ],
   "discord": "https://discord.gg/srGGsHJug8",
-  "fechaEvento": "2026-11-09T19:00:00-05:00",
+  "fechaEvento": "2026-11-14T18:00:00-05:00",
   "textos": {
-    "marca": "Zombies",
-    "lema1": "Supervivencia del clan Quantum",
-    "lema2": "¿Sobrevivirás a la noche?",
-    "cuentaAtras": "La infección empieza en",
-    "abierto": "El servidor está abierto: sobrevive",
-    "suerte": "¡Que no te muerdan!",
-    "noticiasSub": "Lo último del clan Quantum",
-    "cuentasSobre": "Superviviente",
-    "cuentasSub": "Elige con qué cuenta entras al apocalipsis."
+    "marca": "Network",
+    "lema1": "Cobblemon · SkyWars · Minijuegos",
+    "lema2": "Un launcher, todos los modos",
+    "cuentaAtras": "La network abre en",
+    "abierto": "La network está abierta",
+    "suerte": "¡Nos vemos dentro!",
+    "noticiasSub": "Lo último de Quantum Network",
+    "cuentasSobre": "Bienvenido a Quantum",
+    "cuentasSub": "Elige con qué cuenta entras a la network."
   },
   "fondos": [
-    "zombies-1.jpg",
-    "zombies-2.jpg",
-    "zombies-3.jpg"
+    "arte-1.jpg",
+    "arte-2.jpg",
+    "arte-3.jpg",
+    "arte-4.jpg",
+    "arte-5.jpg",
+    "arte-6.jpg",
+    "arte-7.jpg",
+    "arte-8.gif"
   ],
-  "logo": "logo-zombies.png",
-  "gifs": false,
+  "logo": "logo-network.png",
+  "gifs": {
+    "progreso": "progreso.gif",
+    "noticias": "noticias.gif",
+    "cuentas": "cuentas.gif"
+  },
   "urls": {
     "manifiesto": "https://raw.githubusercontent.com/4res-cpu/quantum-datos/main/manifest.json",
     "noticias": "https://raw.githubusercontent.com/4res-cpu/quantum-datos/main/noticias.json"
@@ -46,7 +57,7 @@
   },
   "ram": {
     "defectoMB": 5120,
-    "minimoMB": 3072
+    "minimoMB": 4096
   },
   "opcionesIniciales": {
     "lang": "es_es",
@@ -56,11 +67,100 @@
     ]
   },
   "modsLigeros": [
-    "AmbientSounds",
-    "PresenceFootsteps",
-    "lambdynamiclights",
+    "particlerain",
+    "visuality",
+    "wakes",
+    "better-clouds",
+    "SubtleEffects",
     "notenoughanimations",
-    "tenseambience"
+    "eating-animation"
   ],
-  "jvmExtra": []
+  "jvmExtra": [
+    "-XX:+UseG1GC",
+    "-XX:+ParallelRefProcEnabled",
+    "-XX:MaxGCPauseMillis=200",
+    "-XX:+UnlockExperimentalVMOptions",
+    "-XX:+DisableExplicitGC",
+    "-XX:G1NewSizePercent=30",
+    "-XX:G1MaxNewSizePercent=40",
+    "-XX:G1HeapRegionSize=8M",
+    "-XX:G1ReservePercent=20",
+    "-XX:InitiatingHeapOccupancyPercent=15"
+  ],
+  "modulos": [
+    {
+      "id": "shaders",
+      "nombre": "Shaders",
+      "desc": "Luces, sombras y agua realistas. Pide buena tarjeta gráfica.",
+      "defecto": false,
+      "pack": "ComplementaryReimagined_r5.9.3.zip"
+    },
+    {
+      "id": "mapa",
+      "nombre": "Minimapa y mapa",
+      "desc": "Minimapa en pantalla y mapa del mundo (tecla M).",
+      "prefijos": [
+        "xaerominimap",
+        "xaeroworldmap"
+      ]
+    },
+    {
+      "id": "voz",
+      "nombre": "Chat de voz",
+      "desc": "Habla con quien tengas cerca (tecla V).",
+      "prefijos": [
+        "voicechat"
+      ]
+    },
+    {
+      "id": "efectos",
+      "nombre": "Efectos visuales",
+      "desc": "Lluvia, partículas, estelas en el agua y nubes mejoradas.",
+      "prefijos": [
+        "particlerain",
+        "visuality",
+        "wakes",
+        "better-clouds",
+        "SubtleEffects"
+      ]
+    },
+    {
+      "id": "animaciones",
+      "nombre": "Animaciones",
+      "desc": "Animaciones extra del jugador y al comer.",
+      "prefijos": [
+        "notenoughanimations",
+        "eating-animation",
+        "chatanimation"
+      ]
+    },
+    {
+      "id": "camara",
+      "nombre": "Cámara",
+      "desc": "Cámara al hombro y zoom cinematográfico.",
+      "prefijos": [
+        "ShoulderSurfing",
+        "cinematiczoom",
+        "itemzoomer"
+      ]
+    },
+    {
+      "id": "interfaz",
+      "nombre": "Interfaz decorada",
+      "desc": "Marcos y descripciones decoradas en los objetos y logros.",
+      "prefijos": [
+        "LegendaryTooltips",
+        "ItemBorders",
+        "AdvancementPlaques"
+      ]
+    },
+    {
+      "id": "recetas",
+      "nombre": "Recetas (JEI)",
+      "desc": "Consulta cómo se fabrica cada objeto.",
+      "prefijos": [
+        "jei"
+      ]
+    }
+  ]
 }

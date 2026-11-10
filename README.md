@@ -1,6 +1,6 @@
 # Quantum Launcher
 
-Launcher de Minecraft para el evento **The Maze Runner** del clan Quantum (1 de noviembre de 2026).
+Launcher de Minecraft de **Quantum Network**.
 Un botón *Jugar* que instala Java 21, Minecraft 1.21.8, Fabric 0.19.5 y el modpack del evento, y entra
 directamente al lobby `37.187.159.20:9175`. Cuentas premium (Microsoft) y no premium.
 

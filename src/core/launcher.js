@@ -178,8 +178,31 @@ class QuantumCore {
         if ((this.cfg.modsLigeros || []).some((p) => name.toLowerCase().startsWith(p.toLowerCase()))) ligeros.add(f.path);
       }
     }
+    // Módulos opcionales (Ajustes → Módulos): lo que el jugador apaga no se instala
+    const elegidos = ajustes.modulos || {};
+    const activo = (m) => elegidos[m.id] ?? m.defecto !== false;
+    for (const m of this.cfg.modulos || []) {
+      if (activo(m) || !Array.isArray(m.prefijos)) continue;
+      for (const f of index.files) {
+        const name = path.basename(f.path).toLowerCase();
+        if (f.path.startsWith('mods/') && m.prefijos.some((p) => name.startsWith(p.toLowerCase()))) ligeros.add(f.path);
+      }
+    }
     const rep = await syncPack({ gameDir: this.dirs.game, mrpackFile: mrpack, packVersion, repair: reparar, ligeros, onProgress: this.onProgress, log: (l) => this.log(l) });
     this.log(`Modpack ${packVersion}: ${rep.descargados} descargados, ${rep.copiados} copiados, ${rep.borrados} borrados, ${rep.respetados} ajustes del jugador respetados`);
+
+    // Shaders: interruptor del módulo "shaders" (escribe enableShaders en config/iris.properties)
+    const modShaders = (this.cfg.modulos || []).find((m) => m.id === 'shaders');
+    if (modShaders) {
+      try {
+        const f = path.join(this.dirs.game, 'config', 'iris.properties');
+        let t = ''; try { t = await fsp.readFile(f, 'utf8'); } catch { /* aún no existe */ }
+        const linea = `enableShaders=${activo(modShaders)}`;
+        t = /^enableShaders=.*$/m.test(t) ? t.replace(/^enableShaders=.*$/m, linea) : `${t}${t && !t.endsWith('\n') ? '\n' : ''}${linea}\n`;
+        if (modShaders.pack && !/^shaderPack=.+$/m.test(t)) t += `shaderPack=${modShaders.pack}\n`;
+        await fsp.mkdir(path.dirname(f), { recursive: true }); await fsp.writeFile(f, t);
+      } catch (e) { this.log(`No se pudo ajustar los shaders: ${e.message}`); }
+    }
 
     // 5) servers.dat y options.txt
     const s = this.cfg.servidor;

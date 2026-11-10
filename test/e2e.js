@@ -35,6 +35,15 @@ const exists = (p) => fs.existsSync(p);
   const cfg = {
     ...base,
     usarJavaDelSistema: false, // forzar descarga de Java como en un PC sin Java
+    // Valores fijos de la prueba (independientes del evento que haya en evento.config.json)
+    instancia: 'quantum-prueba',
+    minecraft: '1.21.8', fabricLoader: '0.19.5', java: 21,
+    modulos: [], jvmExtra: [],
+    servidor: { nombre: 'Lobby', nombreVisible: 'Lobby', host: '37.187.159.20', puerto: 9175 },
+    servidoresAntiguos: ['pruebasquantum.joinsrv.xyz'],
+    ram: { defectoMB: 4096, minimoMB: 3072 },
+    opcionesIniciales: { lang: 'es_es', resourcePacks: ['vanilla', 'fabric', 'file/Quantum_Menu.zip'] },
+    modsLigeros: ['AmbientSounds', 'PresenceFootsteps', 'fallingleaves', 'particlerain', 'visuality', 'lambdynamiclights'],
     urls: { manifiesto: mock.url('/remote/manifest.json'), noticias: mock.url('/remote/noticias.json') },
     microsoft: { ...base.microsoft, clientId: 'test-client-id' },
     endpoints: {

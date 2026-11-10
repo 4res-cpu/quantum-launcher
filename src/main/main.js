@@ -68,7 +68,7 @@ function crearVentana() {
   win = new BrowserWindow({
     width: 1280, height: 760, minWidth: 1000, minHeight: 640,
     frame: false, backgroundColor: '#090c09', show: false,
-    title: `${cfg.nombre}: ${cfg.evento}`,
+    title: cfg.nombre === cfg.evento ? cfg.nombre : `${cfg.nombre}: ${cfg.evento}`,
     icon: path.join(__dirname, '..', '..', 'assets', 'icon.png'),
     webPreferences: { preload: path.join(__dirname, 'preload.js'), contextIsolation: true, sandbox: true, nodeIntegration: false },
   });
@@ -174,7 +174,7 @@ function manejar(canal, fn) {
 function registrarIpc() {
   manejar('init', async () => ({
     evento: { nombre: cfg.nombre, evento: cfg.evento, organiza: cfg.organiza, discord: cfg.discord, fechaEvento: cfg.fechaEvento, servidor: cfg.servidor.nombreVisible, ip: `${cfg.servidor.host}:${cfg.servidor.puerto}`,
-      textos: cfg.textos || {}, fondos: cfg.fondos || null, logo: cfg.logo || null, gifs: cfg.gifs !== false },
+      textos: cfg.textos || {}, fondos: cfg.fondos || null, logo: cfg.logo || null, gifs: cfg.gifs ?? null, modulos: (cfg.modulos || []).map((m) => ({ id: m.id, nombre: m.nombre, desc: m.desc, defecto: m.defecto !== false, icono: m.icono || '' })) },
     version: VERSION, portable: PORTABLE,
     hw, ram: hardware.limitesRam(hw.ramMB, cfg.ram), perfilAuto: hardware.perfilAuto(hw),
     ajustes: leerAjustes(), cuentas: store.list(), instalado: (await core.estadoInstalacion())?.packVersion || null,
