@@ -174,7 +174,7 @@ function manejar(canal, fn) {
 function registrarIpc() {
   manejar('init', async () => ({
     evento: { nombre: cfg.nombre, evento: cfg.evento, organiza: cfg.organiza, discord: cfg.discord, fechaEvento: cfg.fechaEvento, servidor: cfg.servidor.nombreVisible, ip: `${cfg.servidor.host}:${cfg.servidor.puerto}`,
-      textos: cfg.textos || {}, fondos: cfg.fondos || null, logo: cfg.logo || null, gifs: cfg.gifs ?? null, modulos: (cfg.modulos || []).map((m) => ({ id: m.id, nombre: m.nombre, desc: m.desc, defecto: m.defecto !== false, icono: m.icono || '' })) },
+      textos: cfg.textos || {}, fondos: cfg.fondos || null, logo: cfg.logo || null, gifs: cfg.gifs ?? null, modos: cfg.modos || [], modulos: (cfg.modulos || []).map((m) => ({ id: m.id, nombre: m.nombre, desc: m.desc, defecto: m.defecto !== false, icono: m.icono || '' })) },
     version: VERSION, portable: PORTABLE,
     hw, ram: hardware.limitesRam(hw.ramMB, cfg.ram), perfilAuto: hardware.perfilAuto(hw),
     ajustes: leerAjustes(), cuentas: store.list(), instalado: (await core.estadoInstalacion())?.packVersion || null,

@@ -19,7 +19,7 @@
     "37.187.159.20:9175"
   ],
   "discord": "https://discord.gg/srGGsHJug8",
-  "fechaEvento": "2026-11-14T18:00:00-05:00",
+  "fechaEvento": null,
   "textos": {
     "marca": "Network",
     "lema1": "Cobblemon · SkyWars · Minijuegos",
@@ -161,6 +161,28 @@
       "prefijos": [
         "jei"
       ]
+    }
+  ],
+  "modos": [
+    {
+      "nombre": "Cobblemon",
+      "desc": "Región de Quanta · legendarios · raids",
+      "estado": "abierto"
+    },
+    {
+      "nombre": "SkyWars",
+      "desc": "Islas, cofres y último en pie",
+      "estado": "pronto"
+    },
+    {
+      "nombre": "Duels",
+      "desc": "1 contra 1 con kits",
+      "estado": "pronto"
+    },
+    {
+      "nombre": "Build Battle",
+      "desc": "Construye contra el reloj",
+      "estado": "pronto"
     }
   ]
 }
