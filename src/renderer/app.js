@@ -55,6 +55,57 @@ function iniciarCuentaAtras(fechaIso) {
   setInterval(tick, 1000);
 }
 
+// ---------- Modalidades ----------
+function pintarModos(modos) {
+  const caja = $('modos');
+  caja.replaceChildren(...modos.map((m, i) => {
+    const abierto = m.estado === 'abierto';
+    const t = el('div', { class: `modo ${abierto ? 'abierto' : 'pronto'}`, style: `--i:${i}` },
+      el('span', { class: 'modo-estado' }, abierto ? 'Abierto' : 'Próximamente'),
+      el('b', {}, m.nombre), el('i', {}, m.desc || ''));
+    t.addEventListener('pointermove', (e) => {
+      const r = t.getBoundingClientRect();
+      t.style.setProperty('--mx', `${((e.clientX - r.left) / r.width) * 100}%`);
+      t.style.setProperty('--my', `${((e.clientY - r.top) / r.height) * 100}%`);
+      t.style.setProperty('--rx', `${((e.clientY - r.top) / r.height - 0.5) * -8}deg`);
+      t.style.setProperty('--ry', `${((e.clientX - r.left) / r.width - 0.5) * 10}deg`);
+    });
+    t.addEventListener('pointerleave', () => { t.style.setProperty('--rx', '0deg'); t.style.setProperty('--ry', '0deg'); });
+    return t;
+  }));
+}
+
+// ---------- Campo cuántico (fondo vivo) ----------
+function campoCuantico() {
+  const c = $('campo'); if (!c || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const g = c.getContext('2d'); let w = 0, h = 0, raton = { x: 0.5, y: 0.5 }, t0 = performance.now();
+  const N = 54, P = Array.from({ length: N }, (_, i) => ({ r: 0.12 + Math.random() * 0.55, a: Math.random() * 6.283, v: (0.02 + Math.random() * 0.05) * (i % 2 ? 1 : -1), e: 0.35 + Math.random() * 0.4, inc: Math.random() * 3.14, s: 0.6 + Math.random() * 1.8, salto: Math.random() * 400 }));
+  const medir = () => { w = c.width = innerWidth; h = c.height = innerHeight; };
+  medir(); addEventListener('resize', medir);
+  addEventListener('pointermove', (e) => { raton.x += (e.clientX / w - raton.x) * 0.08; raton.y += (e.clientY / h - raton.y) * 0.08; });
+  const paso = (ahora) => {
+    const t = (ahora - t0) / 1000; g.clearRect(0, 0, w, h);
+    const cx = w * (0.62 + (raton.x - 0.5) * 0.05), cy = h * (0.46 + (raton.y - 0.5) * 0.05), R = Math.min(w, h) * 0.62, pts = [];
+    for (const p of P) {
+      p.salto -= 1; if (p.salto < 0) { p.r = 0.12 + Math.random() * 0.55; p.salto = 300 + Math.random() * 500; p.flash = 1; }
+      const a = p.a + t * p.v * 6, x0 = Math.cos(a) * p.r * R, y0 = Math.sin(a) * p.r * R * p.e;
+      const x = cx + x0 * Math.cos(p.inc) - y0 * Math.sin(p.inc), y = cy + x0 * Math.sin(p.inc) + y0 * Math.cos(p.inc);
+      p.flash = (p.flash || 0) * 0.94; pts.push([x, y, p]);
+    }
+    g.lineWidth = 1;
+    for (let i = 0; i < N; i++) for (let j = i + 1; j < N; j++) {
+      const dx = pts[i][0] - pts[j][0], dy = pts[i][1] - pts[j][1], d = dx * dx + dy * dy;
+      if (d < 12000) { g.strokeStyle = `rgba(199,125,255,${(1 - d / 12000) * 0.22})`; g.beginPath(); g.moveTo(pts[i][0], pts[i][1]); g.lineTo(pts[j][0], pts[j][1]); g.stroke(); }
+    }
+    for (const [x, y, p] of pts) {
+      g.fillStyle = `rgba(233,213,255,${0.35 + p.flash * 0.65})`; g.beginPath(); g.arc(x, y, p.s + p.flash * 3, 0, 6.283); g.fill();
+      if (p.flash > 0.05) { g.strokeStyle = `rgba(199,125,255,${p.flash * 0.6})`; g.beginPath(); g.arc(x, y, 6 + (1 - p.flash) * 26, 0, 6.283); g.stroke(); }
+    }
+    requestAnimationFrame(paso);
+  };
+  requestAnimationFrame(paso);
+}
+
 // ---------- Cuentas ----------
 function cara(c, nodo) {
   nodo.replaceChildren();
@@ -424,7 +475,9 @@ function configurarMenus() {
   aplicarTextos(estado.init.evento);
   iniciarFondos(estado.init.evento.fondos);
   $('version').textContent = textoVersion(estado.init.instalado);
-  iniciarCuentaAtras(estado.init.evento.fechaEvento);
+  if (estado.init.evento.fechaEvento) { $('cuenta-atras').classList.remove('oculto'); iniciarCuentaAtras(estado.init.evento.fechaEvento); }
+  pintarModos(estado.init.evento.modos || []);
+  campoCuantico();
   pintarCuentas();
   configurarCuentas();
   configurarAjustes();
