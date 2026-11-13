@@ -55,24 +55,36 @@ function iniciarCuentaAtras(fechaIso) {
   setInterval(tick, 1000);
 }
 
-// ---------- Modalidades ----------
+// ---------- Modalidades (selector tipo menú de juego) ----------
 function pintarModos(modos) {
-  const caja = $('modos');
-  caja.replaceChildren(...modos.map((m, i) => {
+  const caja = $('modos'), det = $('modo-detalle');
+  let sel = Math.max(0, modos.findIndex((m) => m.estado === 'abierto'));
+  const filas = modos.map((m, i) => {
     const abierto = m.estado === 'abierto';
-    const t = el('div', { class: `modo ${abierto ? 'abierto' : 'pronto'}`, style: `--i:${i}` },
-      el('span', { class: 'modo-estado' }, abierto ? 'Abierto' : 'Próximamente'),
-      el('b', {}, m.nombre), el('i', {}, m.desc || ''));
-    t.addEventListener('pointermove', (e) => {
-      const r = t.getBoundingClientRect();
-      t.style.setProperty('--mx', `${((e.clientX - r.left) / r.width) * 100}%`);
-      t.style.setProperty('--my', `${((e.clientY - r.top) / r.height) * 100}%`);
-      t.style.setProperty('--rx', `${((e.clientY - r.top) / r.height - 0.5) * -8}deg`);
-      t.style.setProperty('--ry', `${((e.clientX - r.left) / r.width - 0.5) * 10}deg`);
-    });
-    t.addEventListener('pointerleave', () => { t.style.setProperty('--rx', '0deg'); t.style.setProperty('--ry', '0deg'); });
-    return t;
-  }));
+    const f = el('button', { type: 'button', class: `modo ${abierto ? 'abierto' : 'pronto'}`, role: 'option' },
+      el('span', { class: 'modo-cursor' }), el('b', {}, m.nombre),
+      el('span', { class: 'modo-estado' }, abierto ? 'Abierto' : 'Pronto'));
+    f.style.setProperty('--i', i);
+    f.addEventListener('mouseenter', () => elegir(i));
+    f.addEventListener('focus', () => elegir(i));
+    return f;
+  });
+  function elegir(i) {
+    sel = i;
+    filas.forEach((f, k) => { f.classList.toggle('activo', k === i); f.setAttribute('aria-selected', k === i ? 'true' : 'false'); });
+    const m = modos[i], abierto = m.estado === 'abierto';
+    det.classList.remove('entra'); void det.offsetWidth; det.classList.add('entra');
+    det.replaceChildren(
+      el('span', { class: 'det-num' }, String(i + 1).padStart(2, '0')),
+      el('b', {}, m.nombre), el('p', {}, m.desc || ''),
+      el('span', { class: `det-estado ${abierto ? 'abierto' : ''}` }, abierto ? 'Disponible ahora · pulsa JUGAR' : 'En construcción'));
+  }
+  caja.replaceChildren(...filas);
+  caja.addEventListener('keydown', (e) => {
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+    e.preventDefault(); const n = (sel + (e.key === 'ArrowDown' ? 1 : -1) + filas.length) % filas.length; filas[n].focus();
+  });
+  if (filas.length) elegir(sel);
 }
 
 // ---------- Campo cuántico (fondo vivo) ----------
