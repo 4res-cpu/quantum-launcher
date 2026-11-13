@@ -18,8 +18,8 @@
 
   <header class="barra">
     <div class="marca">
-      <img class="marca-logo" src="../../assets/marca.png" alt="Quantum">
-      <span class="marca-txt"><b id="t-marca">Network</b></span>
+      <img class="marca-logo" src="../../assets/icon.png" alt="">
+      <span class="marca-txt"><b>Quantum</b><i></i><span id="t-marca">Network</span></span>
     </div>
     <div class="ventana">
       <button type="button" class="win-btn" id="win-min" aria-label="Minimizar"><svg viewBox="0 0 12 12"><path d="M2 6h8" /></svg></button>
@@ -58,10 +58,14 @@
   </button>
 
   <main class="escena">
+    <svg class="runa" viewBox="0 0 400 400" aria-hidden="true">
+      <g class="runa-a"><circle cx="200" cy="200" r="188"/><circle cx="200" cy="200" r="176" class="fina"/><path d="M200 4v22M200 374v22M4 200h22M374 200h22"/><path d="M200 12l7 12-7 12-7-12zM200 364l7 12-7 12-7-12zM12 200l12-7 12 7-12 7zM364 200l12-7 12 7-12 7z" class="llena"/></g>
+      <g class="runa-b"><circle cx="200" cy="200" r="150" class="trazos"/><path d="M94 94l18 18M306 94l-18 18M94 306l18-18M306 306l-18-18"/></g>
+    </svg>
     <img class="logo-evento" id="logo-evento" src="../../assets/logo-network.png" alt="">
     <p class="lema"><span id="t-lema1">Quantum Network</span><i></i><span id="t-lema2"></span></p>
 
-    <div class="modos" id="modos"></div>
+    <div class="selector"><div class="modos" id="modos" role="listbox" aria-label="Modalidades"></div><div class="modo-detalle" id="modo-detalle"></div></div>
 
     <div class="cuenta-atras oculto" id="cuenta-atras" aria-live="polite">
       <p class="ca-texto" id="ca-texto">Empieza en</p>
