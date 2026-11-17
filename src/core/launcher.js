@@ -250,9 +250,16 @@ class QuantumCore {
       const f = index.files.find((x) => x.path === `mods/${nombre}`);
       if (f && f.env && f.env.server !== 'required') ligeros.add(f.path);
     }
+    const packAnterior = (await this.estadoInstalacion())?.packVersion || null;
     const rep = await syncPack({ gameDir: this.dirs.game, mrpackFile: mrpack, packVersion, repair: reparar, ligeros, onProgress: this.onProgress, log: (l) => this.log(l) });
     this.log(`Modpack ${packVersion}: ${rep.descargados} descargados, ${rep.copiados} copiados, ${rep.borrados} borrados, ${rep.respetados} ajustes del jugador respetados`);
 
+    // Al cambiar el modpack, Cobblemon tiene que volver a generar su motor de combates (Showdown):
+    // una copia vieja hace que mods como Raid Dens crasheen al abrir un mundo.
+    if (packAnterior && packAnterior !== packVersion) {
+      await fsp.rm(path.join(this.dirs.game, 'showdown'), { recursive: true, force: true }).catch(() => {});
+      this.log('Motor de combates de Cobblemon regenerado por cambio de modpack');
+    }
     await this.antitrampas(index, overrides);
 
     // Shaders: interruptor del módulo "shaders" (escribe enableShaders en config/iris.properties)
