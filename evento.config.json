@@ -234,7 +234,7 @@
   "ilustraciones": [
     {
       "id": "umbreon",
-      "archivo": "umbreon.jpg",
+      "archivo": "umbreon.webp",
       "video": "umbreon.webm",
       "titulo": "Umbreon",
       "autor": "ownyousumer",
@@ -242,14 +242,14 @@
     },
     {
       "id": "legendarios",
-      "archivo": "legendarios.jpg",
+      "archivo": "legendarios.webp",
       "titulo": "Legendarios de Hoenn",
       "autor": "ownyousumer",
       "color": "#050a19"
     },
     {
       "id": "lugia-sombra",
-      "archivo": "lugia-sombra.jpg",
+      "archivo": "lugia-sombra.webp",
       "video": "lugia-sombra.webm",
       "titulo": "Lugia Oscuro",
       "autor": "ownyousumer",
@@ -257,7 +257,7 @@
     },
     {
       "id": "arceus",
-      "archivo": "arceus.jpg",
+      "archivo": "arceus.webp",
       "titulo": "Arceus y el trío de la creación",
       "autor": "ownyousumer",
       "color": "#ede9db",
@@ -265,7 +265,7 @@
     },
     {
       "id": "metagross",
-      "archivo": "metagross.jpg",
+      "archivo": "metagross.webp",
       "video": "metagross.webm",
       "titulo": "Metagross",
       "autor": "ownyousumer",

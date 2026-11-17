@@ -164,6 +164,7 @@ function mostrarIlustracion(il) {
   }
   siguiente.classList.toggle('claro', !!il.claro);
   siguiente.classList.toggle('horizontal', !!il.horizontal);
+  siguiente.style.setProperty('--fondo-arte', il.horizontal ? 'none' : `url("../../assets/ilustraciones/${il.archivo}")`);
   const mostrar = () => { siguiente.classList.add('visible'); actual.classList.remove('visible'); setTimeout(() => { if (!actual.classList.contains('visible')) actual.querySelector('video').pause(); }, 2400); };
   if (img.complete) mostrar(); else img.onload = mostrar;
   arte.capa = 1 - arte.capa;

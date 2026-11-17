@@ -113,6 +113,12 @@
    "url": "https://modrinth.com/mod/axiom"
   },
   {
+   "nombre": "Baby Legends",
+   "version": "2.4",
+   "licencia": "Todos los derechos reservados",
+   "url": "https://modrinth.com/project/baby-legends-cobblemon"
+  },
+  {
    "nombre": "BadOptimizations",
    "version": "2.4.1",
    "licencia": "MIT",
@@ -294,6 +300,12 @@
    "url": "https://modrinth.com/mod/cobblemon-leaderboards"
   },
   {
+   "nombre": "Cobblemon More Level Up Moves",
+   "version": "20.41",
+   "licencia": "Todos los derechos reservados (autor: Failsafe)",
+   "url": "https://modrinth.com/project/cobblemon-more-level-up-moves"
+  },
+  {
    "nombre": "Cobblemon PokeNav",
    "version": "2.4.2",
    "licencia": "MPL 2.0",
@@ -324,11 +336,23 @@
    "url": "https://modrinth.com/mod/cobblemon-armory"
   },
   {
+   "nombre": "Cobblemon: Horizon 'Mons",
+   "version": "1.1.1",
+   "licencia": "Todos los derechos reservados",
+   "url": "https://modrinth.com/project/cobblemon-horizon-mons"
+  },
+  {
    "nombre": "Cobblemon: Mega Showdown",
    "version": "1.3.3",
    "licencia": "MEGA SHOWDOWN LICENSE v2.1",
    "url": "https://modrinth.com/mod/cobblemon-mega-showdown",
    "tipo": "Usado con permiso del autor"
+  },
+  {
+   "nombre": "CobblemonStarlightFusion",
+   "version": "1.8.0",
+   "licencia": "Todos los derechos reservados (autor: Jenhol)",
+   "url": "https://modrinth.com/project/starlightfusion"
   },
   {
    "nombre": "COBBLEVERSE: Badges & Trophies",
@@ -443,6 +467,12 @@
    "version": "1.9.21",
    "licencia": "MIT",
    "url": "https://modrinth.com/mod/exposure"
+  },
+  {
+   "nombre": "Extra Eeveelutions",
+   "version": "1.2",
+   "licencia": "Todos los derechos reservados (autor: Cykosu)",
+   "url": "https://modrinth.com/project/extra-eeveelutions"
   },
   {
    "nombre": "Fabric API",
@@ -763,6 +793,12 @@
    "url": "https://modrinth.com/mod/particle-rain"
   },
   {
+   "nombre": "Paxi",
+   "version": "1.21.1-Fabric-5.1.3",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/project/paxi"
+  },
+  {
    "nombre": "playerAnimator",
    "version": "2.0.4+1.21.1-fabric",
    "licencia": "MIT",
@@ -1012,22 +1048,34 @@
  ],
  "servidor": [
   {
-   "nombre": "EasyAuth",
-   "version": "3.5.1",
-   "licencia": "MIT",
-   "url": "https://modrinth.com/mod/easyauth"
-  },
-  {
    "nombre": "AntiXray",
    "version": "1.4.8+1.21.1",
    "licencia": "MIT",
    "url": "https://modrinth.com/mod/anti-xray"
   },
   {
+   "nombre": "B-RTP",
+   "version": "2.1.0",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/project/blanketrtp"
+  },
+  {
    "nombre": "BlueMap",
    "version": "5.7-fabric",
    "licencia": "MIT",
    "url": "https://modrinth.com/mod/bluemap"
+  },
+  {
+   "nombre": "Champions and ZA Movepool Additions (Tectre)",
+   "version": "1.1",
+   "licencia": "MPL 2.0",
+   "url": "https://modrinth.com/project/cobblemon-champions-and-za-movepool-additions"
+  },
+  {
+   "nombre": "CobbleBattleRewards",
+   "version": "2.0.7.1",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/project/cobblebattlerewards"
   },
   {
    "nombre": "CobbleBetterNPC",
@@ -1040,6 +1088,12 @@
    "version": "1.0.2",
    "licencia": "All Rights Reserved",
    "url": "https://modrinth.com/mod/cobbledaily"
+  },
+  {
+   "nombre": "CobbleHunts",
+   "version": "1.1.2",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/project/cobblehunts"
   },
   {
    "nombre": "CobbleLibs",
@@ -1084,10 +1138,34 @@
    "url": "https://modrinth.com/mod/cobblemonnpcutils"
   },
   {
+   "nombre": "CobbleSpawnRegions",
+   "version": "1.0.8",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/project/cobblespawnregions"
+  },
+  {
+   "nombre": "E-Utils",
+   "version": "1.1.6",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/project/e-utils"
+  },
+  {
+   "nombre": "EasyAuth",
+   "version": "3.5.1",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/easyauth"
+  },
+  {
    "nombre": "Essential Commands",
    "version": "0.35.2-mc1.21",
    "licencia": "MIT",
    "url": "https://modrinth.com/mod/essential-commands"
+  },
+  {
+   "nombre": "EventAntiXray",
+   "version": "1.0.5",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/project/eventantixray"
   },
   {
    "nombre": "fabric-permissions-api",
@@ -1114,10 +1192,26 @@
    "url": "https://modrinth.com/mod/luckperms"
   },
   {
+   "nombre": "NoMonsInMyWorld",
+   "version": "1.0.3",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/project/nomonsinmyworld"
+  },
+  {
    "nombre": "Pebble's Crate",
    "version": "1.1.1-1.21.1",
    "licencia": "CC0 1.0",
    "url": "https://modrinth.com/mod/pebbles-crate"
+  },
+  {
+   "nombre": "QOL Mega Showdown Recipes",
+   "version": "1.0.0",
+   "licencia": "Todos los derechos reservados",
+   "url": "https://modrinth.com/project/qol-mega-showdown-recipes"
+  },
+  {
+   "nombre": "Quantum Net (propio)",
+   "licencia": "Quantum Network"
   },
   {
    "nombre": "ServerCore",
@@ -1154,18 +1248,56 @@
    "version": "3.1.3-1.21",
    "licencia": "GPL 3.0 only",
    "url": "https://modrinth.com/mod/textile_backup"
-  },
-  {
-   "nombre": "Quantum Net (propio)",
-   "licencia": "Quantum Network"
   }
  ],
  "paquetes": [
+  {
+   "nombre": "Animated Items",
+   "tipo": "Paquete de texturas",
+   "licencia": "Licencia del autor (ver página)",
+   "url": "https://modrinth.com/project/uBBepXuH"
+  },
+  {
+   "nombre": "CobbledStops (Quim201)",
+   "tipo": "Datapack",
+   "licencia": "CC BY 4.0",
+   "url": "https://modrinth.com/project/cobbledstops"
+  },
+  {
+   "nombre": "Cobblemon Halloween Costumes",
+   "tipo": "Datapack y texturas",
+   "licencia": "Todos los derechos reservados",
+   "url": "https://modrinth.com/project/cobblemon-halloween-customes"
+  },
+  {
+   "nombre": "Cobblemon improvedmon",
+   "tipo": "Datapack y texturas",
+   "licencia": "Todos los derechos reservados",
+   "url": "https://modrinth.com/project/cobblemon-improvedmon"
+  },
   {
    "nombre": "Cobblemon Interface",
    "tipo": "Paquete de texturas",
    "licencia": "Licencia del autor (ver página)",
    "url": "https://modrinth.com/project/gfiYlQU0"
+  },
+  {
+   "nombre": "Cobblemon: Extra Paradox Mons (Cub3x880)",
+   "tipo": "Datapack y texturas",
+   "licencia": "Todos los derechos reservados",
+   "url": "https://modrinth.com/project/extra-paradox-mons"
+  },
+  {
+   "nombre": "CobblemonMoreCosmetics",
+   "tipo": "Datapack y texturas",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/project/cobblemonmorecosmetics"
+  },
+  {
+   "nombre": "Complementary Shaders – Reimagined",
+   "tipo": "Shader",
+   "licencia": "Licencia del autor (ver página)",
+   "url": "https://modrinth.com/project/HVnmMxH1"
   },
   {
    "nombre": "E19 Cobblemon Minimap Icons",
@@ -1174,28 +1306,16 @@
    "url": "https://modrinth.com/project/Va3BanZa"
   },
   {
-   "nombre": "Fresh Animations: Player Extension",
-   "tipo": "Paquete de texturas",
-   "licencia": "Licencia del autor (ver página)",
-   "url": "https://modrinth.com/project/TAIMVZCL"
-  },
-  {
    "nombre": "Fresh Animations",
    "tipo": "Paquete de texturas",
    "licencia": "Licencia del autor (ver página)",
    "url": "https://modrinth.com/project/50dA9Sha"
   },
   {
-   "nombre": "Animated Items",
+   "nombre": "Fresh Animations: Player Extension",
    "tipo": "Paquete de texturas",
    "licencia": "Licencia del autor (ver página)",
-   "url": "https://modrinth.com/project/uBBepXuH"
-  },
-  {
-   "nombre": "Qrafty's Capitalized Font",
-   "tipo": "Paquete de texturas",
-   "licencia": "Licencia del autor (ver página)",
-   "url": "https://modrinth.com/project/FA4ebMMU"
+   "url": "https://modrinth.com/project/TAIMVZCL"
   },
   {
    "nombre": "Immersive Interfaces",
@@ -1204,10 +1324,22 @@
    "url": "https://modrinth.com/project/3sV1gvyJ"
   },
   {
-   "nombre": "Complementary Shaders – Reimagined",
-   "tipo": "Shader",
+   "nombre": "Pokopia Cosmetic Forms (Beezy)",
+   "tipo": "Datapack y texturas",
+   "licencia": "Todos los derechos reservados",
+   "url": "https://modrinth.com/project/pokopia"
+  },
+  {
+   "nombre": "Qrafty's Capitalized Font",
+   "tipo": "Paquete de texturas",
    "licencia": "Licencia del autor (ver página)",
-   "url": "https://modrinth.com/project/HVnmMxH1"
+   "url": "https://modrinth.com/project/FA4ebMMU"
+  },
+  {
+   "nombre": "Vivillon Pride Patterns",
+   "tipo": "Datapack y texturas",
+   "licencia": "MPL 2.0",
+   "url": "https://modrinth.com/project/vivillon-pride-patterns"
   }
  ],
  "launcher": [
