@@ -76,7 +76,12 @@ Module._load = function (req, ...rest) { return req === 'electron' ? electron : 
   const aj2 = await call('ajustes:guardar', { idioma: 'xx', tema: 'papel', acento: 'jade', volumen: 400, javaArgs: '-XX:+UseZGC' });
   assert.equal(aj2.idioma, 'es'); assert.equal(aj2.tema, 'papel'); assert.equal(aj2.volumen, 100);
   const est = await call('stats'); assert.equal(typeof est.totalMs, 'number');
-  const md = await call('mods:listar'); assert.ok(Array.isArray(md.mods));
+  assert.equal(aj2.acento, 'quantum');
+  const md = await call('mods:listar'); assert.ok(Array.isArray(md.pack) && md.pack.length > 0 && Array.isArray(md.jugador));
+  const md2 = await call('mods:alternar', { archivo: md.pack[0].archivo, activo: false, origen: 'pack' });
+  assert.equal(md2.pack.find((x) => x.archivo === md.pack[0].archivo).activo, false);
+  const { analizarMod } = require('../src/core/anticheat');
+  assert.equal(analizarMod(Buffer.from('no')).ok, false);
   assert.deepEqual(await call('capturas:listar'), []);
   const { argsJavaJugador } = require('../src/core/launcher');
   assert.deepEqual(argsJavaJugador('-Xmx9G -XX:+UseZGC rm -Dfoo=1'), ['-XX:+UseZGC', '-Dfoo=1']);

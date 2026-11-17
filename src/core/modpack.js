@@ -87,7 +87,7 @@ async function syncPack(opts) {
     if (f.env && f.env.client === 'unsupported') continue;
     const rel = f.path.replace(/\\/g, '/');
     const abs = zip.safeJoin(gameDir, rel);
-    wanted.set(rel, { sha1: f.hashes.sha1, origen: 'indice' });
+    wanted.set(rel, { sha1: f.hashes.sha1, origen: 'indice', servidor: (f.env && f.env.server) || 'required' });
     const off = ligeros.has(rel);
     const target = off ? `${abs}.disabled` : abs;
     const other = off ? abs : `${abs}.disabled`;

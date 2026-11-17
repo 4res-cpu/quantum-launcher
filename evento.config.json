@@ -23,12 +23,7 @@
     "lema": "Cobblemon · Región de Quanta"
   },
   "logo": "logo-network.png",
-  "gifs": {
-    "portada": null,
-    "progreso": "progreso.gif",
-    "noticias": "noticias.gif",
-    "cuentas": "cuentas.gif"
-  },
+  "gifs": null,
   "urls": {
     "manifiesto": "https://raw.githubusercontent.com/4res-cpu/quantum-datos/main/manifest.json",
     "noticias": "https://raw.githubusercontent.com/4res-cpu/quantum-datos/main/noticias.json",
@@ -222,10 +217,10 @@
     },
     {
       "id": "recetas",
-      "nombre": "Recetas (JEI)",
+      "nombre": "Recetas (EMI)",
       "desc": "Consulta cómo se fabrica cada objeto.",
       "prefijos": [
-        "jei"
+        "emi"
       ]
     }
   ],
@@ -275,6 +270,44 @@
       "titulo": "Metagross",
       "autor": "ownyousumer",
       "color": "#020b2c"
+    },
+    {
+      "id": "eevee-leafeon",
+      "archivo": "eevee-leafeon.jpg",
+      "titulo": "Bosque de Eevee y Leafeon",
+      "autor": "ownyousumer",
+      "color": "#ece4d6",
+      "claro": true,
+      "horizontal": true
+    },
+    {
+      "id": "gyarados",
+      "archivo": "gyarados.jpg",
+      "titulo": "Marea de Gyarados",
+      "autor": "ownyousumer",
+      "color": "#ece4d6",
+      "claro": true,
+      "horizontal": true
+    },
+    {
+      "id": "ampharos",
+      "archivo": "ampharos.jpg",
+      "titulo": "Ampharos bajo la luna",
+      "autor": "ownyousumer",
+      "color": "#f0dcb8",
+      "claro": true,
+      "horizontal": true,
+      "video": "ampharos.webm"
+    },
+    {
+      "id": "puente-lunar",
+      "archivo": "puente-lunar.jpg",
+      "video": "puente-lunar.webm",
+      "titulo": "Puente lunar de Quanta",
+      "autor": "ownyousumer",
+      "color": "#f0dcb8",
+      "claro": true,
+      "horizontal": true
     }
   ],
   "enlaces": {

@@ -117,6 +117,42 @@ class QuantumCore {
     try { return JSON.parse(await fsp.readFile(path.join(this.dirs.game, '.quantum', 'estado.json'), 'utf8')); } catch { return null; }
   }
 
+  /** Mods propios del jugador y revisión anti-trampas de mods, texturas y shaders. */
+  async antitrampas(index, overrides) {
+    const { analizarMod, analizarTexturas } = require('./anticheat');
+    const g = this.dirs.game;
+    const bloq = path.join(g, '.quantum', 'bloqueados');
+    const dirJ = path.join(this.dirs.data, 'mods-jugador');
+    let estado = {}; try { estado = JSON.parse(await fsp.readFile(path.join(dirJ, 'estado.json'), 'utf8')); } catch { /* */ }
+    let lista = []; try { lista = (await fsp.readdir(dirJ)).filter((f) => /\.jar$/i.test(f)); } catch { /* */ }
+    const delPack = new Set(index.files.map((f) => path.basename(f.path).toLowerCase()));
+    for (const f of lista) {
+      const e = estado[f] || (estado[f] = { activo: true });
+      if (!e.activo) continue;
+      const r = analizarMod(await fsp.readFile(path.join(dirJ, f)), f);
+      Object.assign(e, { ok: r.ok, motivo: r.motivo, nombre: r.nombre || f });
+      if (!r.ok) { this.log(`Anti-trampas: mod bloqueado ${f}: ${r.motivo}`); continue; }
+      if (delPack.has(f.toLowerCase())) continue;
+      await fsp.copyFile(path.join(dirJ, f), path.join(g, 'mods', `jugador--${f}`));
+      this.log(`Mod propio activado: ${f}`);
+    }
+    if (lista.length) await fsp.writeFile(path.join(dirJ, 'estado.json'), JSON.stringify(estado, null, 1)).catch(() => {});
+    const propios = new Set([...index.files.map((f) => f.path), ...[...overrides.keys()]]);
+    for (const [carpeta, analizar] of [['resourcepacks', true], ['shaderpacks', false]]) {
+      let fs2 = []; try { fs2 = await fsp.readdir(path.join(g, carpeta)); } catch { continue; }
+      for (const f of fs2) {
+        if (propios.has(`${carpeta}/${f}`)) continue;
+        const abs = path.join(g, carpeta, f);
+        let r = { ok: !/x-?ray|ore\s*finder/i.test(f), motivo: 'Los paquetes X-Ray están prohibidos.' };
+        if (r.ok && analizar && /\.zip$/i.test(f)) { try { r = analizarTexturas(await fsp.readFile(abs), f); } catch { /* */ } }
+        if (r.ok) continue;
+        await fsp.mkdir(bloq, { recursive: true });
+        await fsp.rename(abs, path.join(bloq, f)).catch(() => fsp.rm(abs, { recursive: true, force: true }));
+        this.log(`Anti-trampas: ${carpeta}/${f} bloqueado (${r.motivo})`);
+      }
+    }
+  }
+
   /** ¿Hay versión nueva del modpack? */
   async comprobarActualizacion() {
     const m = await this.leerManifiesto();
@@ -209,8 +245,15 @@ class QuantumCore {
         if (f.path.startsWith('mods/') && m.prefijos.some((p) => name.startsWith(p.toLowerCase()))) ligeros.add(f.path);
       }
     }
+    // Mods del modpack que el jugador apagó en la pestaña Mods (solo los que el servidor no exige)
+    for (const nombre of ajustes.modsOff || []) {
+      const f = index.files.find((x) => x.path === `mods/${nombre}`);
+      if (f && f.env && f.env.server !== 'required') ligeros.add(f.path);
+    }
     const rep = await syncPack({ gameDir: this.dirs.game, mrpackFile: mrpack, packVersion, repair: reparar, ligeros, onProgress: this.onProgress, log: (l) => this.log(l) });
     this.log(`Modpack ${packVersion}: ${rep.descargados} descargados, ${rep.copiados} copiados, ${rep.borrados} borrados, ${rep.respetados} ajustes del jugador respetados`);
+
+    await this.antitrampas(index, overrides);
 
     // Shaders: interruptor del módulo "shaders" (escribe enableShaders en config/iris.properties)
     const modShaders = (this.cfg.modulos || []).find((m) => m.id === 'shaders');

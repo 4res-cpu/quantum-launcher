@@ -5,1087 +5,929 @@
  },
  "mods": [
   {
-   "nombre": "Accessories",
-   "version": "1.1.0-beta.54+1.21.1",
-   "autores": [
-    "Blodhgarm",
-    "chyzman",
-    "Dr.Zeal"
-   ],
-   "licencia": "MIT",
-   "url": "https://modrinth.com/project/jtmvUHXj"
+   "nombre": "[EMF] Entity Model Features",
+   "version": "3.3.12-fabric-1.21",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/mod/entity-model-features"
   },
   {
-   "nombre": "Advancement Plaques",
-   "version": "1.6.8",
-   "autores": [
-    "Grend"
-   ],
-   "licencia": "CC BY-NC-ND 4.0",
-   "url": "https://modrinth.com/project/9NM0dXub"
-  },
-  {
-   "nombre": "adventure-platform-fabric",
-   "version": "5.14.2",
-   "autores": [
-    "kashike",
-    "zml",
-    "Luck",
-    "Electroid"
-   ],
-   "licencia": "MIT",
-   "url": "https://modrinth.com/project/O5VsIpQY"
-  },
-  {
-   "nombre": "Another Furniture",
-   "version": "4.0.2",
-   "autores": [
-    "Starfish Studios",
-    "Crispytwig",
-    "Synthestra"
-   ],
-   "licencia": "MIT",
-   "url": "https://modrinth.com/project/ulloLmqG"
-  },
-  {
-   "nombre": "AppleSkin",
-   "version": "3.0.6+mc1.21",
-   "autores": [
-    "squeek502"
-   ],
-   "licencia": "Unlicense",
-   "url": "https://modrinth.com/project/EsAfCjCV"
-  },
-  {
-   "nombre": "Architectury",
-   "version": "13.0.11",
-   "autores": [
-    "shedaniel"
-   ],
-   "licencia": "LGPL-3",
-   "url": "https://modrinth.com/project/lhGA9TYQ"
-  },
-  {
-   "nombre": "Athena",
-   "version": "4.0.6",
-   "autores": [
-    "ThatGravyBoat"
-   ],
-   "licencia": "MIT",
-   "url": "https://modrinth.com/project/b1ZV3DIJ"
-  },
-  {
-   "nombre": "Axiom",
-   "version": "6.1.5",
-   "autores": [
-    "Moulberry"
-   ],
-   "licencia": "All Rights Reserved",
-   "url": "https://modrinth.com/project/N6n5dqoA"
-  },
-  {
-   "nombre": "BadOptimizations",
-   "version": "2.4.1",
-   "autores": [
-    "Thosea"
-   ],
-   "licencia": "Ver página del proyecto",
-   "url": "https://modrinth.com/project/g96Z4WVZ"
-  },
-  {
-   "nombre": "Beautify",
-   "version": "3.0.0+1.21.1",
-   "autores": [
-    "Suel_ki"
-   ],
-   "licencia": "MIT",
-   "url": "https://modrinth.com/project/DhSSvaxs"
-  },
-  {
-   "nombre": "Better Clouds",
-   "version": "1.13.11+1.21.1-fabric",
-   "autores": [
-    "Qendolin",
-    "orangishcat"
-   ],
-   "licencia": "MPL-2.0",
-   "url": "https://modrinth.com/project/5srFLIaK"
-  },
-  {
-   "nombre": "Better Combat",
-   "version": "2.4.0+1.21.1",
-   "autores": [
-    "Daedelus"
-   ],
-   "licencia": "All Rights Reserved",
-   "url": "https://modrinth.com/project/5sy6g3kz"
-  },
-  {
-   "nombre": "Blabber",
-   "version": "1.8.1",
-   "autores": [
-    "Pyrofab",
-    "Sekoia"
-   ],
-   "licencia": "LGPL-3.0-or-later",
-   "url": "https://modrinth.com/project/2oRMVFgd"
-  },
-  {
-   "nombre": "Bookshelf",
-   "version": "21.1.81",
-   "autores": [
-    "Darkhax"
-   ],
-   "licencia": "LGPL 2.1",
-   "url": "https://modrinth.com/project/uy4Cnpcm"
-  },
-  {
-   "nombre": "Cardinal Components API",
-   "version": "6.1.3",
-   "autores": [
-    "UpcraftLP",
-    "Pyrofab"
-   ],
-   "licencia": "MIT",
-   "url": "https://modrinth.com/project/K01OU20C"
-  },
-  {
-   "nombre": "Catch Indicator",
-   "version": "3.0",
-   "autores": [
-    "LevelsFR"
-   ],
-   "licencia": "All Rights Reserved",
-   "url": "https://modrinth.com/project/tpTcu2PM"
-  },
-  {
-   "nombre": "Chat Heads",
-   "version": "0.15.7",
-   "autores": [
-    "dzwdz",
-    "Fourmisain"
-   ],
-   "licencia": "MPL-2.0",
-   "url": "https://modrinth.com/project/Wb5oqrBJ"
-  },
-  {
-   "nombre": "ChatAnimation",
-   "version": "1.3.5",
-   "autores": [
-    "Ezzenix"
-   ],
-   "licencia": "MIT",
-   "url": "https://modrinth.com/project/DnNYdJsx"
-  },
-  {
-   "nombre": "CinematicZoom",
-   "version": "1.3",
-   "autores": [
-    "Mel1x"
-   ],
-   "licencia": "MIT",
-   "url": "https://modrinth.com/project/LBKcRJTu"
-  },
-  {
-   "nombre": "Cloth Config v15",
-   "version": "15.0.140",
-   "autores": [
-    "shedaniel"
-   ],
-   "licencia": "GNU LGPLv3",
-   "url": "https://modrinth.com/project/9s6osm5g"
-  },
-  {
-   "nombre": "CobbleCasino",
-   "version": "1.4.0",
-   "autores": [
-    "AndrésPR"
-   ],
-   "licencia": "MIT License",
-   "url": "https://modrinth.com/project/G4gaRthC"
-  },
-  {
-   "nombre": "CobbleDollars",
-   "version": "2.0.0+Beta-6.1+1.21.1",
-   "autores": [
-    "Harmex"
-   ],
-   "licencia": "All rights reserved",
-   "url": "https://modrinth.com/project/s7N7AsqL"
-  },
-  {
-   "nombre": "CobbleFurnies",
-   "version": "1.2",
-   "autores": [
-    "LunazStudios"
-   ],
-   "licencia": "MIT",
-   "url": "https://modrinth.com/project/AXY1OO9m"
-  },
-  {
-   "nombre": "Cobblemon Battle Extras",
-   "version": "1.13.45",
-   "autores": [
-    "Raguto & Yemagh"
-   ],
-   "licencia": "All Rights Reserved",
-   "url": "https://modrinth.com/project/2iY8VFqL"
-  },
-  {
-   "nombre": "Cobblemon",
-   "version": "1.8.2+1.21.1",
-   "autores": [
-    "The Cobblemon Team"
-   ],
-   "licencia": "MPL-2.0",
-   "url": "https://modrinth.com/project/MdwFAVRL"
-  },
-  {
-   "nombre": "Cobblemon Utility+",
-   "version": "1.8.0",
-   "autores": [
-    "brendon3"
-   ],
-   "licencia": "MIT License",
-   "url": "https://modrinth.com/project/ePxok8ID"
-  },
-  {
-   "nombre": "CobblemonArmory",
-   "version": "1.5.4",
-   "autores": [
-    "JoltTheWolf"
-   ],
-   "licencia": "Copyright (c) 2026 JoltTheWolf, SPDX-License-Identifier: LicenseRef-Cobblemon-Armory",
-   "url": "https://modrinth.com/project/2GSJkNsi"
-  },
-  {
-   "nombre": "Cobblemon Raid Dens",
-   "version": "0.13.4+1.21.1",
-   "autores": [
-    "NecroSo1"
-   ],
-   "licencia": "MIT License",
-   "url": "https://modrinth.com/project/GebWh45l"
-  },
-  {
-   "nombre": "Cobblenav",
-   "version": "2.4.2",
-   "autores": [
-    "MeAlam",
-    "gatekeep06"
-   ],
-   "licencia": "MPL-2.0",
-   "url": "https://modrinth.com/project/bI8Nt3uA"
-  },
-  {
-   "nombre": "CreativeCore",
-   "version": "2.13.48",
-   "autores": [
-    "CreativeMD",
-    "AriaFreeze"
-   ],
-   "licencia": "LGPL-3.0-only",
-   "url": "https://modrinth.com/project/OsZiaDHq"
-  },
-  {
-   "nombre": "Drippy Loading Screen",
-   "version": "3.1.2",
-   "autores": [
-    "Keksuccino"
-   ],
-   "licencia": "DSMSLv3 (DON'T SNATCH MA STUFF LICENSE v3)",
-   "url": "https://modrinth.com/project/v3CYg2V9"
-  },
-  {
-   "nombre": "Easy NPC",
-   "version": "7.18.0",
-   "autores": [
-    "Markus Bordihn"
-   ],
-   "licencia": "MIT",
-   "url": "https://modrinth.com/project/Epm6R3P2"
-  },
-  {
-   "nombre": "Easy NPC (Bundle)",
-   "version": "7.18.0",
-   "autores": [
-    "Markus Bordihn"
-   ],
-   "licencia": "MIT",
-   "url": "https://modrinth.com/project/CgGEe1h3"
-  },
-  {
-   "nombre": "Easy NPC: Config UI",
-   "version": "7.18.0",
-   "autores": [
-    "Markus Bordihn"
-   ],
-   "licencia": "MIT",
-   "url": "https://modrinth.com/project/uTGjf7vA"
-  },
-  {
-   "nombre": "Eating Animation",
-   "version": "1.21+1.9.72",
-   "autores": [
-    "theone_ss",
-    "spusik_",
-    "PinkGoosik",
-    "DoctorNight1"
-   ],
-   "licencia": "MIT",
-   "url": "https://modrinth.com/project/rUgZvGzi"
-  },
-  {
-   "nombre": "ElevatorMod",
-   "version": "1.21-1.11.1",
-   "autores": [
-    "VsnGamer"
-   ],
-   "licencia": "MIT",
-   "url": "https://modrinth.com/project/hi2dSXTu"
-  },
-  {
-   "nombre": "Emojiful",
-   "version": "5.2.4",
-   "autores": [
-    "HorizonStudio"
-   ],
-   "licencia": "MIT",
-   "url": "https://modrinth.com/project/72GXx2MO"
-  },
-  {
-   "nombre": "Emotecraft: Borrow Their Emote (EBTE)",
-   "version": "1.0.2+1.21.1+fabric",
-   "autores": [
-    "ZipeStudio"
-   ],
-   "licencia": "CC-BY-ND 4.0",
-   "url": "https://modrinth.com/project/KM1YbXvb"
-  },
-  {
-   "nombre": "Emotecraft",
-   "version": "2.4.12",
-   "autores": [
-    "KosmX",
-    "dima_dencep"
-   ],
-   "licencia": "GPL3",
-   "url": "https://modrinth.com/project/pZ2wrerK"
-  },
-  {
-   "nombre": "EnchantmentDescriptions",
-   "version": "21.1.11",
-   "autores": [
-    "Darkhax"
-   ],
-   "licencia": "LGPL 2.1",
-   "url": "https://modrinth.com/project/UVtY3ZAC"
-  },
-  {
-   "nombre": "Entity Model Features",
-   "version": "3.3.12",
-   "autores": [
-    "Traben"
-   ],
-   "licencia": "LGPL-3.0",
-   "url": "https://modrinth.com/project/4I1XuqiY"
-  },
-  {
-   "nombre": "Entity Texture Features",
-   "version": "7.2.7",
-   "autores": [
-    "Traben"
-   ],
-   "licencia": "LGPL-3.0",
-   "url": "https://modrinth.com/project/BVzZfTc1"
-  },
-  {
-   "nombre": "EntityCulling",
-   "version": "1.11.3",
-   "autores": [
-    "tr7zw"
-   ],
-   "licencia": "tr7zw Protective License",
-   "url": "https://modrinth.com/project/NNAgCjsB"
-  },
-  {
-   "nombre": "Exposure",
-   "version": "1.9.19",
-   "autores": [
-    "mortuusars"
-   ],
-   "licencia": "MIT",
-   "url": "https://modrinth.com/project/hB899VmG"
-  },
-  {
-   "nombre": "Fabric API",
-   "version": "0.116.17+1.21.1",
-   "autores": [
-    "FabricMC"
-   ],
-   "licencia": "Apache-2.0",
-   "url": "https://modrinth.com/project/P7dR8mSH"
-  },
-  {
-   "nombre": "Fabric Language Kotlin",
-   "version": "1.14.2+kotlin.2.4.21",
-   "autores": [
-    "FabricMC"
-   ],
-   "licencia": "Apache-2.0",
-   "url": "https://modrinth.com/project/Ha28R6CL"
-  },
-  {
-   "nombre": "FancyMenu",
-   "version": "3.9.1",
-   "autores": [
-    "Keksuccino"
-   ],
-   "licencia": "DSMSLv3 (DON'T SNATCH MA STUFF LICENSE v3)",
-   "url": "https://modrinth.com/project/Wq5SjeWM"
-  },
-  {
-   "nombre": "Farmer's Delight",
-   "version": "1.21.1-3.3.6+refabricated",
-   "autores": [
-    "Vectorwing, ChrysanthCow, MehVahdJukaar, cassiancc"
-   ],
-   "licencia": "MIT License",
-   "url": "https://modrinth.com/project/7vxePowz"
-  },
-  {
-   "nombre": "FerriteCore",
-   "version": "7.0.3",
-   "autores": [
-    "malte0811"
-   ],
-   "licencia": "MIT",
-   "url": "https://modrinth.com/project/uXXizFIs"
-  },
-  {
-   "nombre": "Cobblemon Fight or Flight Fabric",
-   "version": "0.11.1",
-   "autores": [
-    "rufia",
-    "LyquidQrystal"
-   ],
-   "licencia": "MIT License",
-   "url": "https://modrinth.com/project/cTdIg5HZ"
-  },
-  {
-   "nombre": "Forge Config API Port",
-   "version": "21.1.6",
-   "autores": [
-    "Fuzs"
-   ],
-   "licencia": "MPL-2.0",
-   "url": "https://modrinth.com/project/ohNO6lps"
-  },
-  {
-   "nombre": "Fzzy Config",
-   "version": "0.7.7+1.21",
-   "autores": [
-    "fzzyhmstrs"
-   ],
-   "licencia": "Timefall Development Licence - Modified 1.3",
-   "url": "https://modrinth.com/project/hYykXjDp"
-  },
-  {
-   "nombre": "GeckoLib 4",
-   "version": "4.9.3",
-   "autores": [
-    "Gecko, Eliot, AzureDoom, DerToaster, Tslat, Witixin"
-   ],
-   "licencia": "MIT",
-   "url": "https://modrinth.com/project/8BmcQJ2H"
-  },
-  {
-   "nombre": "Iceberg",
-   "version": "1.3.2",
-   "autores": [
-    "Grend"
-   ],
-   "licencia": "CC BY-NC-ND 4.0",
-   "url": "https://modrinth.com/project/5faXoLqX"
-  },
-  {
-   "nombre": "ImmediatelyFast",
-   "version": "1.6.15+1.21.1",
-   "autores": [
-    "RK_01"
-   ],
-   "licencia": "LGPL-3.0-or-later",
-   "url": "https://modrinth.com/project/5ZwdcRci"
-  },
-  {
-   "nombre": "ImmersiveUI",
-   "version": "0.3.3",
-   "autores": [
-    "OctoStudios"
-   ],
-   "licencia": "All Rights Reserved",
-   "url": "https://modrinth.com/project/9wv7LuMc"
-  },
-  {
-   "nombre": "Iris",
-   "version": "1.8.14-beta.1+mc1.21.1",
-   "autores": [
-    "coderbot",
-    "IMS212",
-    "Justsnoopy30",
-    "FoundationGames"
-   ],
-   "licencia": "LGPL-3.0-only",
-   "url": "https://modrinth.com/project/YL57xq9U"
-  },
-  {
-   "nombre": "Item Borders",
-   "version": "1.2.5",
-   "autores": [
-    "Grend"
-   ],
-   "licencia": "CC BY-NC-ND 4.0",
-   "url": "https://modrinth.com/project/b1fMg6sH"
-  },
-  {
-   "nombre": "Item Zoomer",
-   "version": "2.3.0-1.21.1",
-   "autores": [
-    "iMeeTake"
-   ],
-   "licencia": "MIT",
-   "url": "https://modrinth.com/project/OgBgQ2NP"
-  },
-  {
-   "nombre": "Jade",
-   "version": "15.10.6+fabric",
-   "autores": [
-    "Snownee"
-   ],
-   "licencia": "CC-BY-NC-SA-4.0",
-   "url": "https://modrinth.com/project/nvQzSEkH"
-  },
-  {
-   "nombre": "Just Enough Items",
-   "version": "19.27.0.340",
-   "autores": [
-    "mezz"
-   ],
-   "licencia": "The MIT License (MIT)",
-   "url": "https://modrinth.com/project/u6dRKJwZ"
-  },
-  {
-   "nombre": "Konkrete",
-   "version": "1.9.9",
-   "autores": [
-    "Keksuccino"
-   ],
-   "licencia": "Apache-2.0",
-   "url": "https://modrinth.com/project/J81TRJWm"
-  },
-  {
-   "nombre": "Language Reload",
-   "version": "1.7.6+1.21.1",
-   "autores": [
-    "Jerozgen"
-   ],
-   "licencia": "MIT",
-   "url": "https://modrinth.com/project/uLbm7CG6"
-  },
-  {
-   "nombre": "Legendary Tooltips",
-   "version": "1.5.5",
-   "autores": [
-    "Grend"
-   ],
-   "licencia": "CC BY-NC-ND 4.0",
-   "url": "https://modrinth.com/project/atHH8NyV"
+   "nombre": "[ETF] Entity Texture Features",
+   "version": "7.2.7-fabric-1.21",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/mod/entitytexturefeatures"
   },
   {
    "nombre": "[Let's Do] Beachparty",
    "version": "2.1.5",
-   "autores": [
-    "Satisfy"
-   ],
-   "licencia": "Custom",
-   "url": "https://modrinth.com/project/GyKzAh3l"
+   "licencia": "custom",
+   "url": "https://modrinth.com/mod/lets-do-beachparty"
   },
   {
    "nombre": "[Let's Do] Camping",
    "version": "2.1.6",
-   "autores": [
-    "satisfy",
-    "Jason13Official"
-   ],
-   "licencia": "Custom",
-   "url": "https://modrinth.com/project/uJXTNuf0"
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/lets-do-camping"
   },
   {
    "nombre": "[Let's Do] Farm & Charm",
    "version": "1.1.29",
-   "autores": [
-    "satisfy"
-   ],
    "licencia": "Custom",
-   "url": "https://modrinth.com/project/HJetCzWo"
+   "url": "https://modrinth.com/mod/lets-do-farm-charm"
   },
   {
    "nombre": "[Let's Do] Furniture",
    "version": "1.1.10",
-   "autores": [
-    "satisfy"
-   ],
-   "licencia": "Custom",
-   "url": "https://modrinth.com/project/3JQDJrYW"
+   "licencia": "custom",
+   "url": "https://modrinth.com/mod/lets-do-furniture"
   },
   {
-   "nombre": "[Let's Do] Wilder Nature",
+   "nombre": "[Let's Do] WilderNature",
    "version": "1.1.8",
-   "autores": [
-    "satisfy",
-    "Jason13Official"
-   ],
    "licencia": "Custom",
-   "url": "https://modrinth.com/project/AAiRU4aQ"
+   "url": "https://modrinth.com/mod/lets-do-wildernature"
+  },
+  {
+   "nombre": "Accessories",
+   "version": "1.1.0-beta.54+1.21.1",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/accessories"
+  },
+  {
+   "nombre": "Advancement Plaques",
+   "version": "1.6.8",
+   "licencia": "CC BY NC ND 4.0",
+   "url": "https://modrinth.com/mod/advancement-plaques"
+  },
+  {
+   "nombre": "adventure-platform-mod",
+   "version": "5.14.2",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/adventure-platform-mod"
+  },
+  {
+   "nombre": "Another Furniture",
+   "version": "4.0.2",
+   "licencia": "Custom",
+   "url": "https://modrinth.com/mod/another-furniture"
+  },
+  {
+   "nombre": "AppleSkin",
+   "version": "3.0.6+mc1.21",
+   "licencia": "Unlicense",
+   "url": "https://modrinth.com/mod/appleskin"
+  },
+  {
+   "nombre": "Architectury API",
+   "version": "13.0.12+fabric",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/mod/architectury-api"
+  },
+  {
+   "nombre": "Asymmetric Battles API",
+   "version": "1.4.2+1.21.1",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/asymmetric-battles-api"
+  },
+  {
+   "nombre": "Athena",
+   "version": "4.0.6",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/athena-ctm"
+  },
+  {
+   "nombre": "Axiom",
+   "version": "6.1.5",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/axiom"
+  },
+  {
+   "nombre": "BadOptimizations",
+   "version": "2.4.1",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/badoptimizations"
+  },
+  {
+   "nombre": "Balm",
+   "version": "21.0.67+fabric-1.21.1",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/balm"
+  },
+  {
+   "nombre": "Beautify: Refabricated",
+   "version": "3.7.0-fabric+1.21.1",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/beautify-refabricated"
+  },
+  {
+   "nombre": "Better Clouds",
+   "version": "1.13.11+1.21.1-fabric-release",
+   "licencia": "MPL 2.0",
+   "url": "https://modrinth.com/mod/better-clouds"
+  },
+  {
+   "nombre": "Better Combat",
+   "version": "2.4.0+1.21.1-fabric",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/better-combat"
+  },
+  {
+   "nombre": "Blabber",
+   "version": "1.8.1",
+   "licencia": "LGPL 3.0 or later",
+   "url": "https://modrinth.com/mod/blabber"
+  },
+  {
+   "nombre": "Bookshelf",
+   "version": "21.1.81",
+   "licencia": "LGPL 2.1 only",
+   "url": "https://modrinth.com/mod/bookshelf-lib"
+  },
+  {
+   "nombre": "Cardinal Components API",
+   "version": "6.1.3",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/cardinal-components-api"
+  },
+  {
+   "nombre": "Catch Indicator [Cobblemon Addon]",
+   "version": "3.1.1",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/catch-indicator"
+  },
+  {
+   "nombre": "Chat Animation [Smooth Chat]",
+   "version": "1.3.5+fabric-1.21",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/chatanimation"
+  },
+  {
+   "nombre": "Chat Heads",
+   "version": "0.15.7",
+   "licencia": "MPL 2.0",
+   "url": "https://modrinth.com/mod/chat-heads"
+  },
+  {
+   "nombre": "Chunky",
+   "version": "1.4.23",
+   "licencia": "GPL 3.0 only",
+   "url": "https://modrinth.com/mod/chunky"
+  },
+  {
+   "nombre": "Cinematic Zoom (Fabric)",
+   "version": "1.4",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/cinematic-zoom-fabric"
+  },
+  {
+   "nombre": "Cloth Config API",
+   "version": "15.0.140+fabric",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/mod/cloth-config"
+  },
+  {
+   "nombre": "Cobblecasino",
+   "version": "1.4.0",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/cobblecasino"
+  },
+  {
+   "nombre": "CobbleDollars [Cobblemon Addon]",
+   "version": "2.0.0+Beta-6.1",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/cobbledollars"
+  },
+  {
+   "nombre": "CobbleFurnies",
+   "version": "1.2",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/cobblefurnies"
+  },
+  {
+   "nombre": "Cobblemon",
+   "version": "1.8.4F",
+   "licencia": "MPL 2.0",
+   "url": "https://modrinth.com/mod/cobblemon"
+  },
+  {
+   "nombre": "Cobblemon Battle Extras",
+   "version": "1.13.47",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/cobblemon-battle-extras"
+  },
+  {
+   "nombre": "Cobblemon Cities & Structures",
+   "version": "1.0.17",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/cobblemon-cities-structures"
+  },
+  {
+   "nombre": "Cobblemon EV Pool",
+   "version": "1.8.4",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/cobblemon-ev-pool"
+  },
+  {
+   "nombre": "Cobblemon Expeditions",
+   "version": "1.8.2",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/cobblemon_expeditions"
+  },
+  {
+   "nombre": "Cobblemon Fight or Flight Reborn",
+   "version": "0.11.3",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/cobblemon-fight-or-flight-reborn"
+  },
+  {
+   "nombre": "Cobblemon PokeNav",
+   "version": "2.4.2",
+   "licencia": "MPL 2.0",
+   "url": "https://modrinth.com/mod/cobblemon-pokenav"
+  },
+  {
+   "nombre": "Cobblemon Raid Dens",
+   "version": "0.14.3+1.21.1",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/cobblemonraiddens"
+  },
+  {
+   "nombre": "Cobblemon Trainer Battle Commands",
+   "version": "0.15.0-beta",
+   "licencia": "MCOML",
+   "url": "https://modrinth.com/mod/tbcs"
+  },
+  {
+   "nombre": "Cobblemon Utility+ (IVs, EVs, & More)",
+   "version": "1.8.0",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/cobblemon-utility-plus"
+  },
+  {
+   "nombre": "Cobblemon: Armory",
+   "version": "1.5.4",
+   "licencia": "Cobblemon Armory",
+   "url": "https://modrinth.com/mod/cobblemon-armory"
+  },
+  {
+   "nombre": "Cobblemon: Mega Showdown",
+   "version": "1.3.3+1.8.4+1.21.1-release",
+   "licencia": "MEGA SHOWDOWN LICENSE v2.1",
+   "url": "https://modrinth.com/mod/cobblemon-mega-showdown",
+   "tipo": "Servidor con rangos de pago: requiere permiso del autor"
+  },
+  {
+   "nombre": "COBBLEVERSE: Badges & Trophies",
+   "version": "1.3",
+   "licencia": "CC BY NC ND 4.0",
+   "url": "https://modrinth.com/mod/cobbleverse-badges"
+  },
+  {
+   "nombre": "Cobbreeding",
+   "version": "2.4.1",
+   "licencia": "MIT no AI no reupload",
+   "url": "https://modrinth.com/mod/cobbreeding"
+  },
+  {
+   "nombre": "CreativeCore",
+   "version": "2.13.54",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/mod/creativecore"
+  },
+  {
+   "nombre": "Drippy Loading Screen",
+   "version": "3.1.5-1.21.1-fabric",
+   "licencia": "DSMSLv3",
+   "url": "https://modrinth.com/mod/drippy-loading-screen"
+  },
+  {
+   "nombre": "Easy NPC",
+   "version": "7.19.0",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/easy-npc"
+  },
+  {
+   "nombre": "Easy NPC: Config UI",
+   "version": "7.19.0",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/easy-npc-config-ui"
+  },
+  {
+   "nombre": "Easy NPC: Core",
+   "version": "7.19.0",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/easy-npc-core"
+  },
+  {
+   "nombre": "Eating Animation",
+   "version": "1.9.72",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/eating-animation"
+  },
+  {
+   "nombre": "ElevatorMod",
+   "version": "1.21-1.11.1",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/elevatormod"
+  },
+  {
+   "nombre": "EMI",
+   "version": "1.1.24+1.21.1+fabric",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/emi"
+  },
+  {
+   "nombre": "Emojiful",
+   "version": "1.21-5.2.4",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/emojiful"
+  },
+  {
+   "nombre": "Emotecraft",
+   "version": "2.4.12+1.21.1-fabric",
+   "licencia": "GPL 3.0 or later",
+   "url": "https://modrinth.com/mod/emotecraft"
+  },
+  {
+   "nombre": "Emotecraft: Borrow Their Emote (EBTE)",
+   "version": "1.0.2+1.21.1+fabric",
+   "licencia": "CC BY ND 4.0",
+   "url": "https://modrinth.com/mod/emotecraft-borrow-their-emote"
+  },
+  {
+   "nombre": "Enchantment Descriptions",
+   "version": "21.1.11",
+   "licencia": "LGPL 2.1 only",
+   "url": "https://modrinth.com/mod/enchantment-descriptions"
+  },
+  {
+   "nombre": "Entity Culling",
+   "version": "1.12.1",
+   "licencia": "tr7zw Protective License",
+   "url": "https://modrinth.com/mod/entityculling"
+  },
+  {
+   "nombre": "Exposure",
+   "version": "1.9.21",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/exposure"
+  },
+  {
+   "nombre": "Fabric API",
+   "version": "0.116.18+1.21.1",
+   "licencia": "Apache 2.0",
+   "url": "https://modrinth.com/mod/fabric-api"
+  },
+  {
+   "nombre": "Fabric Language Kotlin",
+   "version": "1.14.2+kotlin.2.4.21",
+   "licencia": "Apache 2.0",
+   "url": "https://modrinth.com/mod/fabric-language-kotlin"
+  },
+  {
+   "nombre": "FancyMenu",
+   "version": "3.10.0-1.21.1-fabric",
+   "licencia": "DSMSLv3.1",
+   "url": "https://modrinth.com/mod/fancymenu"
+  },
+  {
+   "nombre": "Farmer's Delight Refabricated",
+   "version": "1.21.1-3.3.6",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/farmers-delight-refabricated"
+  },
+  {
+   "nombre": "FerriteCore",
+   "version": "7.0.3-fabric",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/ferrite-core"
+  },
+  {
+   "nombre": "Forge Config API Port",
+   "version": "v21.1.6-1.21.1-Fabric",
+   "licencia": "MPL 2.0",
+   "url": "https://modrinth.com/mod/forge-config-api-port"
+  },
+  {
+   "nombre": "Fzzy Config",
+   "version": "0.7.7+1.21",
+   "licencia": "TDL M",
+   "url": "https://modrinth.com/mod/fzzy-config"
+  },
+  {
+   "nombre": "Geckolib",
+   "version": "4.9.3",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/geckolib"
+  },
+  {
+   "nombre": "Iceberg",
+   "version": "1.3.2",
+   "licencia": "CC BY NC ND 4.0",
+   "url": "https://modrinth.com/mod/iceberg"
+  },
+  {
+   "nombre": "ImmediatelyFast",
+   "version": "1.6.15+1.21.1-fabric",
+   "licencia": "LGPL 3.0 or later",
+   "url": "https://modrinth.com/mod/immediatelyfast"
+  },
+  {
+   "nombre": "Immersive UI",
+   "version": "0.3.3",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/immersive-ui"
+  },
+  {
+   "nombre": "Iris Shaders",
+   "version": "1.8.14-beta.1+1.21.1-fabric",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/mod/iris"
+  },
+  {
+   "nombre": "Item Borders",
+   "version": "1.2.5",
+   "licencia": "CC BY NC ND 4.0",
+   "url": "https://modrinth.com/mod/item-borders"
+  },
+  {
+   "nombre": "Item Zoomer",
+   "version": "2.3.0-1.21.1",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/itemzoomer"
+  },
+  {
+   "nombre": "Jade 🔍",
+   "version": "15.10.6+fabric",
+   "licencia": "CC BY NC SA 4.0",
+   "url": "https://modrinth.com/mod/jade"
+  },
+  {
+   "nombre": "KantoNPCs",
+   "version": "1.0.7",
+   "licencia": "CobbleKanto Project Custom License",
+   "url": "https://modrinth.com/mod/kantonpcs"
+  },
+  {
+   "nombre": "Konkrete",
+   "version": "1.9.9-1.21-fabric",
+   "licencia": "Apache 2.0",
+   "url": "https://modrinth.com/mod/konkrete"
+  },
+  {
+   "nombre": "Language Reload",
+   "version": "1.7.6+1.21.1",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/language-reload"
+  },
+  {
+   "nombre": "Legendary Tooltips",
+   "version": "1.5.5",
+   "licencia": "CC BY NC ND 4.0",
+   "url": "https://modrinth.com/mod/legendary-tooltips"
   },
   {
    "nombre": "Lithium",
-   "version": "0.15.4+mc1.21.1",
-   "autores": [
-    "JellySquid",
-    "2No2Name"
-   ],
-   "licencia": "LGPL-3.0-only",
-   "url": "https://modrinth.com/project/gvQqBUqZ"
+   "version": "mc1.21.1-0.15.4-fabric",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/mod/lithium"
   },
   {
    "nombre": "Lootr",
    "version": "1.21.1-1.11.38.127",
-   "autores": [
-    "Noobanidus",
-    "ZestyBlaze",
-    "embeddedt"
-   ],
-   "licencia": "MIT License",
-   "url": "https://modrinth.com/project/EltpO5cN"
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/lootr"
   },
   {
-   "nombre": "Lootr & Cobblemon Compatibility",
-   "version": "1.21.1-0.0.0.3",
-   "autores": [
-    "Noobanidus"
-   ],
-   "licencia": "MIT License",
-   "url": "https://modrinth.com/project/ywwXJDli"
-  },
-  {
-   "nombre": "MaLiLib",
-   "version": "0.21.10",
-   "autores": [
-    "masa"
-   ],
-   "licencia": "LGPLv3",
-   "url": "https://modrinth.com/project/GcWjdA9I"
+   "nombre": "Lootrmon: Lootr & Cobblemon Gilded Chest Compatibility",
+   "version": "0.0.0.3",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/lootrmon"
   },
   {
    "nombre": "Macaw's Holidays",
    "version": "1.1.2",
-   "autores": [
-    "Sketch Macaw and Sketch Peachy"
-   ],
    "licencia": "All Rights Reserved",
-   "url": "https://modrinth.com/project/rH20L2Lp"
+   "url": "https://modrinth.com/mod/macaws-holidays"
   },
   {
-   "nombre": "Cobblemon: Mega Showdown",
-   "version": "1.3.1+1.8.2+1.21.1-release",
-   "autores": [
-    "YajatKaul"
-   ],
-   "licencia": "MEGA SHOWDOWN LICENSE v2.1",
-   "url": "https://modrinth.com/project/SszvX85I"
+   "nombre": "MaLiLib",
+   "version": "0.21.10",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/mod/malilib"
   },
   {
    "nombre": "Melody",
-   "version": "1.0.10",
-   "autores": [
-    "Keksuccino"
-   ],
+   "version": "1.0.10-1.21-fabric",
    "licencia": "MIT",
-   "url": "https://modrinth.com/project/CVT4pFB2"
-  },
-  {
-   "nombre": "MezzConfig",
-   "version": "0.6.8",
-   "autores": [
-    "mezz"
-   ],
-   "licencia": "The MIT License (MIT)",
-   "url": "https://modrinth.com/project/7tEfOcA7"
-  },
-  {
-   "nombre": "ModernFix",
-   "version": "5.25.1+mc1.21.1",
-   "autores": [
-    "embeddedt"
-   ],
-   "licencia": "LGPL-3.0",
-   "url": "https://modrinth.com/project/nmDcB62a"
+   "url": "https://modrinth.com/mod/melody"
   },
   {
    "nombre": "Mod Menu",
    "version": "11.0.5",
-   "autores": [
-    "Prospector",
-    "haykam821",
-    "TerraformersMC"
-   ],
    "licencia": "MIT",
-   "url": "https://modrinth.com/project/mOgUt4GM"
+   "url": "https://modrinth.com/mod/modmenu"
+  },
+  {
+   "nombre": "ModernFix",
+   "version": "5.25.1+mc1.21.1",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/mod/modernfix"
   },
   {
    "nombre": "Moonlight Lib",
-   "version": "1.21.1-3.7.2",
-   "autores": [
-    "MehVahdJukaar"
-   ],
-   "licencia": "Supplementaries Team License v.1.5",
-   "url": "https://modrinth.com/project/twkfQtEc"
+   "version": "1.21.1-3.8.3",
+   "licencia": "LGPL with additional dependency clause",
+   "url": "https://modrinth.com/mod/moonlight"
   },
   {
    "nombre": "MoreCobblemonTweaks",
-   "version": "1.3.6",
-   "autores": [
-    "JustAHuman"
-   ],
-   "licencia": "GPL-3.0",
-   "url": "https://modrinth.com/project/5KWlJ2HC"
+   "version": "1.3.6-fabric",
+   "licencia": "GPL 3.0 only",
+   "url": "https://modrinth.com/mod/more-cobblemon-tweaks"
   },
   {
    "nombre": "MossyLib",
    "version": "1.6.0+1.21.1+fabric",
-   "autores": [
-    "LopyMine"
-   ],
-   "licencia": "CC-BY-ND 4.0",
-   "url": "https://modrinth.com/project/ffLDUGbm"
+   "licencia": "CC BY ND 4.0",
+   "url": "https://modrinth.com/mod/mossylib"
   },
   {
    "nombre": "Mouse Tweaks",
-   "version": "2.26",
-   "autores": [
-    "Ivan Molodetskikh (YaLTeR)"
-   ],
-   "licencia": "BSD-3-Clause",
-   "url": "https://modrinth.com/project/aC3cM3Vq"
+   "version": "1.21-2.26-fabric",
+   "licencia": "BSD 3 Clause",
+   "url": "https://modrinth.com/mod/mouse-tweaks"
   },
   {
-   "nombre": "Necronomicon",
-   "version": "1.6.0",
-   "autores": [
-    "ElocinDev"
-   ],
+   "nombre": "Necronomicon API",
+   "version": "1.6.0+1.21",
    "licencia": "MIT",
-   "url": "https://modrinth.com/project/P1Kv5EAO"
+   "url": "https://modrinth.com/mod/necronomicon"
   },
   {
    "nombre": "No Chat Reports",
-   "version": "1.21.1-v2.9.1",
-   "autores": [
-    "Aizistral"
-   ],
+   "version": "Fabric-1.21.1-v2.9.1",
    "licencia": "WTFPL",
-   "url": "https://modrinth.com/project/qQyHxfxd"
+   "url": "https://modrinth.com/mod/no-chat-reports"
   },
   {
-   "nombre": "NotEnoughAnimations",
+   "nombre": "Not Enough Animations",
    "version": "1.12.7",
-   "autores": [
-    "tr7zw"
-   ],
    "licencia": "tr7zw Protective License",
-   "url": "https://modrinth.com/project/MPCX6s5C"
+   "url": "https://modrinth.com/mod/not-enough-animations"
   },
   {
-   "nombre": "OctoLib",
-   "version": "0.6.2",
-   "autores": [
-    "OctoStudios"
-   ],
+   "nombre": "Open Parties and Claims",
+   "version": "fabric-1.21.1-0.33.0",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/mod/open-parties-and-claims"
+  },
+  {
+   "nombre": "OS Cobblemon Library",
+   "version": "1.5.2",
    "licencia": "All Rights Reserved",
-   "url": "https://modrinth.com/project/RH2KUdKJ"
+   "url": "https://modrinth.com/mod/os-cobblemon-library"
   },
   {
-   "nombre": "oωo",
-   "version": "0.13.0-alpha.15+1.21",
-   "autores": [
-    "glisco"
-   ],
+   "nombre": "oωo (owo-lib)",
+   "version": "0.12.15.4+1.21",
    "licencia": "MIT",
-   "url": "https://modrinth.com/project/ccKDOlHs"
+   "url": "https://modrinth.com/mod/owo-lib"
   },
   {
    "nombre": "Packed Packs",
-   "version": "2.3.1+1.21.1",
-   "autores": [
-    "fishstiz"
-   ],
+   "version": "2.4.0+1.21.1",
    "licencia": "MIT",
-   "url": "https://modrinth.com/project/8Pq6Exn2"
+   "url": "https://modrinth.com/mod/packed-packs"
   },
   {
    "nombre": "Particle Rain",
-   "version": "4.0.3",
-   "autores": [
-    "pigcart"
-   ],
+   "version": "v4.0.3+1.21.1-fabric",
    "licencia": "MIT",
-   "url": "https://modrinth.com/project/nrikgvxm"
+   "url": "https://modrinth.com/mod/particle-rain"
   },
   {
-   "nombre": "Placeholder API",
-   "version": "2.4.2+1.21",
-   "autores": [
-    "Patbox"
-   ],
-   "licencia": "LGPLv3",
-   "url": "https://modrinth.com/project/eXts2L7r"
-  },
-  {
-   "nombre": "Player Animator",
-   "version": "2.0.4+1.21.1",
-   "autores": [
-    "KosmX"
-   ],
+   "nombre": "playerAnimator",
+   "version": "2.0.4+1.21.1-fabric",
    "licencia": "MIT",
-   "url": "https://modrinth.com/project/gedNE4y2"
+   "url": "https://modrinth.com/mod/playeranimator"
   },
   {
-   "nombre": "Pokebelt",
-   "version": "0.1.5",
-   "autores": [
-    "Dawhat"
-   ],
-   "licencia": "CC0-1.0",
-   "url": "https://modrinth.com/project/kgst0RnJ"
+   "nombre": "Pokebelt [Cobblemon]",
+   "version": "0.1.6",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/pokebelt-cobblemon"
   },
   {
    "nombre": "Pokeblocks",
    "version": "1.5.0-1.21.1",
-   "autores": [
-    "MrShawn"
-   ],
-   "licencia": "CC-BY-NC-4.0",
-   "url": "https://modrinth.com/project/hnOfcjSq"
+   "licencia": "CC BY NC 4.0",
+   "url": "https://modrinth.com/mod/pokeblocks"
   },
   {
-   "nombre": "PrickleMC",
+   "nombre": "Prickle",
    "version": "21.1.11",
-   "autores": [
-    "Darkhax"
-   ],
-   "licencia": "LGPL 2.1",
-   "url": "https://modrinth.com/project/aaRl8GiW"
+   "licencia": "LGPL 2.1 only",
+   "url": "https://modrinth.com/mod/prickle"
   },
   {
    "nombre": "Prism",
    "version": "1.0.11",
-   "autores": [
-    "Grend"
-   ],
-   "licencia": "CC BY-NC-ND 4.0",
-   "url": "https://modrinth.com/project/1OE8wbN0"
+   "licencia": "CC BY NC ND 4.0",
+   "url": "https://modrinth.com/mod/prism-lib"
   },
   {
-   "nombre": "Punchy",
-   "version": "3.1b",
-   "autores": [
-    "Punchy"
-   ],
-   "licencia": "ARR",
-   "url": "https://modrinth.com/project/8aoMKplv"
+   "nombre": "Punchy!",
+   "version": "3.2b",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/punchy-fpa"
   },
   {
-   "nombre": "quick-pack",
-   "version": "1.5.1",
-   "autores": [
-    "Drex"
-   ],
-   "licencia": "GPLv3",
-   "url": "https://modrinth.com/project/pSISfJ4O"
+   "nombre": "quick pack",
+   "version": "fabric-1.5.1+1.21.1",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/quick-pack"
+  },
+  {
+   "nombre": "Rad Gyms [Cobblemon]",
+   "version": "1.8.3_0.5.2",
+   "licencia": "GPL 3.0 only",
+   "url": "https://modrinth.com/mod/rad-gyms"
+  },
+  {
+   "nombre": "Radical Cobblemon Trainers",
+   "version": "0.19.2-beta",
+   "licencia": "MCOML",
+   "url": "https://modrinth.com/mod/rctmod"
+  },
+  {
+   "nombre": "Radical Cobblemon Trainers API",
+   "version": "0.16.2-beta",
+   "licencia": "MCOML",
+   "url": "https://modrinth.com/mod/rctapi"
   },
   {
    "nombre": "Scoreboard Overhaul",
-   "version": "1.4.1+mc1.21.0",
-   "autores": [
-    "fennifith"
-   ],
-   "licencia": "Ver página del proyecto",
-   "url": "https://modrinth.com/project/2YIQkF2v"
+   "version": "1.4.1-mc1.21.0",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/mod/scoreboard-overhaul"
+  },
+  {
+   "nombre": "ShatterLib | OctoLib",
+   "version": "0.6.3.2+1.21",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/shatterbyte-lib"
   },
   {
    "nombre": "Shoulder Surfing Reloaded",
-   "version": "5.2.0",
-   "autores": [
-    "Exopandora"
-   ],
+   "version": "1.21.1-5.3.1+fabric",
    "licencia": "MIT",
-   "url": "https://modrinth.com/project/kepjj2sy"
+   "url": "https://modrinth.com/mod/shoulder-surfing-reloaded"
   },
   {
-   "nombre": "Sodium Extra",
-   "version": "0.9.4+mc1.21.1",
-   "autores": [
-    "FlashyReese"
-   ],
-   "licencia": "LGPLv3",
-   "url": "https://modrinth.com/project/PtjYWJkn"
+   "nombre": "Simple Voice Chat",
+   "version": "fabric-1.21.1-2.6.22",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/simple-voice-chat"
   },
   {
    "nombre": "Sodium",
-   "version": "0.8.13+mc1.21.1",
-   "autores": [
-    "JellySquid (jellysquid3)"
-   ],
-   "licencia": "Polyform-Shield-1.0.0",
-   "url": "https://modrinth.com/project/AANobbMI"
+   "version": "mc1.21.1-0.8.13-fabric",
+   "licencia": "Polyform Shield 1.0.0",
+   "url": "https://modrinth.com/mod/sodium"
+  },
+  {
+   "nombre": "Sodium Extra",
+   "version": "mc1.21.1-0.9.5+fabric",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/mod/sodium-extra"
+  },
+  {
+   "nombre": "spark",
+   "version": "1.10.109-fabric",
+   "licencia": "GPL 3.0 only",
+   "url": "https://modrinth.com/mod/spark"
   },
   {
    "nombre": "Subtle Effects",
-   "version": "1.15.1",
-   "autores": [
-    "MincraftEinstein"
-   ],
-   "licencia": "All rights reserved",
-   "url": "https://modrinth.com/project/4q8UOK1d"
+   "version": "1.15.2-hotfix.1",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/subtle-effects"
+  },
+  {
+   "nombre": "Text Placeholder API",
+   "version": "2.4.2+1.21",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/mod/placeholder-api"
   },
   {
    "nombre": "Traveler's Titles",
    "version": "1.21.1-Fabric-5.1.3",
-   "autores": [
-    "YUNGNICKYOUNG"
-   ],
-   "licencia": "LGPLv3",
-   "url": "https://modrinth.com/project/JtifUr64"
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/mod/travelers-titles"
   },
   {
    "nombre": "Trinkets",
    "version": "3.10.0",
-   "autores": [
-    "Emi",
-    "C4"
-   ],
    "licencia": "MIT",
-   "url": "https://modrinth.com/project/5aaWibi9"
+   "url": "https://modrinth.com/mod/trinkets"
   },
   {
    "nombre": "Visuality",
    "version": "0.7.7+1.21",
-   "autores": [
-    "PinkGoosik"
-   ],
    "licencia": "MIT",
-   "url": "https://modrinth.com/project/rI0hvYcd"
-  },
-  {
-   "nombre": "Simple Voice Chat",
-   "version": "1.21.1-2.6.22",
-   "autores": [
-    "Max Henkel"
-   ],
-   "licencia": "All Rights Reserved",
-   "url": "https://modrinth.com/project/9eGKb6K1"
+   "url": "https://modrinth.com/mod/visuality"
   },
   {
    "nombre": "Wakes",
    "version": "0.4.1+1.21.1",
-   "autores": [
-    "Goby56"
-   ],
-   "licencia": "GPLv3",
-   "url": "https://modrinth.com/project/dlNu0RQY"
+   "licencia": "GPL 3.0 only",
+   "url": "https://modrinth.com/mod/wakes"
+  },
+  {
+   "nombre": "Waystones",
+   "version": "21.1.47+fabric-1.21.1",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/waystones"
+  },
+  {
+   "nombre": "WorldEdit",
+   "version": "7.3.8",
+   "licencia": "GPL 3.0 only",
+   "url": "https://modrinth.com/mod/worldedit"
   },
   {
    "nombre": "Xaero's Minimap",
-   "version": "26.6.0",
-   "autores": [
-    "xaero96"
-   ],
+   "version": "fabric-1.21.1-26.6.0",
    "licencia": "All Rights Reserved",
-   "url": "https://modrinth.com/project/1bokaNcj"
+   "url": "https://modrinth.com/mod/xaeros-minimap"
   },
   {
    "nombre": "Xaero's World Map",
-   "version": "1.47.0",
-   "autores": [
-    "xaero96"
-   ],
+   "version": "fabric-1.21.1-1.47.0",
    "licencia": "All Rights Reserved",
-   "url": "https://modrinth.com/project/NcUtCpym"
+   "url": "https://modrinth.com/mod/xaeros-world-map"
   },
   {
-   "nombre": "YetAnotherConfigLib",
+   "nombre": "YetAnotherConfigLib (YACL)",
    "version": "3.8.2+1.21.1-fabric",
-   "autores": [
-    "isXander"
-   ],
-   "licencia": "LGPL-3.0-or-later",
-   "url": "https://modrinth.com/project/1eAoo2KR"
+   "licencia": "LGPL 3.0 or later",
+   "url": "https://modrinth.com/mod/yacl"
   },
   {
    "nombre": "YUNG's API",
    "version": "1.21.1-Fabric-5.1.9",
-   "autores": [
-    "YUNGNICKYOUNG"
-   ],
-   "licencia": "LGPLv3",
-   "url": "https://modrinth.com/project/Ua7DFN59"
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/mod/yungs-api"
   }
  ],
  "servidor": [
   {
-   "nombre": "GTS",
-   "url": "https://modrinth.com/project/UTjx5ypK"
+   "nombre": "AntiXray",
+   "version": "1.4.8+1.21.1",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/anti-xray"
   },
   {
-   "nombre": "Hunt",
-   "url": "https://modrinth.com/project/QMAwqHhY"
+   "nombre": "BlueMap",
+   "version": "5.7-fabric",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/bluemap"
   },
   {
-   "nombre": "Cobblemon Wonder Trade",
-   "url": "https://modrinth.com/project/T6LZSJz0"
-  },
-  {
-   "nombre": "ShadowCrates",
-   "url": "https://modrinth.com/project/f136wypQ"
+   "nombre": "CobbleBetterNPC",
+   "version": "1.1.1",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/cobblebetternpc"
   },
   {
    "nombre": "CobbleDaily",
-   "url": "https://modrinth.com/project/YGEJznGu"
-  },
-  {
-   "nombre": "GooeyLibs",
-   "url": "https://modrinth.com/project/KzjvlKEN"
+   "version": "1.0.2",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/cobbledaily"
   },
   {
    "nombre": "CobbleLibs",
-   "url": "https://modrinth.com/project/kO8gQFVN"
+   "version": "1.0.7",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/cobblelibs"
+  },
+  {
+   "nombre": "CobbleMissions",
+   "version": "1.0.2",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/cobblemissions"
+  },
+  {
+   "nombre": "Cobblemon - Dex Rewards",
+   "version": "3.2.0-1.8.0",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/dex-rewards"
+  },
+  {
+   "nombre": "Cobblemon GTS",
+   "version": "2.6.1",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/cobblemon-gts"
+  },
+  {
+   "nombre": "Cobblemon Hunt",
+   "version": "1.3.1",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/cobblemon-hunt"
+  },
+  {
+   "nombre": "Cobblemon Wonder Trade(ServerOnly)",
+   "version": "1.0.0",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/cobblemon-wonder-trade-serveronly"
+  },
+  {
+   "nombre": "CobblemonNPCUtils",
+   "version": "1.1.1",
+   "licencia": "MPL 2.0",
+   "url": "https://modrinth.com/mod/cobblemonnpcutils"
+  },
+  {
+   "nombre": "Essential Commands",
+   "version": "0.35.2-mc1.21",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/essential-commands"
+  },
+  {
+   "nombre": "fabric-permissions-api",
+   "version": "0.3.1",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/fabric-permissions-api"
+  },
+  {
+   "nombre": "GooeyLibs",
+   "version": "3.1.1-Fabric",
+   "licencia": "LGPL 3.0 or later",
+   "url": "https://modrinth.com/mod/gooeylibs"
+  },
+  {
+   "nombre": "Ledger",
+   "version": "1.3.5",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/mod/ledger"
+  },
+  {
+   "nombre": "Lithostitched",
+   "version": "1.8.1-fabric-21.1",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/lithostitched"
   },
   {
    "nombre": "LuckPerms",
-   "url": "https://luckperms.net"
+   "version": "v5.4.140-fabric",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/luckperms"
   },
   {
-   "nombre": "StyledPlayerList",
+   "nombre": "Pebble's Crate",
+   "version": "1.1.1-1.21.1",
+   "licencia": "CC0 1.0",
+   "url": "https://modrinth.com/mod/pebbles-crate"
+  },
+  {
+   "nombre": "ServerCore",
+   "version": "1.5.19+1.21.1",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/servercore"
+  },
+  {
+   "nombre": "ShadowCrates",
+   "version": "2.3",
+   "licencia": "GPL 3.0 only",
+   "url": "https://modrinth.com/mod/shadowcrates"
+  },
+  {
+   "nombre": "SkiesCrates",
+   "version": "1.0.5",
+   "licencia": "MPL 2.0",
+   "url": "https://modrinth.com/mod/skiescrates"
+  },
+  {
+   "nombre": "Styled Chat",
+   "version": "2.6.1+1.21",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/mod/styled-chat"
+  },
+  {
+   "nombre": "Styled Player List",
+   "version": "3.5.1+1.21",
+   "licencia": "LGPL 3.0 only",
    "url": "https://modrinth.com/mod/styledplayerlist"
   },
   {
-   "nombre": "WorldEdit",
-   "url": "https://enginehub.org/worldedit"
+   "nombre": "Textile Backup",
+   "version": "3.1.3-1.21",
+   "licencia": "GPL 3.0 only",
+   "url": "https://modrinth.com/mod/textile_backup"
   },
   {
-   "nombre": "Blabber",
-   "url": "https://modrinth.com/mod/blabber"
+   "nombre": "Quantum Net (propio)",
+   "licencia": "Quantum Network"
   }
  ],
  "paquetes": [

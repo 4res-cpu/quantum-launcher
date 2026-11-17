@@ -9,8 +9,10 @@
 <body>
   <!-- Intro -->
   <div class="intro" id="intro" aria-hidden="true">
-    <svg class="enso" viewBox="0 0 200 200"><path d="M100 18a82 82 0 1 1-71 41" /></svg>
-    <img class="intro-logo" src="../../assets/logo-network.png" alt="">
+    <div class="intro-halo"></div>
+    <div class="intro-linea"></div>
+    <img class="intro-logo" src="../../assets/genesect.png" alt="">
+    <div class="intro-nombre"><span>Quantum</span><b>Network</b></div>
   </div>
 
   <div class="fondo-tinta" aria-hidden="true"></div>
@@ -100,19 +102,18 @@
             <svg class="chev" viewBox="0 0 12 12"><path d="M3 4.5l3 3 3-3"/></svg>
           </button>
           <div class="lanzar">
-            <div class="prog-linea"><img class="gif-progreso" id="gif-progreso" alt=""><span id="prog-etapa" data-t="listo">Listo para jugar</span><span id="prog-detalle"></span></div>
+            <div class="prog-linea"><span id="prog-etapa" data-t="listo">Listo para jugar</span><span id="prog-detalle"></span></div>
             <button type="button" class="jugar" id="jugar"><span class="jugar-relleno" id="jugar-relleno"></span><span class="jugar-txt" id="jugar-txt" data-t="jugar">Jugar</span></button>
           </div>
         </div>
       </div>
 
       <div class="galeria" id="galeria"><b id="ilus-titulo"></b><span id="ilus-autor"></span></div>
-      <img class="gif-portada oculto" id="gif-portada" alt="">
     </section>
 
     <!-- ================= NOTICIAS ================= -->
     <section class="pagina" data-pagina="noticias">
-      <header class="cab"><img class="cab-gif" id="gif-noticias" alt=""><div><h1 data-t="noticias">Noticias</h1><p data-t="noticiasSub">Lo último de Quantum Network</p></div></header>
+      <header class="cab"><div><h1 data-t="noticias">Noticias</h1><p data-t="noticiasSub">Lo último de Quantum Network</p></div></header>
       <ol class="noticias" id="noticias"><li class="vacio" data-t="cargando">Cargando…</li></ol>
     </section>
 
@@ -146,9 +147,10 @@
     <section class="pagina" data-pagina="mods">
       <header class="cab"><div><h1 data-t="mods">Mods</h1><p id="mods-sub"></p></div>
         <div class="cab-acciones"><input type="search" id="mods-buscar" data-t-ph="buscar" placeholder="Buscar"><button type="button" class="btn" id="btn-modulos" data-t="modulos">Módulos</button></div></header>
-      <div class="segmentos" role="tablist"><button type="button" role="tab" aria-selected="true" data-seg="mods" data-t="mods">Mods</button><button type="button" role="tab" aria-selected="false" data-seg="texturas" data-t="texturas">Paquetes de texturas</button></div>
+      <div class="segmentos" role="tablist"><button type="button" role="tab" aria-selected="true" data-seg="pack" data-t="modsPack">Del servidor</button><button type="button" role="tab" aria-selected="false" data-seg="jugador" data-t="misMods">Mis mods</button><button type="button" role="tab" aria-selected="false" data-seg="texturas" data-t="texturas">Paquetes de texturas</button></div>
+      <div class="antitrampas"><i data-icon="escudo"></i><div><b data-t="antiT">Anti-trampas activo</b><small data-t="antiSub">Cada mod y paquete de texturas se revisa antes de entrar. Hacks, X-Ray, radares y cámara libre se bloquean solos.</small></div><span id="anti-bloq"></span></div>
       <ul class="lista-mods" id="lista-mods"></ul>
-      <div class="fila"><button type="button" class="btn" id="btn-carpeta-mods" data-t="abrirCarpeta">Abrir carpeta</button></div>
+      <div class="fila"><button type="button" class="btn btn-acento" id="btn-anadir-mod" data-t="anadirMod">Añadir mod</button><button type="button" class="btn" id="btn-carpeta-mods" data-t="abrirCarpeta">Abrir carpeta</button></div>
     </section>
 
     <!-- ================= NORMAS ================= -->
@@ -187,7 +189,7 @@
           <div class="opcion"><div><b data-t="tema">Tema</b><small data-t="temaSub">Tinta oscura o papel claro</small></div>
             <div class="chips" id="op-tema"><button type="button" data-v="tinta" data-t="tinta">Tinta</button><button type="button" data-v="papel" data-t="papelT">Papel</button></div></div>
           <div class="opcion"><div><b data-t="acento">Color de acento</b><small data-t="acentoSub">Botones y detalles</small></div>
-            <div class="chips colores" id="op-acento"><button type="button" data-v="oro" class="c-oro" data-t-aria="oro"></button><button type="button" data-v="jade" class="c-jade" data-t-aria="jade"></button><button type="button" data-v="carmesi" class="c-carmesi" data-t-aria="carmesi"></button><button type="button" data-v="violeta" class="c-violeta" data-t-aria="violeta"></button></div></div>
+            <div class="chips colores" id="op-acento"><button type="button" data-v="quantum" class="c-quantum" data-t-aria="quantumC"></button><button type="button" data-v="oro" class="c-oro" data-t-aria="oro"></button><button type="button" data-v="carmesi" class="c-carmesi" data-t-aria="carmesi"></button><button type="button" data-v="violeta" class="c-violeta" data-t-aria="violeta"></button></div></div>
           <label class="interruptor"><input type="checkbox" id="op-ilus-animada"><span class="sw"></span><span><b data-t="ilusAnimada">Ilustraciones animadas</b><small data-t="ilusAnimadaSub">Usa la versión en movimiento cuando la haya</small></span></label>
           <label class="interruptor"><input type="checkbox" id="op-animaciones"><span class="sw"></span><span><b data-t="animaciones">Animaciones</b><small data-t="animacionesSub">Transiciones, brillo y movimiento de la interfaz</small></span></label>
           <label class="interruptor"><input type="checkbox" id="op-intro"><span class="sw"></span><span><b data-t="intro">Animación al abrir</b><small data-t="introSub">El trazo de tinta al iniciar el launcher</small></span></label>
@@ -274,7 +276,7 @@
 
   <!-- Cuentas -->
   <dialog class="modal" id="dlg-cuentas">
-    <div class="modal-cab"><img class="cab-gif" id="gif-cuentas" alt=""><div><h2 data-t="cuentas">Cuentas</h2><p data-t="cuentasSub">Elige con qué cuenta entras a Quanta.</p></div><form method="dialog"><button class="x" data-t-aria="cerrar">✕</button></form></div>
+    <div class="modal-cab"><div><h2 data-t="cuentas">Cuentas</h2><p data-t="cuentasSub">Elige con qué cuenta entras a Quanta.</p></div><form method="dialog"><button class="x" data-t-aria="cerrar">✕</button></form></div>
     <div class="cuentas-cuerpo">
       <div class="skin">
         <div class="skin-escena"><canvas id="skin-3d" width="240" height="320"></canvas><span class="skin-cargando" id="skin-cargando"></span></div>
@@ -304,15 +306,17 @@
   </dialog>
 
   <!-- Soporte -->
-  <dialog class="modal" id="dlg-soporte">
-    <div class="modal-cab"><div><h2 data-t="soporte">Soporte</h2><p data-t="soporteSub">¿Algo no funciona? Te ayudamos por Discord.</p></div><form method="dialog"><button class="x" data-t-aria="cerrar">✕</button></form></div>
+  <dialog class="modal soporte" id="dlg-soporte">
+    <div class="soporte-cab"><img src="../../assets/genesect.png" alt=""><div><h2 data-t="soporte">Soporte</h2><p data-t="soporteSub">¿Algo no funciona? Te ayudamos por Discord.</p></div><form method="dialog"><button class="x" data-t-aria="cerrar">✕</button></form></div>
     <ol class="pasos-soporte">
-      <li><b data-t="sop1">Guarda el informe técnico</b><small data-t="sop1s">Tiene lo que el staff necesita para ayudarte.</small><button type="button" class="btn" id="sop-informe" data-t="guardarInforme">Guardar informe</button></li>
-      <li><b data-t="sop2">Abre un ticket en Discord</b><small data-t="sop2s">Adjunta el archivo y cuenta qué pasó.</small><button type="button" class="btn btn-acento" id="sop-discord" data-t="abrirDiscord">Abrir Discord</button></li>
+      <li><span class="paso-n">1</span><div><b data-t="sop1">Guarda el informe técnico</b><small data-t="sop1s">Tiene lo que el staff necesita para ayudarte.</small></div><button type="button" class="btn" id="sop-informe" data-t="guardarInforme">Guardar informe</button></li>
+      <li><span class="paso-n">2</span><div><b data-t="sop2">Abre un ticket en Discord</b><small data-t="sop2s">Adjunta el archivo y cuenta qué pasó.</small></div><button type="button" class="btn btn-acento" id="sop-discord" data-t="abrirDiscord">Abrir Discord</button></li>
     </ol>
+    <h3 class="faq-t" data-t="faqT">Soluciones rápidas</h3>
     <details class="faq"><summary data-t="faq1">El juego se cierra al cargar</summary><p data-t="faq1r">Activa el modo seguro en Ajustes → Rendimiento, o sube la RAM en Ajustes → Memoria.</p></details>
     <details class="faq"><summary data-t="faq2">Va lento o con tirones</summary><p data-t="faq2r">Elige la calidad Baja, activa el modo bajo consumo y apaga los módulos que no uses.</p></details>
     <details class="faq"><summary data-t="faq3">No puedo iniciar sesión premium</summary><p data-t="faq3r">Revisa que tu cuenta de Microsoft tenga Minecraft Java y vuelve a añadirla en Cuentas.</p></details>
+    <details class="faq"><summary data-t="faq4">Un mod mío no se activa</summary><p data-t="faq4r">El sistema anti-trampas bloquea mods y texturas que dan ventaja. Mira el motivo en Mods → Mis mods.</p></details>
   </dialog>
 
   <!-- Visor de capturas -->

@@ -34,7 +34,7 @@ function send(canal, datos) { if (win && !win.isDestroyed()) win.webContents.sen
 function leerAjustes() {
   const lim = hardware.limitesRam(hw.ramMB, cfg.ram);
   const def = { ramMB: lim.recomendado, ancho: 1280, alto: 720, pantallaCompleta: false, perfil: 'auto', modoLigero: null, modoSeguro: false, conectarDirecto: true, cerrarAlJugar: false,
-    idioma: 'es', tema: 'tinta', acento: 'oro', sonidos: true, volumen: 60, animaciones: true, intro: true, ilustracion: 'rotar', ilusAnimada: true, consola: false, javaArgs: '', idiomaJuego: 'es_es' };
+    idioma: 'es', tema: 'tinta', acento: 'quantum', sonidos: true, volumen: 60, animaciones: true, intro: true, ilustracion: 'rotar', ilusAnimada: true, consola: false, javaArgs: '', idiomaJuego: 'es_es' };
   try { return { ...def, ...JSON.parse(fs.readFileSync(ajustesFile, 'utf8')) }; } catch { return def; }
 }
 function guardarAjustes(a) {
@@ -46,12 +46,13 @@ function guardarAjustes(a) {
   const de = (v, lista, d) => (lista.includes(v) ? v : d);
   limpio.idioma = de(limpio.idioma, ['es', 'en', 'pt'], 'es');
   limpio.tema = de(limpio.tema, ['tinta', 'papel'], 'tinta');
-  limpio.acento = de(limpio.acento, ['oro', 'jade', 'carmesi', 'violeta'], 'oro');
+  limpio.acento = de(limpio.acento === 'jade' ? 'quantum' : limpio.acento, ['quantum', 'oro', 'carmesi', 'violeta'], 'quantum');
   limpio.ilustracion = 'rotar';
   limpio.idiomaJuego = de(limpio.idiomaJuego, ['es_es', 'es_mx', 'en_us', 'pt_br'], 'es_es');
   limpio.volumen = Math.max(0, Math.min(100, Number(limpio.volumen) || 0));
   for (const k of ['sonidos', 'animaciones', 'intro', 'pantallaCompleta', 'cerrarAlJugar', 'conectarDirecto', 'modoSeguro', 'ilusAnimada', 'consola']) limpio[k] = !!limpio[k];
   limpio.javaArgs = String(limpio.javaArgs || '').slice(0, 1000);
+  limpio.modsOff = Array.isArray(limpio.modsOff) ? limpio.modsOff.filter((x) => typeof x === 'string').map((x) => path.basename(x)).slice(0, 300) : [];
   fs.mkdirSync(dataDir, { recursive: true });
   fs.writeFileSync(ajustesFile, JSON.stringify(limpio, null, 1));
   return limpio;
@@ -90,9 +91,40 @@ function listarCapturas() {
     return { nombre: f, fecha: new Date(t).toISOString(), miniatura };
   });
 }
+const dirJugador = () => path.join(dataDir, 'mods-jugador');
+function estadoJugador() { try { return JSON.parse(fs.readFileSync(path.join(dirJugador(), 'estado.json'), 'utf8')); } catch { return {}; } }
+function guardarEstadoJugador(e) { fs.mkdirSync(dirJugador(), { recursive: true }); fs.writeFileSync(path.join(dirJugador(), 'estado.json'), JSON.stringify(e, null, 1)); }
 function listarMods() {
-  const leer = (id, filtro) => { try { return fs.readdirSync(carpeta(id)).filter(filtro).map((f) => ({ nombre: f, kb: Math.round(fs.statSync(path.join(carpeta(id), f)).size / 1024) })); } catch { return []; } };
-  return { mods: leer('mods', (f) => /\.jar$/i.test(f)), desactivados: leer('mods', (f) => /\.jar\.disabled$/i.test(f)), texturas: leer('texturas', (f) => /\.zip$/i.test(f) || !f.includes('.')) };
+  const kb = (f) => { try { return Math.round(fs.statSync(f).size / 1024); } catch { return 0; } };
+  let estado = { files: {} }; try { estado = JSON.parse(fs.readFileSync(path.join(carpeta('juego'), '.quantum', 'estado.json'), 'utf8')); } catch { /* */ }
+  const off = new Set(leerAjustes().modsOff || []);
+  const pack = Object.entries(estado.files || {}).filter(([rel]) => /^mods\/.+\.jar$/i.test(rel)).map(([rel, v]) => {
+    const archivo = rel.slice(5);
+    return { archivo, activo: !off.has(archivo), obligatorio: v.servidor !== 'unsupported' && v.servidor !== 'optional', kb: kb(path.join(carpeta('mods'), archivo)) || kb(path.join(carpeta('mods'), `${archivo}.disabled`)) };
+  });
+  const ej = estadoJugador();
+  let jug = []; try { jug = fs.readdirSync(dirJugador()).filter((f) => /\.jar$/i.test(f)); } catch { /* */ }
+  const jugador = jug.map((f) => ({ archivo: f, activo: (ej[f] || {}).activo !== false, ok: (ej[f] || {}).ok !== false, motivo: (ej[f] || {}).motivo || '', kb: kb(path.join(dirJugador(), f)) }));
+  let bloqueados = []; try { bloqueados = fs.readdirSync(path.join(carpeta('juego'), '.quantum', 'bloqueados')); } catch { /* */ }
+  const leer = (id, filtro) => { try { return fs.readdirSync(carpeta(id)).filter(filtro).map((f) => ({ nombre: f, kb: kb(path.join(carpeta(id), f)) })); } catch { return []; } };
+  return { pack, jugador, bloqueados, texturas: leer('texturas', (f) => /\.zip$/i.test(f) || !f.includes('.')) };
+}
+async function anadirMods() {
+  const { analizarMod } = require('../core/anticheat');
+  const r = await dialog.showOpenDialog(win, { title: 'Añadir mods', filters: [{ name: 'Mods de Fabric', extensions: ['jar'] }], properties: ['openFile', 'multiSelections'] });
+  if (r.canceled) return { lista: listarMods(), resultado: [] };
+  fs.mkdirSync(dirJugador(), { recursive: true });
+  const ej = estadoJugador(); const resultado = [];
+  for (const f of r.filePaths) {
+    const nombre = path.basename(f).replace(/[^\w.+\-() ]/g, '_');
+    const a = analizarMod(fs.readFileSync(f), nombre);
+    resultado.push({ archivo: nombre, ok: a.ok, motivo: a.motivo });
+    if (!a.ok) { core?.log(`Anti-trampas: rechazado ${nombre}: ${a.motivo}`); continue; }
+    fs.copyFileSync(f, path.join(dirJugador(), nombre));
+    ej[nombre] = { activo: true, ok: true, motivo: '', nombre: a.nombre };
+  }
+  guardarEstadoJugador(ej);
+  return { lista: listarMods(), resultado };
 }
 
 const cipher = {
@@ -312,6 +344,14 @@ function registrarIpc() {
   manejar('capturas:ver', (nombre) => nativeImage.createFromPath(capturaSegura(nombre)).resize({ width: 1600, quality: 'good' }).toDataURL());
   manejar('capturas:abrir', async (nombre) => { await shell.openPath(capturaSegura(nombre)); });
   manejar('mods:listar', () => listarMods());
+  manejar('mods:anadir', () => anadirMods());
+  manejar('mods:alternar', ({ archivo, activo, origen }) => {
+    archivo = path.basename(String(archivo));
+    if (origen === 'jugador') { const e = estadoJugador(); e[archivo] = { ...(e[archivo] || {}), activo: !!activo }; guardarEstadoJugador(e); }
+    else { const off = new Set(leerAjustes().modsOff || []); if (activo) off.delete(archivo); else off.add(archivo); guardarAjustes({ modsOff: [...off] }); }
+    return listarMods();
+  });
+  manejar('mods:quitar', (archivo) => { archivo = path.basename(String(archivo)); fs.rmSync(path.join(dirJugador(), archivo), { force: true }); const e = estadoJugador(); delete e[archivo]; guardarEstadoJugador(e); return listarMods(); });
   manejar('skin:datos', () => datosSkin());
   manejar('skin:subir', (modelo) => subirSkin(modelo));
   manejar('skin:capa', (id) => ponerCapa(id || null));
@@ -330,7 +370,7 @@ function registrarIpc() {
 
   manejar('ajustes:guardar', (a) => guardarAjustes(a));
   manejar('perfil:aplicar', async (id) => { const p = id === 'auto' ? hardware.perfilAuto(hw) : id; await core.aplicarPerfil(p); return p; });
-  manejar('carpeta:abrir', async (id = 'juego') => { const d = carpeta(id); fs.mkdirSync(d, { recursive: true }); await shell.openPath(d); });
+  manejar('carpeta:abrir', async (id = 'juego') => { if (id === 'jugador') { fs.mkdirSync(dirJugador(), { recursive: true }); await shell.openPath(dirJugador()); return; } const d = carpeta(id); fs.mkdirSync(d, { recursive: true }); await shell.openPath(d); });
   manejar('enlace:abrir', async (url) => abrirExterno(url));
   manejar('registro', async () => core.logLines.join('\n'));
   manejar('registro:guardar', async (texto) => {

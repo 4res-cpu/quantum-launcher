@@ -3,7 +3,7 @@
 // Interfaz del launcher. Todo lo que llega de internet se pinta con textContent (nunca innerHTML).
 const $ = (id) => document.getElementById(id);
 const $$ = (sel, raiz = document) => [...raiz.querySelectorAll(sel)];
-const estado = { init: null, cuentas: [], ajustes: null, jugando: false, logBuffer: [], contenido: null, noticias: [], mods: null, segMods: 'mods' };
+const estado = { init: null, cuentas: [], ajustes: null, jugando: false, logBuffer: [], contenido: null, noticias: [], mods: null, segMods: 'pack' };
 
 function el(tag, attrs = {}, ...hijos) {
   const n = document.createElement(tag);
@@ -163,6 +163,7 @@ function mostrarIlustracion(il) {
     vid.load();
   }
   siguiente.classList.toggle('claro', !!il.claro);
+  siguiente.classList.toggle('horizontal', !!il.horizontal);
   const mostrar = () => { siguiente.classList.add('visible'); actual.classList.remove('visible'); setTimeout(() => { if (!actual.classList.contains('visible')) actual.querySelector('video').pause(); }, 2400); };
   if (img.complete) mostrar(); else img.onload = mostrar;
   arte.capa = 1 - arte.capa;
@@ -553,7 +554,12 @@ function pintarNoticias() {
   const ol = $('noticias');
   if (estado.noticias === null) { ol.replaceChildren(el('li', { class: 'vacio' }, t('errorNoticias'))); return; }
   const lista = estado.noticias.slice(0, 24);
-  if (!lista.length) { ol.replaceChildren(el('li', { class: 'vacio' }, t('sinNoticias'))); return; }
+  if (!lista.length) {
+    const il = ilustraciones()[2] || ilustraciones()[0];
+    ol.replaceChildren(el('li', { class: 'noticias-vacio' }, il ? el('img', { src: `../../assets/ilustraciones/${il.archivo}`, alt: '' }) : null,
+      el('div', {}, el('span', { class: 'etq' }, t('noticias')), el('b', {}, t('noticiasPronto')), el('p', {}, t('noticiasProntoSub')))));
+    return;
+  }
   const fmt = (x) => { if (!x.fecha) return ''; const d = new Date(`${x.fecha}${x.fecha.length === 10 ? 'T12:00:00' : ''}`); return Number.isNaN(+d) ? '' : fechaCorta(d, { day: 'numeric', month: 'long', year: 'numeric' }); };
   ol.replaceChildren(...lista.map((x, i) => el('li', { class: `noticia${i === 0 ? ' destacada' : ''}` },
     x.imagen && /^https:\/\//.test(x.imagen) ? el('img', { src: x.imagen, alt: '' }) : null,
@@ -691,21 +697,37 @@ async function verCaptura(c) {
 
 // ---------- Mods ----------
 async function cargarMods() {
-  try { estado.mods = await llamar(quantum.mods); } catch { estado.mods = { mods: [], desactivados: [], texturas: [] }; }
+  try { estado.mods = await llamar(quantum.mods); } catch { estado.mods = { pack: [], jugador: [], bloqueados: [], texturas: [] }; }
   pintarMods();
+}
+async function alternarMod(x, origen) {
+  sonar('clic');
+  try { estado.mods = await llamar(quantum.alternarMod, { archivo: x.archivo, activo: !x.activo, origen }); pintarMods(); aviso(t('modCambio')); } catch (e) { aviso(e.message); }
 }
 function pintarMods() {
   const m = estado.mods; if (!m) return;
   const q = $('mods-buscar').value.trim().toLowerCase();
   const limpio = (n) => n.replace(/\.jar(\.disabled)?$/i, '').replace(/[-_+](fabric|mc)?[-_]?1\.21.*$/i, '').replace(/[-_]/g, ' ');
-  let filas = estado.segMods === 'mods'
-    ? [...m.mods.map((x) => ({ ...x, on: true })), ...m.desactivados.map((x) => ({ ...x, on: false }))]
-    : m.texturas.map((x) => ({ ...x, on: true }));
-  $('mods-sub').textContent = t('modsSub', { n: m.mods.length });
-  if (q) filas = filas.filter((x) => x.nombre.toLowerCase().includes(q));
-  filas.sort((a, b) => limpio(a.nombre).localeCompare(limpio(b.nombre)));
-  $('lista-mods').replaceChildren(...(filas.length ? filas.map((x) => el('li', { class: x.on ? '' : 'apagado', title: x.nombre }, el('i'), el('b', {}, limpio(x.nombre)), el('small', {}, x.kb >= 1024 ? `${(x.kb / 1024).toFixed(1)} MB` : `${x.kb} KB`)))
-    : [el('li', { class: 'vacio' }, t('sinMods'))]));
+  const peso = (k) => (k >= 1024 ? `${(k / 1024).toFixed(1)} MB` : `${k} KB`);
+  const seg = estado.segMods;
+  $('mods-sub').textContent = t('modsSub', { n: m.pack.filter((x) => x.activo).length + m.jugador.filter((x) => x.activo && x.ok).length });
+  $('btn-anadir-mod').hidden = seg !== 'jugador';
+  $('anti-bloq').textContent = m.bloqueados.length ? t('bloqueadosN', { n: m.bloqueados.length }) : '';
+  let filas;
+  if (seg === 'texturas') filas = m.texturas.map((x) => el('li', { title: x.nombre }, el('i'), el('b', {}, limpio(x.nombre)), el('small', {}, peso(x.kb))));
+  else {
+    const lista = (seg === 'pack' ? m.pack : m.jugador).filter((x) => !q || x.archivo.toLowerCase().includes(q)).sort((a, b) => limpio(a.archivo).localeCompare(limpio(b.archivo)));
+    filas = lista.map((x) => {
+      const sw = el('input', { type: 'checkbox', disabled: seg === 'pack' ? x.obligatorio : !x.ok }); sw.checked = x.activo && (seg === 'pack' || x.ok);
+      sw.addEventListener('change', () => alternarMod(x, seg));
+      const etiqueta = seg === 'pack' ? (x.obligatorio ? el('em', { class: 'req', title: t('obligatorioSub') }, t('obligatorio')) : null)
+        : (!x.ok ? el('em', { class: 'bloq', title: x.motivo }, t('bloqueado')) : null);
+      return el('li', { class: `${x.activo && (seg === 'pack' || x.ok) ? '' : 'apagado'}`, title: x.motivo || x.archivo },
+        el('label', { class: 'mini-sw' }, sw, el('span')), el('b', {}, limpio(x.archivo)), etiqueta, el('small', {}, peso(x.kb)),
+        seg === 'jugador' ? el('button', { type: 'button', class: 'ico-btn quitar', title: t('quitar'), onclick: async () => { estado.mods = await llamar(quantum.quitarMod, x.archivo); pintarMods(); } }, '✕') : null);
+    });
+  }
+  $('lista-mods').replaceChildren(...(filas.length ? filas : [el('li', { class: 'vacio' }, seg === 'jugador' ? t('sinMisMods') : t('sinMods'))]));
 }
 function configurarMods() {
   $('mods-buscar').addEventListener('input', pintarMods);
@@ -716,7 +738,14 @@ function configurarMods() {
       pintarMods();
     });
   }
-  $('btn-carpeta-mods').addEventListener('click', () => llamar(quantum.abrirCarpeta, estado.segMods === 'mods' ? 'mods' : 'texturas'));
+  $('btn-carpeta-mods').addEventListener('click', () => llamar(quantum.abrirCarpeta, { pack: 'mods', jugador: 'jugador', texturas: 'texturas' }[estado.segMods]));
+  $('btn-anadir-mod').addEventListener('click', async () => {
+    try {
+      const r = await llamar(quantum.anadirMods); estado.mods = r.lista; pintarMods();
+      const malos = r.resultado.filter((x) => !x.ok);
+      if (malos.length) { aviso(`${t('rechazado')}: ${malos.map((x) => x.motivo).join(' · ')}`); sonar('error'); } else if (r.resultado.length) { aviso(t('modsAnadidos', { n: r.resultado.length })); sonar('ok'); }
+    } catch (e) { aviso(e.message); }
+  });
   $('btn-carpeta-capturas').addEventListener('click', () => llamar(quantum.abrirCarpeta, 'capturas'));
 }
 
@@ -731,13 +760,6 @@ async function comprobarActualizacion() {
     if (u.hayNueva && u.instalada) aviso(t('packNuevo', { v: u.disponible }));
     if (u.launcherNuevo && u.launcherDescarga) aviso(t('launcherNuevo', { v: u.launcherVersion }), { texto: t('descargar'), accion: () => llamar(quantum.abrirEnlace, u.launcherDescarga) });
   } catch { /* sin conexión */ }
-}
-function ponerGifs(g) {
-  const mapa = { 'gif-portada': 'portada', 'gif-progreso': 'progreso', 'gif-noticias': 'noticias', 'gif-cuentas': 'cuentas' };
-  for (const [id, k] of Object.entries(mapa)) {
-    const f = g && g[k];
-    if (f) { $(id).src = `../../assets/gif/${f}`; $(id).classList.remove('oculto'); } else { $(id).removeAttribute('src'); if (id === 'gif-portada') $(id).classList.add('oculto'); }
-  }
 }
 
 function repintarTodo() {
@@ -770,7 +792,6 @@ function repintarTodo() {
   document.title = estado.init.evento.nombre;
   $('ip-txt').textContent = estado.init.evento.ip;
   $('lema').textContent = (estado.init.evento.textos && estado.init.evento.textos.lema) || $('lema').textContent;
-  ponerGifs(estado.init.evento.gifs);
   for (const b of $$('.riel-btn[data-pagina]')) b.addEventListener('click', () => irA(b.dataset.pagina));
   for (const b of $$('[data-pagina-ir]')) b.addEventListener('click', () => irA(b.dataset.paginaIr));
   $('ip').addEventListener('click', async () => { try { await navigator.clipboard.writeText(estado.init.evento.ip); aviso(t('ipCopiada')); sonar('ok'); } catch { /* */ } });
