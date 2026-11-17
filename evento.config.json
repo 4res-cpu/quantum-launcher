@@ -72,11 +72,94 @@
   ],
   "modulos": [
     {
+      "id": "sodium",
+      "grupo": "optimizacion",
+      "nombre": "Sodium",
+      "desc": "Motor de render mucho más rápido. Es la base de casi todas las mejoras de FPS.",
+      "efecto": "FPS ++",
+      "prefijos": [
+        "sodium-fabric",
+        "iris-fabric"
+      ]
+    },
+    {
+      "id": "sodium-extra",
+      "grupo": "optimizacion",
+      "nombre": "Sodium Extra",
+      "desc": "Más opciones de vídeo: animaciones, partículas, niebla y contador de FPS.",
+      "efecto": "Opciones",
+      "prefijos": [
+        "sodium-extra"
+      ],
+      "requiere": "sodium"
+    },
+    {
+      "id": "lithium",
+      "grupo": "optimizacion",
+      "nombre": "Lithium",
+      "desc": "Optimiza la física, la IA y los cálculos del mundo sin cambiar cómo se juega.",
+      "efecto": "TPS +",
+      "prefijos": [
+        "lithium-fabric"
+      ]
+    },
+    {
+      "id": "ferritecore",
+      "grupo": "optimizacion",
+      "nombre": "FerriteCore",
+      "desc": "Reduce mucho la memoria RAM que usa el juego.",
+      "efecto": "RAM −",
+      "prefijos": [
+        "ferritecore"
+      ]
+    },
+    {
+      "id": "modernfix",
+      "grupo": "optimizacion",
+      "nombre": "ModernFix",
+      "desc": "Arranque más rápido y menos RAM con muchos mods.",
+      "efecto": "Carga +",
+      "prefijos": [
+        "modernfix"
+      ]
+    },
+    {
+      "id": "immediatelyfast",
+      "grupo": "optimizacion",
+      "nombre": "ImmediatelyFast",
+      "desc": "Dibuja más rápido el texto, la interfaz, los mapas y las entidades.",
+      "efecto": "FPS +",
+      "prefijos": [
+        "ImmediatelyFast"
+      ]
+    },
+    {
+      "id": "entityculling",
+      "grupo": "optimizacion",
+      "nombre": "EntityCulling",
+      "desc": "No dibuja Pokémon ni cofres que están detrás de paredes.",
+      "efecto": "FPS +",
+      "prefijos": [
+        "entityculling"
+      ]
+    },
+    {
+      "id": "badoptimizations",
+      "grupo": "optimizacion",
+      "nombre": "BadOptimizations",
+      "desc": "Pequeñas mejoras de rendimiento en luz, cielo y texturas.",
+      "efecto": "FPS +",
+      "prefijos": [
+        "BadOptimizations"
+      ]
+    },
+    {
       "id": "shaders",
       "nombre": "Shaders",
       "desc": "Luces, sombras y agua realistas. Pide buena tarjeta gráfica.",
       "defecto": false,
-      "pack": "ComplementaryReimagined_r5.9.3.zip"
+      "pack": "ComplementaryReimagined_r5.9.3.zip",
+      "requiere": "sodium"
     },
     {
       "id": "mapa",
@@ -155,9 +238,43 @@
   ],
   "ilustraciones": [
     {
+      "id": "umbreon",
+      "archivo": "umbreon.jpg",
+      "video": "umbreon.webm",
+      "titulo": "Umbreon",
+      "autor": "ownyousumer",
+      "color": "#04091b"
+    },
+    {
+      "id": "legendarios",
       "archivo": "legendarios.jpg",
       "titulo": "Legendarios de Hoenn",
-      "autor": "Quantum"
+      "autor": "ownyousumer",
+      "color": "#050a19"
+    },
+    {
+      "id": "lugia-sombra",
+      "archivo": "lugia-sombra.jpg",
+      "video": "lugia-sombra.webm",
+      "titulo": "Lugia Oscuro",
+      "autor": "ownyousumer",
+      "color": "#070b16"
+    },
+    {
+      "id": "arceus",
+      "archivo": "arceus.jpg",
+      "titulo": "Arceus y el trío de la creación",
+      "autor": "ownyousumer",
+      "color": "#ede9db",
+      "claro": true
+    },
+    {
+      "id": "metagross",
+      "archivo": "metagross.jpg",
+      "video": "metagross.webm",
+      "titulo": "Metagross",
+      "autor": "ownyousumer",
+      "color": "#020b2c"
     }
   ],
   "enlaces": {

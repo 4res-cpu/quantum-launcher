@@ -34,7 +34,7 @@ function send(canal, datos) { if (win && !win.isDestroyed()) win.webContents.sen
 function leerAjustes() {
   const lim = hardware.limitesRam(hw.ramMB, cfg.ram);
   const def = { ramMB: lim.recomendado, ancho: 1280, alto: 720, pantallaCompleta: false, perfil: 'auto', modoLigero: null, modoSeguro: false, conectarDirecto: true, cerrarAlJugar: false,
-    idioma: 'es', tema: 'tinta', acento: 'oro', sonidos: true, volumen: 60, animaciones: true, intro: true, ilustracion: 'rollo', javaArgs: '', idiomaJuego: 'es_es' };
+    idioma: 'es', tema: 'tinta', acento: 'oro', sonidos: true, volumen: 60, animaciones: true, intro: true, ilustracion: 'rotar', ilusAnimada: true, consola: false, javaArgs: '', idiomaJuego: 'es_es' };
   try { return { ...def, ...JSON.parse(fs.readFileSync(ajustesFile, 'utf8')) }; } catch { return def; }
 }
 function guardarAjustes(a) {
@@ -47,10 +47,10 @@ function guardarAjustes(a) {
   limpio.idioma = de(limpio.idioma, ['es', 'en', 'pt'], 'es');
   limpio.tema = de(limpio.tema, ['tinta', 'papel'], 'tinta');
   limpio.acento = de(limpio.acento, ['oro', 'jade', 'carmesi', 'violeta'], 'oro');
-  limpio.ilustracion = de(limpio.ilustracion, ['rollo', 'fondo', 'oculta'], 'rollo');
+  limpio.ilustracion = 'rotar';
   limpio.idiomaJuego = de(limpio.idiomaJuego, ['es_es', 'es_mx', 'en_us', 'pt_br'], 'es_es');
   limpio.volumen = Math.max(0, Math.min(100, Number(limpio.volumen) || 0));
-  for (const k of ['sonidos', 'animaciones', 'intro', 'pantallaCompleta', 'cerrarAlJugar', 'conectarDirecto', 'modoSeguro']) limpio[k] = !!limpio[k];
+  for (const k of ['sonidos', 'animaciones', 'intro', 'pantallaCompleta', 'cerrarAlJugar', 'conectarDirecto', 'modoSeguro', 'ilusAnimada', 'consola']) limpio[k] = !!limpio[k];
   limpio.javaArgs = String(limpio.javaArgs || '').slice(0, 1000);
   fs.mkdirSync(dataDir, { recursive: true });
   fs.writeFileSync(ajustesFile, JSON.stringify(limpio, null, 1));
@@ -212,6 +212,83 @@ function iniciarAutoUpdate() {
   autoUpdater.checkForUpdates().catch(() => {});
 }
 
+
+// ---------- Skin y capas ----------
+const MC_PERFIL = 'https://api.minecraftservices.com/minecraft/profile';
+async function aDataUrl(url) {
+  const r = await net.fetch(url);
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  return `data:image/png;base64,${Buffer.from(await r.arrayBuffer()).toString('base64')}`;
+}
+async function cuentaPremium() {
+  let c = store.active();
+  if (!c || c.tipo !== 'microsoft') throw new Error('Necesitas una cuenta premium.');
+  c = await accounts.renovarSiHaceFalta(c, { clientId: cfg.microsoft.clientId, endpoints: cfg.endpoints?.auth });
+  await store.upsert(c);
+  return c;
+}
+async function apiPerfil(c, metodo = 'GET', ruta = '', cuerpo) {
+  const opts = { method: metodo, headers: { Authorization: `Bearer ${c.accessToken}` } };
+  if (cuerpo instanceof FormData) opts.body = cuerpo;
+  else if (cuerpo) { opts.body = JSON.stringify(cuerpo); opts.headers['Content-Type'] = 'application/json'; }
+  const r = await net.fetch(MC_PERFIL + ruta, opts);
+  if (!r.ok) throw new Error(r.status === 429 ? 'Demasiados cambios seguidos. Espera un minuto.' : `Minecraft respondió ${r.status}`);
+  return r.json().catch(() => ({}));
+}
+async function perfilSkin(c) {
+  const p = await apiPerfil(c);
+  const skin = (p.skins || []).find((x) => x.state === 'ACTIVE');
+  const capas = await Promise.all((p.capes || []).map(async (x) => ({ id: x.id, nombre: x.alias || 'Capa', activa: x.state === 'ACTIVE', img: await aDataUrl(x.url).catch(() => null) })));
+  return { premium: true, skin: skin ? await aDataUrl(skin.url) : null, modelo: skin?.variant === 'SLIM' ? 'slim' : 'default', capas };
+}
+async function datosSkin() {
+  const c = store.active();
+  if (!c) return null;
+  if (c.tipo === 'microsoft') {
+    try { return await perfilSkin(await cuentaPremium()); } catch (e) { core?.log(`Skin: ${e.message}`); }
+  }
+  const skin = await aDataUrl(`https://mc-heads.net/skin/${encodeURIComponent(c.tipo === 'microsoft' ? c.uuid : c.nombre)}`).catch(() => null);
+  return { premium: c.tipo === 'microsoft', skin, modelo: 'auto', capas: [] };
+}
+async function subirSkin(modelo) {
+  const c = await cuentaPremium();
+  const r = await dialog.showOpenDialog(win, { title: 'Elige tu skin', filters: [{ name: 'Skin PNG', extensions: ['png'] }], properties: ['openFile'] });
+  if (r.canceled || !r.filePaths[0]) return null;
+  const img = nativeImage.createFromPath(r.filePaths[0]);
+  const { width, height } = img.getSize();
+  if (width !== 64 || (height !== 64 && height !== 32)) throw new Error('La skin debe ser un PNG de 64×64 (o 64×32).');
+  const fd = new FormData();
+  fd.append('variant', modelo === 'slim' ? 'slim' : 'classic');
+  fd.append('file', new Blob([fs.readFileSync(r.filePaths[0])], { type: 'image/png' }), 'skin.png');
+  await apiPerfil(c, 'POST', '/skins', fd);
+  return perfilSkin(c);
+}
+async function ponerCapa(id) {
+  const c = await cuentaPremium();
+  if (id) await apiPerfil(c, 'PUT', '/capes/active', { capeId: id }); else await apiPerfil(c, 'DELETE', '/capes/active');
+  return perfilSkin(c);
+}
+
+// ---------- Consola del juego ----------
+let consola = null;
+function abrirConsola() {
+  if (consola && !consola.isDestroyed()) { consola.show(); consola.focus(); return; }
+  consola = new BrowserWindow({
+    width: 980, height: 600, minWidth: 560, minHeight: 320, frame: false, backgroundColor: '#05091a', show: false,
+    title: 'Consola · Quantum Network', icon: path.join(__dirname, '..', '..', 'assets', 'icon.png'),
+    webPreferences: { preload: path.join(__dirname, 'preload.js'), contextIsolation: true, sandbox: true, nodeIntegration: false },
+  });
+  consola.loadFile(path.join(__dirname, '..', 'renderer', 'consola.html'));
+  consola.once('ready-to-show', () => consola.show());
+  consola.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
+  consola.webContents.on('will-navigate', (e) => e.preventDefault());
+  consola.on('closed', () => { consola = null; });
+}
+function enviarLog(l) {
+  send('log', l);
+  if (consola && !consola.isDestroyed()) consola.webContents.send('log', l);
+}
+
 // ---------- IPC ----------
 function manejar(canal, fn) {
   ipcMain.handle(canal, async (_e, ...args) => {
@@ -222,7 +299,7 @@ function manejar(canal, fn) {
 function registrarIpc() {
   manejar('init', async () => ({
     evento: { nombre: cfg.nombre, evento: cfg.evento, organiza: cfg.organiza, discord: cfg.discord, servidor: cfg.servidor.nombreVisible, ip: `${cfg.servidor.host}:${cfg.servidor.puerto}`,
-      textos: cfg.textos || {}, logo: cfg.logo || null, gifs: cfg.gifs ?? null, modos: cfg.modos || [], modulos: (cfg.modulos || []).map((m) => ({ id: m.id, nombre: m.nombre, desc: m.desc, defecto: m.defecto !== false, icono: m.icono || '' })) },
+      textos: cfg.textos || {}, logo: cfg.logo || null, gifs: cfg.gifs ?? null, modos: cfg.modos || [], modulos: (cfg.modulos || []).map((m) => ({ id: m.id, nombre: m.nombre, desc: m.desc, defecto: m.defecto !== false, icono: m.icono || '', grupo: m.grupo || 'extras', efecto: m.efecto || '', requiere: m.requiere || null })) },
     version: VERSION, portable: PORTABLE,
     hw, ram: hardware.limitesRam(hw.ramMB, cfg.ram), perfilAuto: hardware.perfilAuto(hw),
     ajustes: leerAjustes(), cuentas: store.list(), instalado: (await core.estadoInstalacion())?.packVersion || null,
@@ -235,6 +312,12 @@ function registrarIpc() {
   manejar('capturas:ver', (nombre) => nativeImage.createFromPath(capturaSegura(nombre)).resize({ width: 1600, quality: 'good' }).toDataURL());
   manejar('capturas:abrir', async (nombre) => { await shell.openPath(capturaSegura(nombre)); });
   manejar('mods:listar', () => listarMods());
+  manejar('skin:datos', () => datosSkin());
+  manejar('skin:subir', (modelo) => subirSkin(modelo));
+  manejar('skin:capa', (id) => ponerCapa(id || null));
+  manejar('consola:abrir', () => abrirConsola());
+  manejar('consola:historial', () => [...core.logLines.slice(-1500), ...(core.gameLog || []).slice(-3000)]);
+  manejar('creditos', () => { try { return JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'creditos.json'), 'utf8')); } catch { return null; } });
   manejar('noticias', () => core.leerNoticias());
   manejar('servidor:estado', () => ping(cfg.servidor.host, cfg.servidor.puerto));
   manejar('actualizacion', () => core.comprobarActualizacion().then((r) => ({ instalada: r.instalada, disponible: r.disponible, hayNueva: r.hayNueva, launcherNuevo: r.launcherNuevo && PORTABLE, launcherVersion: r.manifiesto?.launcher?.version, launcherDescarga: r.manifiesto?.launcher?.descarga, nota: r.manifiesto?.modpack?.nota || '' })));
@@ -268,6 +351,7 @@ function registrarIpc() {
         cuenta = await accounts.renovarSiHaceFalta(cuenta, { clientId: cfg.microsoft.clientId, endpoints: cfg.endpoints?.auth });
         await store.upsert(cuenta);
       }
+      if (ajustes.consola) abrirConsola();
       const prep = await core.preparar({ reparar, ajustes, hw, sinTexturas: !!sinTexturas });
       send('progreso', { etapa: 'juego', texto: 'Abriendo Minecraft…' });
       let inicio = 0;
@@ -285,7 +369,13 @@ function registrarIpc() {
     } finally { jugando = false; }
   });
 
-  ipcMain.on('ventana', (_e, accion) => {
+  ipcMain.on('ventana', (e, accion) => {
+    if (consola && !consola.isDestroyed() && e.sender === consola.webContents) {
+      if (accion === 'minimizar') consola.minimize();
+      if (accion === 'maximizar') { if (consola.isMaximized()) consola.unmaximize(); else consola.maximize(); }
+      if (accion === 'cerrar') consola.close();
+      return;
+    }
     if (!win) return;
     if (accion === 'minimizar') win.minimize();
     if (accion === 'maximizar') { if (win.isMaximized()) win.unmaximize(); else win.maximize(); }
@@ -300,7 +390,7 @@ app.whenReady().then(async () => {
   core = new QuantumCore(cfg, dataDir, {
     launcherVersion: VERSION,
     onProgress: (p) => send('progreso', p),
-    onLog: (l) => send('log', l),
+    onLog: (l) => enviarLog(l),
   });
   core.log(`Quantum Launcher ${VERSION}${PORTABLE ? ' (portable)' : ''} en ${hw.sistema}, ${hw.cpu}, ${hw.nucleos} hilos, ${Math.round(hw.ramMB / 1024)} GB RAM, GPU ${hw.gpu}`);
   store = await new accounts.AccountStore(path.join(dataDir, 'cuentas.json'), cipher).load();

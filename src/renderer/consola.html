@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; style-src 'self'; font-src 'self'; script-src 'self'; connect-src 'none'">
+  <title>Consola · Quantum Network</title>
+  <link rel="stylesheet" href="consola.css">
+</head>
+<body>
+  <header class="barra">
+    <div class="marca"><img src="../../assets/marca.png" alt=""><span>Consola <b>en vivo</b></span><i class="vivo" id="vivo"></i></div>
+    <div class="ventana">
+      <button type="button" id="w-min" aria-label="Minimizar"><svg viewBox="0 0 12 12"><path d="M2 6h8"/></svg></button>
+      <button type="button" id="w-max" aria-label="Maximizar"><svg viewBox="0 0 12 12"><rect x="2.5" y="2.5" width="7" height="7"/></svg></button>
+      <button type="button" id="w-cerrar" class="cerrar" aria-label="Cerrar"><svg viewBox="0 0 12 12"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7"/></svg></button>
+    </div>
+  </header>
+  <div class="herramientas">
+    <div class="filtros" id="filtros">
+      <button type="button" data-f="todo" aria-pressed="true">Todo <em id="n-todo">0</em></button>
+      <button type="button" data-f="info">Info <em id="n-info">0</em></button>
+      <button type="button" data-f="warn">Avisos <em id="n-warn">0</em></button>
+      <button type="button" data-f="error">Errores <em id="n-error">0</em></button>
+      <button type="button" data-f="launcher">Launcher <em id="n-launcher">0</em></button>
+    </div>
+    <input type="search" id="buscar" placeholder="Buscar en la consola" spellcheck="false">
+    <label class="auto"><input type="checkbox" id="auto" checked> Seguir</label>
+    <button type="button" id="copiar">Copiar</button>
+    <button type="button" id="guardar">Guardar</button>
+    <button type="button" id="limpiar">Limpiar</button>
+  </div>
+  <main id="log" class="log" tabindex="0"></main>
+  <script src="consola.js"></script>
+</body>
+</html>

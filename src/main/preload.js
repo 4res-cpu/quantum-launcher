@@ -28,6 +28,12 @@ contextBridge.exposeInMainWorld('quantum', {
   verCaptura: invoke('capturas:ver'),
   abrirCaptura: invoke('capturas:abrir'),
   mods: invoke('mods:listar'),
+  skin: invoke('skin:datos'),
+  subirSkin: invoke('skin:subir'),
+  ponerCapa: invoke('skin:capa'),
+  abrirConsola: invoke('consola:abrir'),
+  historialConsola: invoke('consola:historial'),
+  creditos: invoke('creditos'),
   ventana: (accion) => ipcRenderer.send('ventana', accion),
   on: (canal, fn) => {
     if (!['progreso', 'log', 'juego', 'launcher:update', 'cuentas:codigo'].includes(canal)) return;

@@ -2,7 +2,7 @@
 <html lang="es" data-tema="tinta" data-acento="oro">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self'; font-src 'self'; script-src 'self'; connect-src 'none'; media-src 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self'; font-src 'self'; script-src 'self'; connect-src 'none'; media-src 'self'">
   <title>Quantum Network</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -14,7 +14,7 @@
   </div>
 
   <div class="fondo-tinta" aria-hidden="true"></div>
-  <div class="fondo-ilustracion" id="fondo-ilustracion" aria-hidden="true"></div>
+  <div class="arte" id="arte" aria-hidden="true"><div class="arte-capa" data-capa="0"><img alt=""><video muted loop playsinline preload="none"></video></div><div class="arte-capa" data-capa="1"><img alt=""><video muted loop playsinline preload="none"></video></div><div class="arte-velo"></div></div>
   <div class="grano" aria-hidden="true"></div>
 
   <header class="barra">
@@ -36,6 +36,7 @@
       <button type="button" class="riel-btn" data-pagina="capturas" data-icon="camara"><span data-t="capturas">Capturas</span></button>
       <button type="button" class="riel-btn" data-pagina="mods" data-icon="mods"><span data-t="mods">Mods</span></button>
       <button type="button" class="riel-btn" data-pagina="normas" data-icon="normas"><span data-t="normas">Normas</span></button>
+      <button type="button" class="riel-btn" data-pagina="creditos" data-icon="creditos"><span data-t="creditosT">Créditos</span></button>
     </div>
     <div class="riel-grupo">
       <button type="button" class="riel-btn" id="btn-comunidad" data-icon="globo"><span data-t="comunidad">Comunidad</span></button>
@@ -105,14 +106,7 @@
         </div>
       </div>
 
-      <figure class="rollo" id="rollo">
-        <div class="cordel" aria-hidden="true"></div>
-        <div class="varilla arriba" aria-hidden="true"></div>
-        <div class="papel"><img id="ilustracion" alt=""></div>
-        <div class="varilla abajo" aria-hidden="true"></div>
-        <span class="sello" aria-hidden="true">Q</span>
-        <figcaption id="ilustracion-pie"></figcaption>
-      </figure>
+      <div class="galeria" id="galeria"><b id="ilus-titulo"></b><span id="ilus-autor"></span></div>
       <img class="gif-portada oculto" id="gif-portada" alt="">
     </section>
 
@@ -159,8 +153,18 @@
 
     <!-- ================= NORMAS ================= -->
     <section class="pagina" data-pagina="normas">
-      <header class="cab"><div><h1 data-t="normas">Normas</h1><p data-t="normasSub">Para que todos disfrutemos de Quanta</p></div></header>
-      <ol class="normas" id="normas"></ol>
+      <header class="cab"><div><h1 data-t="normas">Normas</h1><p data-t="normasSub">Para que todos disfrutemos de Quanta</p></div><input type="search" id="normas-buscar" data-t-ph="buscarNorma" placeholder="Buscar una norma"></header>
+      <p class="normas-intro" id="normas-intro"></p>
+      <div class="normas-cuerpo"><nav class="normas-indice" id="normas-indice"></nav><div class="normas" id="normas"></div></div>
+    </section>
+
+    <!-- ================= CRÉDITOS ================= -->
+    <section class="pagina" data-pagina="creditos">
+      <header class="cab"><div><h1 data-t="creditosT">Créditos</h1><p data-t="creditosSub">Las personas y proyectos que hacen posible Quantum Network</p></div><input type="search" id="creditos-buscar" data-t-ph="buscar" placeholder="Buscar"></header>
+      <div class="creditos-arte" id="creditos-arte"></div>
+      <div class="segmentos" role="tablist" id="creditos-seg"><button type="button" role="tab" aria-selected="true" data-seg="mods" data-t="mods">Mods</button><button type="button" role="tab" aria-selected="false" data-seg="paquetes" data-t="paquetesShaders">Texturas y shaders</button><button type="button" role="tab" aria-selected="false" data-seg="servidor" data-t="servidorT">Servidor</button><button type="button" role="tab" aria-selected="false" data-seg="launcher" data-t="launcherT">Launcher</button></div>
+      <ul class="lista-creditos" id="lista-creditos"></ul>
+      <p class="legal" id="creditos-aviso"></p>
     </section>
 
     <!-- ================= AJUSTES ================= -->
@@ -184,9 +188,8 @@
             <div class="chips" id="op-tema"><button type="button" data-v="tinta" data-t="tinta">Tinta</button><button type="button" data-v="papel" data-t="papelT">Papel</button></div></div>
           <div class="opcion"><div><b data-t="acento">Color de acento</b><small data-t="acentoSub">Botones y detalles</small></div>
             <div class="chips colores" id="op-acento"><button type="button" data-v="oro" class="c-oro" data-t-aria="oro"></button><button type="button" data-v="jade" class="c-jade" data-t-aria="jade"></button><button type="button" data-v="carmesi" class="c-carmesi" data-t-aria="carmesi"></button><button type="button" data-v="violeta" class="c-violeta" data-t-aria="violeta"></button></div></div>
-          <div class="opcion"><div><b data-t="ilustracionOp">Ilustración</b><small data-t="ilustracionSub">Cómo se muestra el arte en el inicio</small></div>
-            <div class="chips" id="op-ilustracion"><button type="button" data-v="rollo" data-t="rolloT">Rollo</button><button type="button" data-v="fondo" data-t="fondoT">Fondo</button><button type="button" data-v="oculta" data-t="ocultaT">Oculta</button></div></div>
-          <label class="interruptor"><input type="checkbox" id="op-animaciones"><span class="sw"></span><span><b data-t="animaciones">Animaciones</b><small data-t="animacionesSub">Movimiento del rollo, transiciones y partículas</small></span></label>
+          <label class="interruptor"><input type="checkbox" id="op-ilus-animada"><span class="sw"></span><span><b data-t="ilusAnimada">Ilustraciones animadas</b><small data-t="ilusAnimadaSub">Usa la versión en movimiento cuando la haya</small></span></label>
+          <label class="interruptor"><input type="checkbox" id="op-animaciones"><span class="sw"></span><span><b data-t="animaciones">Animaciones</b><small data-t="animacionesSub">Transiciones, brillo y movimiento de la interfaz</small></span></label>
           <label class="interruptor"><input type="checkbox" id="op-intro"><span class="sw"></span><span><b data-t="intro">Animación al abrir</b><small data-t="introSub">El trazo de tinta al iniciar el launcher</small></span></label>
           <label class="interruptor"><input type="checkbox" id="op-sonidos"><span class="sw"></span><span><b data-t="sonidos">Sonidos</b><small data-t="sonidosSub">Efectos suaves al navegar y al jugar</small></span></label>
           <div class="opcion"><div><b data-t="volumen">Volumen</b></div><div class="rango"><input type="range" id="op-volumen" min="0" max="100" step="5"><output id="op-volumen-v"></output></div></div>
@@ -202,6 +205,8 @@
           <label class="interruptor"><input type="checkbox" id="op-directo"><span class="sw"></span><span><b data-t="directo">Entrar directo al servidor</b><small data-t="directoSub">Sin pasar por el menú de Minecraft</small></span></label>
           <div class="opcion"><div><b data-t="idiomaJuego">Idioma del juego</b></div>
             <select id="op-idioma-juego"><option value="es_es">Español (España)</option><option value="es_mx">Español (México)</option><option value="en_us">English</option><option value="pt_br">Português (Brasil)</option></select></div>
+          <label class="interruptor"><input type="checkbox" id="op-consola"><span class="sw"></span><span><b data-t="consolaOp">Abrir la consola al jugar</b><small data-t="consolaSub">Muestra en una ventana aparte lo que hace el juego en tiempo real</small></span></label>
+          <div class="fila"><button type="button" class="btn" id="btn-consola" data-t="abrirConsola">Abrir consola</button></div>
         </section>
 
         <section data-panel="memoria" hidden>
@@ -223,6 +228,9 @@
             <button type="button" data-v="ultra"><b>Ultra</b><small data-t="maximo">Máximo</small></button>
           </div>
           <div class="fila"><button type="button" class="btn" id="btn-optimizar" data-t="aplicarJuego">Aplicar al juego</button></div>
+          <h3 class="sep" data-t="modsOptim">Mods de optimización</h3>
+          <p class="sub" data-t="modsOptimSub">Como en Lunar Client: activa o desactiva cada mejora. Se aplica la próxima vez que pulses Jugar.</p>
+          <div class="optim" id="optim"></div>
           <label class="interruptor"><input type="checkbox" id="op-ligero"><span class="sw"></span><span><b data-t="ligero">Modo bajo consumo</b><small data-t="ligeroSub">Quita efectos visuales y sonidos ambientales</small></span></label>
           <label class="interruptor"><input type="checkbox" id="op-seguro"><span class="sw"></span><span><b data-t="seguro">Modo seguro</b><small data-t="seguroSub">Permite iniciar sin paquetes de texturas si el juego se cierra al cargar</small></span></label>
         </section>
@@ -268,7 +276,13 @@
   <dialog class="modal" id="dlg-cuentas">
     <div class="modal-cab"><img class="cab-gif" id="gif-cuentas" alt=""><div><h2 data-t="cuentas">Cuentas</h2><p data-t="cuentasSub">Elige con qué cuenta entras a Quanta.</p></div><form method="dialog"><button class="x" data-t-aria="cerrar">✕</button></form></div>
     <div class="cuentas-cuerpo">
-      <div class="skin"><img id="skin-cuerpo" alt=""><button type="button" class="btn" id="btn-skin" data-t="cambiarSkin">Cambiar skin</button><small id="skin-nota"></small></div>
+      <div class="skin">
+        <div class="skin-escena"><canvas id="skin-3d" width="240" height="320"></canvas><span class="skin-cargando" id="skin-cargando"></span></div>
+        <div class="chips mini" id="skin-anim"><button type="button" data-v="quieto" data-t="quieto">Quieto</button><button type="button" data-v="caminar" data-t="caminar">Caminar</button><button type="button" data-v="correr" data-t="correr">Correr</button><button type="button" data-v="volar" data-t="volar">Volar</button></div>
+        <div class="capas" id="capas"></div>
+        <div class="skin-subir" id="skin-subir"><div class="chips mini" id="skin-modelo"><button type="button" data-v="classic" data-t="clasico">Clásico</button><button type="button" data-v="slim">Slim</button></div><button type="button" class="btn" id="btn-skin" data-t="subirSkin">Subir skin</button></div>
+        <small id="skin-nota"></small>
+      </div>
       <div>
         <ul class="lista-cuentas" id="lista-cuentas"></ul>
         <button class="btn btn-ms" id="btn-ms" type="button"><svg viewBox="0 0 20 20" aria-hidden="true"><path fill="#f25022" d="M1 1h8.5v8.5H1z"/><path fill="#7fba00" d="M10.5 1H19v8.5h-8.5z"/><path fill="#00a4ef" d="M1 10.5h8.5V19H1z"/><path fill="#ffb900" d="M10.5 10.5H19V19h-8.5z"/></svg><span data-t="entrarMs">Iniciar sesión con Microsoft (premium)</span></button>
@@ -321,6 +335,7 @@
     <div class="fila derecha"><button class="btn" id="btn-copiar" type="button" data-t="copiar">Copiar</button><button class="btn" id="btn-guardar-reg" type="button" data-t="guardarInforme">Guardar informe</button></div>
   </dialog>
 
+  <script src="vendor/skinview3d.bundle.js"></script>
   <script src="i18n.js"></script>
   <script src="app.js"></script>
 </body>

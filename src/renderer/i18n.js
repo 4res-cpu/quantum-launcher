@@ -152,3 +152,37 @@ window.I18N = {
     lanzador: 'Launcher {v}', pack: 'Modpack {v}', dia: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'], horas: '{h} h {m} min', min: '{m} min',
   },
 };
+
+Object.assign(window.I18N.es, {
+  creditosT: 'Créditos', creditosSub: 'Las personas y proyectos que hacen posible Quantum Network', paquetesShaders: 'Texturas y shaders', servidorT: 'Servidor', launcherT: 'Launcher',
+  ilustraciones: 'Ilustraciones', arteNota: 'Todo el arte del launcher y del juego es original y exclusivo de Quantum Network.', arteDe: 'Arte de {a}', creditosArte: 'Ilustraciones originales de {a}.', ver: 'Ver',
+  ilustracionOp: 'Ilustración de fondo', ilustracionSub: 'Elige una o deja que vayan rotando', rotar: 'Rotar', rotarSub: 'Todas, una tras otra',
+  ilusAnimada: 'Ilustraciones animadas', ilusAnimadaSub: 'Usa la versión en movimiento cuando la haya', animacionesSub: 'Transiciones, brillo y movimiento de la interfaz',
+  consolaOp: 'Abrir la consola al jugar', consolaSub: 'Muestra en una ventana aparte lo que hace el juego en tiempo real', abrirConsola: 'Abrir consola',
+  modsOptim: 'Mods de optimización', modsOptimSub: 'Activa o desactiva cada mejora a tu gusto. Se aplica la próxima vez que pulses Jugar.', activado: 'Activado', desactivado: 'Desactivado', necesita: 'Necesita {m} activado',
+  quieto: 'Quieto', caminar: 'Caminar', correr: 'Correr', volar: 'Volar', clasico: 'Clásico', subirSkin: 'Subir skin', capas: 'Capas', sinCapa: 'Sin capa', sinCapas: 'Esta cuenta no tiene capas.',
+  skinSubida: 'Skin actualizada', skinPremium: 'Arrastra para girar. Tu skin y tus capas de Minecraft.', skinNoPremium: 'Vista previa. Las cuentas no premium usan la skin de su nombre.',
+  buscarNorma: 'Buscar una norma', sancion: 'Sanción', sinResultados: 'Nada coincide con tu búsqueda.', actualizado: 'Actualizado el {f}',
+});
+Object.assign(window.I18N.en, {
+  creditosT: 'Credits', creditosSub: 'The people and projects that make Quantum Network possible', paquetesShaders: 'Textures & shaders', servidorT: 'Server', launcherT: 'Launcher',
+  ilustraciones: 'Illustrations', arteNota: 'All launcher and in-game artwork is original and exclusive to Quantum Network.', arteDe: 'Art by {a}', creditosArte: 'Original illustrations by {a}.', ver: 'View',
+  ilustracionOp: 'Background illustration', ilustracionSub: 'Pick one or let them rotate', rotar: 'Rotate', rotarSub: 'All of them, one after another',
+  ilusAnimada: 'Animated illustrations', ilusAnimadaSub: 'Use the moving version when available', animacionesSub: 'Transitions, glow and interface motion',
+  consolaOp: 'Open the console when playing', consolaSub: 'Shows what the game is doing in real time in a separate window', abrirConsola: 'Open console',
+  modsOptim: 'Optimization mods', modsOptimSub: 'Turn each improvement on or off. Applied next time you press Play.', activado: 'On', desactivado: 'Off', necesita: 'Needs {m} enabled',
+  quieto: 'Idle', caminar: 'Walk', correr: 'Run', volar: 'Fly', clasico: 'Classic', subirSkin: 'Upload skin', capas: 'Capes', sinCapa: 'No cape', sinCapas: 'This account has no capes.',
+  skinSubida: 'Skin updated', skinPremium: 'Drag to rotate. Your Minecraft skin and capes.', skinNoPremium: 'Preview. Non-premium accounts use the skin of their name.',
+  buscarNorma: 'Search a rule', sancion: 'Punishment', sinResultados: 'Nothing matches your search.', actualizado: 'Updated {f}',
+});
+Object.assign(window.I18N.pt, {
+  creditosT: 'Créditos', creditosSub: 'As pessoas e projetos que tornam o Quantum Network possível', paquetesShaders: 'Texturas e shaders', servidorT: 'Servidor', launcherT: 'Launcher',
+  ilustraciones: 'Ilustrações', arteNota: 'Toda a arte do launcher e do jogo é original e exclusiva do Quantum Network.', arteDe: 'Arte de {a}', creditosArte: 'Ilustrações originais de {a}.', ver: 'Ver',
+  ilustracionOp: 'Ilustração de fundo', ilustracionSub: 'Escolha uma ou deixe alternar', rotar: 'Alternar', rotarSub: 'Todas, uma após a outra',
+  ilusAnimada: 'Ilustrações animadas', ilusAnimadaSub: 'Usa a versão em movimento quando houver', animacionesSub: 'Transições, brilho e movimento da interface',
+  consolaOp: 'Abrir o console ao jogar', consolaSub: 'Mostra numa janela à parte o que o jogo faz em tempo real', abrirConsola: 'Abrir console',
+  modsOptim: 'Mods de otimização', modsOptimSub: 'Ative ou desative cada melhoria. Aplica-se na próxima vez que clicar em Jogar.', activado: 'Ativado', desactivado: 'Desativado', necesita: 'Precisa de {m} ativado',
+  quieto: 'Parado', caminar: 'Andar', correr: 'Correr', volar: 'Voar', clasico: 'Clássico', subirSkin: 'Enviar skin', capas: 'Capas', sinCapa: 'Sem capa', sinCapas: 'Esta conta não tem capas.',
+  skinSubida: 'Skin atualizada', skinPremium: 'Arraste para girar. Sua skin e suas capas do Minecraft.', skinNoPremium: 'Prévia. Contas não premium usam a skin do seu nome.',
+  buscarNorma: 'Buscar uma regra', sancion: 'Punição', sinResultados: 'Nada corresponde à sua busca.', actualizado: 'Atualizado em {f}',
+});

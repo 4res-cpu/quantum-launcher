@@ -200,7 +200,8 @@ class QuantumCore {
     }
     // Módulos opcionales (Ajustes → Módulos): lo que el jugador apaga no se instala
     const elegidos = ajustes.modulos || {};
-    const activo = (m) => elegidos[m.id] ?? m.defecto !== false;
+    const porId = new Map((this.cfg.modulos || []).map((m) => [m.id, m]));
+    const activo = (m, n = 0) => (elegidos[m.id] ?? m.defecto !== false) && (!m.requiere || n > 5 || !porId.has(m.requiere) || activo(porId.get(m.requiere), n + 1));
     for (const m of this.cfg.modulos || []) {
       if (activo(m) || !Array.isArray(m.prefijos)) continue;
       for (const f of index.files) {
@@ -348,7 +349,7 @@ class QuantumCore {
     const javaBin = ajustes.consolaJava ? prep.java.console : prep.java.path;
     const seguro = (t) => (cuenta.accessToken ? t.split(cuenta.accessToken).join('••••') : t);
     this.log(`Iniciando Minecraft ${prep.mcVersion} (Fabric ${prep.loaderVersion}) como ${cuenta.nombre} [${cuenta.tipo === 'microsoft' ? 'premium' : 'no premium'}], RAM ${ajustes.ramMB || 4096} MB`);
-    const gameLog = [];
+    const gameLog = []; this.gameLog = gameLog;
     const startedAt = Date.now();
     const crashDir = path.join(g, 'crash-reports');
     const crashBefore = new Set(await fsp.readdir(crashDir).catch(() => []));

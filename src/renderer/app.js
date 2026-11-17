@@ -60,6 +60,14 @@ const ICON = {
   tiktok: '<path d="M13.5 4v10.5a3 3 0 1 1-3-3M13.5 4c.4 2.3 1.8 3.7 4 4"/>',
   instagram: '<rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><path d="M16.8 7.2h.01"/>',
   x: '<path d="M5 5l14 14M19 5 5 19"/>',
+  creditos: '<path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/>',
+  consola: '<rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="m7.5 10 3 2.5-3 2.5M12.5 15.5h4"/>',
+  chat: '<path d="M4.5 6.5A2 2 0 0 1 6.5 4.5h11a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H11l-4.5 3.5v-3.5h0a2 2 0 0 1-2-2z"/>',
+  escudo: '<path d="M12 3.5 19 6v5.5c0 4.3-3 7.5-7 9-4-1.5-7-4.7-7-9V6z"/><path d="m9 12 2 2 4-4"/>',
+  pokeball: '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h5.5M15 12h5.5"/><circle cx="12" cy="12" r="3"/>',
+  casa: '<path d="M4 11 12 4.5 20 11M6 9.5V20h12V9.5M10 20v-5h4v5"/>',
+  moneda: '<circle cx="12" cy="12" r="8.5"/><path d="M14.5 9.2c-.5-.8-1.4-1.2-2.5-1.2-1.5 0-2.6.8-2.6 2s1.1 1.7 2.6 2 2.6.8 2.6 2-1.1 2-2.6 2c-1.1 0-2-.4-2.5-1.2M12 6.5v1.5M12 16v1.5"/>',
+  insignia: '<circle cx="12" cy="9.5" r="5.5"/><path d="m9 14.3-1.5 6.2L12 18l4.5 2.5-1.5-6.2"/>',
 };
 const svg = (n) => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICON[n] || ''}</svg>`;
 function pintarIconos(raiz = document) {
@@ -119,17 +127,19 @@ const fechaCorta = (d, op = { day: 'numeric', month: 'short' }) => new Intl.Date
 function irA(pagina) {
   for (const b of $$('.riel-btn[data-pagina]')) b.classList.toggle('activo', b.dataset.pagina === pagina);
   for (const s of $$('.pagina')) s.classList.toggle('activa', s.dataset.pagina === pagina);
-  $('barra-titulo').textContent = pagina === 'inicio' ? '' : t(pagina);
+  $('barra-titulo').textContent = pagina === 'inicio' ? '' : t(pagina === 'creditos' ? 'creditosT' : pagina);
   sonar('pagina');
   if (pagina === 'noticias') $('punto-noticias').classList.add('oculto');
   if (pagina === 'capturas') cargarCapturas();
   if (pagina === 'mods') cargarMods();
+  if (pagina === 'creditos') cargarCreditos();
+  document.documentElement.dataset.pagina = pagina;
 }
 
 // ---------- Apariencia ----------
 function aplicarApariencia() {
   const a = estado.ajustes, r = document.documentElement;
-  r.dataset.tema = a.tema; r.dataset.acento = a.acento; r.dataset.ilustracion = a.ilustracion;
+  r.dataset.tema = a.tema; r.dataset.acento = a.acento;
   r.dataset.anim = a.animaciones ? 'si' : 'no';
 }
 async function guardar(cambios) {
@@ -138,16 +148,87 @@ async function guardar(cambios) {
   return estado.ajustes;
 }
 
-// ---------- Ilustración ----------
+// ---------- Ilustraciones de fondo (rotan solas) ----------
+const arte = { indice: 0, capa: 0, timer: null };
+const ilustraciones = () => estado.init.ilustraciones || [];
+function mostrarIlustracion(il) {
+  if (!il) return;
+  const capas = $$('.arte-capa'), siguiente = capas[1 - arte.capa], actual = capas[arte.capa];
+  const img = siguiente.querySelector('img'), vid = siguiente.querySelector('video');
+  img.src = `../../assets/ilustraciones/${il.archivo}`;
+  vid.pause(); vid.removeAttribute('src'); vid.classList.remove('lista');
+  if (il.video && estado.ajustes.ilusAnimada && estado.ajustes.animaciones) {
+    vid.src = `../../assets/ilustraciones/${il.video}`;
+    vid.oncanplay = () => { vid.classList.add('lista'); vid.play().catch(() => {}); };
+    vid.load();
+  }
+  siguiente.classList.toggle('claro', !!il.claro);
+  const mostrar = () => { siguiente.classList.add('visible'); actual.classList.remove('visible'); setTimeout(() => { if (!actual.classList.contains('visible')) actual.querySelector('video').pause(); }, 2400); };
+  if (img.complete) mostrar(); else img.onload = mostrar;
+  arte.capa = 1 - arte.capa;
+  $('ilus-titulo').textContent = il.titulo || '';
+  $('ilus-autor').textContent = il.autor ? t('arteDe', { a: il.autor }) : '';
+}
 function ponerIlustracion() {
-  const lista = estado.init.ilustraciones || [];
-  const il = lista[0];
-  if (!il) { document.documentElement.dataset.ilustracion = 'oculta'; return; }
-  const url = `../../assets/ilustraciones/${il.archivo}`;
-  $('ilustracion').src = url; $('ilustracion').alt = il.titulo || '';
-  $('fondo-ilustracion').style.backgroundImage = `url("${url}")`;
-  $('ilustracion-pie').textContent = il.autor ? `${il.titulo || ''} · ${il.autor}` : (il.titulo || '');
-  $('creditos').textContent = t('creditos', { t: il.titulo || '', a: il.autor || '' });
+  const l = ilustraciones();
+  $('galeria').hidden = !l.length;
+  mostrarIlustracion(l[arte.indice % (l.length || 1)]);
+  clearInterval(arte.timer);
+  if (l.length > 1) arte.timer = setInterval(() => { if (document.hidden || estado.jugando) return; arte.indice = (arte.indice + 1) % l.length; mostrarIlustracion(l[arte.indice]); }, 20000);
+  $('creditos').textContent = t('creditosArte', { a: (l[0] && l[0].autor) || '' });
+}
+
+// ---------- Skin 3D ----------
+const fondoDe = (n, url) => { n.style.backgroundImage = `url("${url}")`; return n; };
+const skin3d = { visor: null, datos: null, anim: 'caminar', modelo: 'classic', clave: null };
+function visorSkin() {
+  if (skin3d.visor || !window.skinview3d) return skin3d.visor;
+  const v = new skinview3d.SkinViewer({ canvas: $('skin-3d'), width: 240, height: 320 });
+  v.fov = 40; v.zoom = 0.86; v.autoRotate = true; v.autoRotateSpeed = 0.6;
+  v.globalLight.intensity = 2.6; v.cameraLight.intensity = 0.7;
+  v.controls.enableZoom = false;
+  $('skin-3d').addEventListener('pointerdown', () => { v.autoRotate = false; });
+  skin3d.visor = v;
+  ponerAnimSkin(skin3d.anim);
+  return v;
+}
+function ponerAnimSkin(a) {
+  skin3d.anim = a;
+  const v = skin3d.visor; if (!v) return;
+  const S = skinview3d;
+  v.animation = a === 'quieto' ? new S.IdleAnimation() : a === 'correr' ? new S.RunningAnimation() : a === 'volar' ? new S.FlyingAnimation() : new S.WalkingAnimation();
+  if (v.animation) v.animation.speed = a === 'correr' ? 0.7 : 0.8;
+  const capa = skin3d.datos && (skin3d.datos.capas || []).find((c) => c.activa);
+  if (capa && capa.img) v.loadCape(capa.img, { backEquipment: a === 'volar' ? 'elytra' : 'cape' });
+  for (const b of $$('#skin-anim button')) b.setAttribute('aria-pressed', String(b.dataset.v === a));
+}
+function pintarSkin(d) {
+  skin3d.datos = d;
+  const v = visorSkin();
+  if (!v) return;
+  if (d && d.skin) v.loadSkin(d.skin, { model: d.modelo === 'slim' ? 'slim' : d.modelo === 'auto' ? 'auto-detect' : 'default' }); else v.loadSkin(null);
+  const activa = d && (d.capas || []).find((c) => c.activa);
+  if (activa && activa.img) v.loadCape(activa.img, { backEquipment: skin3d.anim === 'volar' ? 'elytra' : 'cape' }); else v.loadCape(null);
+  const caja = $('capas');
+  const capas = (d && d.capas) || [];
+  if (!d || !d.premium) { caja.replaceChildren(); return; }
+  if (!capas.length) { caja.replaceChildren(el('small', {}, t('sinCapas'))); return; }
+  const boton = (c) => el('button', { type: 'button', class: 'capa', 'aria-pressed': String(c ? c.activa : !activa), title: c ? c.nombre : t('sinCapa'),
+    onclick: () => cambiarCapa(c ? c.id : null) }, c && c.img ? fondoDe(el('span', { class: 'capa-img' }), c.img) : el('span', { class: 'capa-img nada' }, '∅'), el('small', {}, c ? c.nombre : t('sinCapa')));
+  caja.replaceChildren(el('b', {}, t('capas')), el('div', { class: 'capas-lista' }, boton(null), ...capas.map(boton)));
+}
+async function cargarSkin(forzar = false) {
+  const activa = estado.cuentas.find((c) => c.activa);
+  const clave = activa ? activa.id : null;
+  if (!forzar && clave === skin3d.clave && skin3d.datos) { pintarSkin(skin3d.datos); return; }
+  skin3d.clave = clave;
+  if (!activa) { pintarSkin(null); return; }
+  $('skin-cargando').classList.add('on');
+  try { pintarSkin(await llamar(quantum.skin)); } catch { pintarSkin(null); } finally { $('skin-cargando').classList.remove('on'); }
+}
+async function cambiarCapa(id) {
+  $('skin-cargando').classList.add('on');
+  try { pintarSkin(await llamar(quantum.ponerCapa, id)); sonar('ok'); } catch (e) { aviso(e.message); } finally { $('skin-cargando').classList.remove('on'); }
 }
 
 // ---------- Cuentas ----------
@@ -165,11 +246,9 @@ function pintarCuentas() {
   $('cuenta-nombre').textContent = activa ? activa.nombre : t('anadirCuenta');
   $('cuenta-tipo').textContent = activa ? (activa.tipo === 'microsoft' ? t('premium') : t('noPremium')) : t('premiumONo');
   cara(activa, $('cara'));
-  if (activa) {
-    $('skin-cuerpo').src = `https://mc-heads.net/body/${encodeURIComponent(activa.tipo === 'microsoft' ? activa.uuid : activa.nombre)}/220`;
-    $('skin-nota').textContent = activa.tipo === 'microsoft' ? t('skinPremium') : t('skinNoPremium');
-    $('btn-skin').hidden = activa.tipo !== 'microsoft';
-  } else { $('skin-cuerpo').removeAttribute('src'); $('skin-nota').textContent = ''; $('btn-skin').hidden = true; }
+  $('skin-nota').textContent = activa ? (activa.tipo === 'microsoft' ? t('skinPremium') : t('skinNoPremium')) : '';
+  $('skin-subir').hidden = !activa || activa.tipo !== 'microsoft';
+  if ($('dlg-cuentas').open) cargarSkin();
   const ul = $('lista-cuentas');
   ul.replaceChildren();
   if (!estado.cuentas.length) ul.append(el('li', { class: 'vacio' }, t('anadeCuenta')));
@@ -182,14 +261,19 @@ function pintarCuentas() {
       el('button', { type: 'button', onclick: () => quitarCuenta(c) }, t('quitar'))));
   }
 }
-async function usarCuenta(id) { estado.cuentas = await llamar(quantum.seleccionarCuenta, id); pintarCuentas(); sonar('ok'); }
+async function usarCuenta(id) { estado.cuentas = await llamar(quantum.seleccionarCuenta, id); skin3d.clave = null; pintarCuentas(); sonar('ok'); }
 async function quitarCuenta(c) {
   if (!confirm(t('quitarConfirma', { n: c.nombre }))) return;
   estado.cuentas = await llamar(quantum.eliminarCuenta, c.id); pintarCuentas();
 }
 function configurarCuentas() {
-  $('cuenta').addEventListener('click', () => { sonar('clic'); $('dlg-cuentas').showModal(); });
-  $('btn-skin').addEventListener('click', () => llamar(quantum.abrirEnlace, 'https://www.minecraft.net/msaccount/profile'));
+  $('cuenta').addEventListener('click', () => { sonar('clic'); $('dlg-cuentas').showModal(); cargarSkin(); });
+  chips('skin-anim', skin3d.anim, (v) => ponerAnimSkin(v));
+  chips('skin-modelo', skin3d.modelo, (v) => { skin3d.modelo = v; });
+  $('btn-skin').addEventListener('click', async () => {
+    $('skin-cargando').classList.add('on');
+    try { const d = await llamar(quantum.subirSkin, skin3d.modelo); if (d) { pintarSkin(d); aviso(t('skinSubida')); sonar('ok'); } } catch (e) { aviso(e.message); } finally { $('skin-cargando').classList.remove('on'); }
+  });
   $('btn-ms').addEventListener('click', async () => {
     const b = $('btn-ms'); b.disabled = true; $('offline-error').textContent = '';
     try { estado.cuentas = await llamar(quantum.cuentaMicrosoft); pintarCuentas(); $('dlg-cuentas').close(); sonar('ok'); }
@@ -233,8 +317,8 @@ function configurarAjustes() {
   chips('op-idioma', a.idioma, async (v) => { await guardar({ idioma: v }); LANG = v; traducir(); repintarTodo(); });
   chips('op-tema', a.tema, (v) => guardar({ tema: v }));
   chips('op-acento', a.acento, (v) => guardar({ acento: v }));
-  chips('op-ilustracion', a.ilustracion, (v) => guardar({ ilustracion: v }));
-  interruptor('op-animaciones', a.animaciones, (v) => guardar({ animaciones: v }));
+  interruptor('op-ilus-animada', a.ilusAnimada, (v) => guardar({ ilusAnimada: v }).then(() => mostrarIlustracion(ilustraciones()[arte.indice])));
+  interruptor('op-animaciones', a.animaciones, (v) => guardar({ animaciones: v }).then(() => mostrarIlustracion(ilustraciones()[arte.indice])));
   interruptor('op-intro', a.intro, (v) => guardar({ intro: v }));
   interruptor('op-sonidos', a.sonidos, (v) => guardar({ sonidos: v }).then(() => sonar('ok')));
   const vol = $('op-volumen'); vol.value = a.volumen; $('op-volumen-v').textContent = `${a.volumen}%`;
@@ -250,6 +334,8 @@ function configurarAjustes() {
   interruptor('op-completa', a.pantallaCompleta, (v) => guardar({ pantallaCompleta: v }));
   interruptor('op-ocultar', a.cerrarAlJugar, (v) => guardar({ cerrarAlJugar: v }));
   interruptor('op-directo', a.conectarDirecto !== false, (v) => guardar({ conectarDirecto: v }));
+  interruptor('op-consola', a.consola, (v) => guardar({ consola: v }));
+  $('btn-consola').addEventListener('click', () => { sonar('clic'); llamar(quantum.abrirConsola); });
   $('op-idioma-juego').value = a.idiomaJuego || 'es_es';
   $('op-idioma-juego').addEventListener('change', () => guardar({ idiomaJuego: $('op-idioma-juego').value }));
   // Memoria
@@ -270,21 +356,8 @@ function configurarAjustes() {
   });
   interruptor('op-ligero', a.modoLigero ?? perfilAuto === 'bajo', (v) => guardar({ modoLigero: v }));
   interruptor('op-seguro', a.modoSeguro, (v) => guardar({ modoSeguro: v }));
-  // Módulos
-  const lista = estado.init.evento.modulos || [];
-  const cont = $('modulos');
-  const contar = () => { $('mod-cuenta').textContent = lista.length ? t('activos', { a: $$('input:checked', cont).length, n: lista.length }) : ''; };
-  for (const m of lista) {
-    const inp = el('input', { type: 'checkbox' }); inp.dataset.mod = m.id;
-    inp.checked = (a.modulos || {})[m.id] ?? m.defecto;
-    inp.addEventListener('change', () => {
-      sonar('clic'); contar();
-      const o = {}; for (const i of $$('input[data-mod]', cont)) o[i.dataset.mod] = i.checked;
-      guardar({ modulos: o });
-    });
-    cont.append(el('label', { class: 'interruptor' }, inp, el('span', { class: 'sw' }), el('span', {}, el('b', {}, m.nombre), el('small', {}, m.desc || ''))));
-  }
-  contar();
+  // Módulos y mods de optimización
+  pintarModulos();
   // Java
   $('op-java').value = a.javaArgs || '';
   $('op-java').addEventListener('change', () => guardar({ javaArgs: $('op-java').value.trim() }));
@@ -304,6 +377,29 @@ function configurarAjustes() {
     });
   }
   $('btn-modulos').addEventListener('click', () => { irA('ajustes'); $$('.ajustes-tabs [data-tab="modulos"]')[0].click(); });
+}
+function pintarModulos() {
+  const a = estado.ajustes;
+  const lista = estado.init.evento.modulos || [];
+  const elegido = (m) => (a.modulos || {})[m.id] ?? m.defecto;
+  const porId = new Map(lista.map((m) => [m.id, m]));
+  const bloqueado = (m) => m.requiere && porId.has(m.requiere) && !elegido(porId.get(m.requiere));
+  const cambiar = (m, v) => { sonar('clic'); guardar({ modulos: { ...(estado.ajustes.modulos || {}), [m.id]: v } }).then(pintarModulos); };
+  const extras = lista.filter((m) => m.grupo !== 'optimizacion');
+  const optim = lista.filter((m) => m.grupo === 'optimizacion');
+  $('modulos').replaceChildren(...extras.map((m) => {
+    const inp = el('input', { type: 'checkbox', disabled: bloqueado(m) }); inp.checked = elegido(m) && !bloqueado(m);
+    inp.addEventListener('change', () => cambiar(m, inp.checked));
+    return el('label', { class: `interruptor${bloqueado(m) ? ' bloqueado' : ''}` }, inp, el('span', { class: 'sw' }), el('span', {}, el('b', {}, m.nombre), el('small', {}, bloqueado(m) ? t('necesita', { m: porId.get(m.requiere).nombre }) : (m.desc || ''))));
+  }));
+  $('mod-cuenta').textContent = extras.length ? t('activos', { a: extras.filter((m) => elegido(m) && !bloqueado(m)).length, n: extras.length }) : '';
+  $('optim').replaceChildren(...optim.map((m) => {
+    const on = elegido(m) && !bloqueado(m);
+    return el('button', { type: 'button', class: `optim-card${on ? ' on' : ''}`, 'aria-pressed': String(on), disabled: bloqueado(m), onclick: () => cambiar(m, !on) },
+      el('span', { class: 'optim-cab' }, el('b', {}, m.nombre), m.efecto ? el('em', {}, m.efecto) : null),
+      el('small', {}, bloqueado(m) ? t('necesita', { m: porId.get(m.requiere).nombre }) : (m.desc || '')),
+      el('span', { class: 'optim-estado' }, on ? t('activado') : t('desactivado')));
+  }));
 }
 function abrirAjustes(tab) { irA('ajustes'); const b = $$(`.ajustes-tabs [data-tab="${tab}"]`)[0]; if (b) b.click(); }
 
@@ -514,9 +610,67 @@ function pintarPase() {
 
 // ---------- Normas ----------
 function pintarNormas() {
-  const l = (estado.contenido && Array.isArray(estado.contenido.normas)) ? estado.contenido.normas : [];
-  $('normas').replaceChildren(...(l.length ? l.map((n) => el('li', {}, el('div', {}, el('b', {}, campo(n, 'titulo')), el('p', {}, campo(n, 'texto')))))
-    : [el('li', { class: 'vacio' }, t('cargando'))]));
+  const c = estado.contenido || {};
+  const reg = c.reglamento;
+  const caja = $('normas'), indice = $('normas-indice');
+  if (!reg || !Array.isArray(reg.categorias)) {
+    const l = Array.isArray(c.normas) ? c.normas : [];
+    $('normas-intro').textContent = ''; indice.replaceChildren();
+    caja.replaceChildren(...(l.length ? l.map((n) => el('article', { class: 'norma' }, el('b', {}, campo(n, 'titulo')), el('p', {}, campo(n, 'texto')))) : [el('p', { class: 'vacio' }, t('cargando'))]));
+    return;
+  }
+  const q = ($('normas-buscar').value || '').trim().toLowerCase();
+  $('normas-intro').textContent = campo(reg, 'intro') + (reg.actualizado ? ` · ${t('actualizado', { f: fechaCorta(new Date(`${reg.actualizado}T12:00:00`)) })}` : '');
+  let n = 0;
+  const bloques = reg.categorias.map((cat) => {
+    const reglas = (cat.reglas || []).filter((r) => !q || `${campo(r, 't')} ${campo(r, 'd')}`.toLowerCase().includes(q));
+    if (!reglas.length) return null;
+    const cab = el('header', { class: 'cat-cab' }, el('i', { 'data-icon': cat.icono || 'normas' }), el('h2', {}, campo(cat, 'titulo')), el('small', {}, String(reglas.length)));
+    return el('section', { class: 'cat', id: `cat-${cat.id}` }, cab, ...reglas.map((r) => { n += 1; return el('details', { class: 'norma', open: !!q },
+      el('summary', {}, el('span', { class: 'num' }, String(n).padStart(2, '0')), el('b', {}, campo(r, 't'))),
+      el('p', {}, campo(r, 'd')),
+      campo(r, 's') && campo(r, 's') !== '—' ? el('p', { class: 'sancion' }, el('span', {}, t('sancion')), campo(r, 's')) : null); }));
+  }).filter(Boolean);
+  caja.replaceChildren(...(bloques.length ? bloques : [el('p', { class: 'vacio' }, t('sinResultados'))]));
+  indice.replaceChildren(...reg.categorias.map((cat) => { const b = el('button', { type: 'button', onclick: () => { const d = $(`cat-${cat.id}`); if (d) d.scrollIntoView({ behavior: 'smooth', block: 'start' }); } }, campo(cat, 'titulo')); b.dataset.icon = cat.icono || 'normas'; return b; }));
+  pintarIconos(caja); pintarIconos(indice);
+}
+
+// ---------- Créditos ----------
+const creditos = { datos: null, seg: 'mods' };
+async function cargarCreditos() {
+  if (!creditos.datos) { try { creditos.datos = await llamar(quantum.creditos); } catch { creditos.datos = null; } }
+  pintarCreditos();
+}
+function pintarCreditos() {
+  const d = creditos.datos;
+  if (!d) { $('lista-creditos').replaceChildren(el('li', { class: 'vacio' }, t('cargando'))); return; }
+  const l = ilustraciones();
+  $('creditos-arte').replaceChildren(
+    el('div', { class: 'arte-tiras' }, ...l.map((il) => el('img', { src: `../../assets/ilustraciones/${il.archivo}`, alt: il.titulo, title: il.titulo, loading: 'lazy' }))),
+    el('div', { class: 'arte-txt' }, el('span', { class: 'etq' }, t('ilustraciones')), el('b', {}, d.ilustraciones.autor), el('p', {}, t('arteNota'))));
+  const q = ($('creditos-buscar').value || '').trim().toLowerCase();
+  const lista = (d[creditos.seg] || []).filter((x) => !q || JSON.stringify(x).toLowerCase().includes(q));
+  $('lista-creditos').replaceChildren(...lista.map((x) => el('li', {},
+    el('div', {}, el('b', {}, x.nombre), x.version ? el('span', { class: 'ver' }, x.version) : null, el('small', {}, [x.tipo, (x.autores || []).join(', ')].filter(Boolean).join(' · '))),
+    x.licencia ? el('span', { class: 'lic' }, x.licencia) : null,
+    x.url ? el('button', { type: 'button', class: 'btn', onclick: () => llamar(quantum.abrirEnlace, x.url) }, t('ver')) : null)));
+  for (const b of $$('#creditos-seg [data-seg]')) {
+    const n = (d[b.dataset.seg] || []).length;
+    b.dataset.n = n;
+  }
+  $('creditos-aviso').textContent = d.aviso || '';
+}
+function configurarCreditos() {
+  $('creditos-buscar').addEventListener('input', pintarCreditos);
+  $('normas-buscar').addEventListener('input', pintarNormas);
+  for (const b of $$('#creditos-seg [data-seg]')) {
+    b.addEventListener('click', () => {
+      creditos.seg = b.dataset.seg; sonar('clic');
+      for (const o of $$('#creditos-seg [data-seg]')) o.setAttribute('aria-selected', String(o === b));
+      pintarCreditos();
+    });
+  }
 }
 
 // ---------- Capturas ----------
@@ -555,10 +709,10 @@ function pintarMods() {
 }
 function configurarMods() {
   $('mods-buscar').addEventListener('input', pintarMods);
-  for (const b of $$('.segmentos [data-seg]')) {
+  for (const b of $$('[data-pagina="mods"] .segmentos [data-seg]')) {
     b.addEventListener('click', () => {
       estado.segMods = b.dataset.seg; sonar('clic');
-      for (const o of $$('.segmentos [data-seg]')) o.setAttribute('aria-selected', String(o === b));
+      for (const o of $$('[data-pagina="mods"] .segmentos [data-seg]')) o.setAttribute('aria-selected', String(o === b));
       pintarMods();
     });
   }
@@ -588,7 +742,7 @@ function ponerGifs(g) {
 
 function repintarTodo() {
   pintarCuentas(); pintarNoticias(); pintarFichaEvento(); pintarCalendario(); pintarPase(); pintarNormas(); pintarComunidad();
-  pintarTiempo(estado.init.stats || {}); pintarAcerca(estado.init.instalado); ponerIlustracion(); estadoServidor(); if (estado.mods) pintarMods();
+  pintarTiempo(estado.init.stats || {}); pintarAcerca(estado.init.instalado); ponerIlustracion(); pintarModulos(); estadoServidor(); if (estado.mods) pintarMods(); if (creditos.datos) pintarCreditos();
   $('perfil-auto').textContent = t(estado.init.perfilAuto);
   if (!estado.jugando) { $('jugar-txt').textContent = t('jugar'); $('prog-etapa').textContent = estado.init.instalado ? t('listo') : t('primeraVez'); }
 }
@@ -596,7 +750,6 @@ function repintarTodo() {
 // ---------- Arranque ----------
 (async () => {
   pintarIconos();
-  $('skin-cuerpo').addEventListener('error', () => $('skin-cuerpo').removeAttribute('src'));
   $('win-min').addEventListener('click', () => quantum.ventana('minimizar'));
   $('win-max').addEventListener('click', () => quantum.ventana('maximizar'));
   $('win-cerrar').addEventListener('click', () => quantum.ventana('cerrar'));
@@ -621,11 +774,11 @@ function repintarTodo() {
   for (const b of $$('.riel-btn[data-pagina]')) b.addEventListener('click', () => irA(b.dataset.pagina));
   for (const b of $$('[data-pagina-ir]')) b.addEventListener('click', () => irA(b.dataset.paginaIr));
   $('ip').addEventListener('click', async () => { try { await navigator.clipboard.writeText(estado.init.evento.ip); aviso(t('ipCopiada')); sonar('ok'); } catch { /* */ } });
-  $('rollo').addEventListener('click', () => abrirAjustes('personalizar'));
   $('cal-ant').addEventListener('click', () => { mesVista.setMonth(mesVista.getMonth() - 1); pintarCalendario(); });
   $('cal-sig').addEventListener('click', () => { mesVista.setMonth(mesVista.getMonth() + 1); pintarCalendario(); });
   $('jugar').addEventListener('click', () => jugar(false));
-  configurarCuentas(); configurarAjustes(); configurarRegistro(); configurarSoporte(); configurarMods();
+  configurarCuentas(); configurarAjustes(); configurarRegistro(); configurarSoporte(); configurarMods(); configurarCreditos();
+  document.documentElement.dataset.pagina = 'inicio';
   repintarTodo();
   cargarNoticias(); cargarContenido(); comprobarActualizacion();
   setInterval(estadoServidor, 30000);
