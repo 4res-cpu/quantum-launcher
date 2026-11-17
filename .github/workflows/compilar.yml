@@ -1,11 +1,13 @@
-# Compila el launcher y lo publica en GitHub Releases cuando subes una etiqueta vX.Y.Z
-#   git tag v1.0.1 && git push origin v1.0.1
+# Compila el launcher y lo publica en GitHub Releases cuando cambia la versión de package.json en main
+# (o cuando subes una etiqueta vX.Y.Z).
 # También se puede lanzar a mano desde la pestaña Actions (sin publicar).
 name: Compilar launcher
 
 on:
   push:
     tags: ['v*']
+    branches: [main]
+    paths: ['package.json']
   workflow_dispatch:
 
 permissions:
@@ -36,6 +38,8 @@ jobs:
           - os: macos-latest
             args: --mac dmg
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    continue-on-error: ${{ matrix.os == 'macos-latest' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -45,7 +49,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
-        run: npx electron-builder ${{ matrix.args }} --publish ${{ startsWith(github.ref, 'refs/tags/') && 'always' || 'never' }}
+        run: npx electron-builder ${{ matrix.args }} --publish ${{ (startsWith(github.ref, 'refs/tags/') || github.event_name == 'push') && 'always' || 'never' }}
       - uses: actions/upload-artifact@v4
         with:
           name: launcher-${{ matrix.os }}
