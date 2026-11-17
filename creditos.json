@@ -53,6 +53,12 @@
    "url": "https://modrinth.com/mod/accessories"
   },
   {
+   "nombre": "Additional items for Cobblemon",
+   "version": "4.0.0",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/additional-items-for-cobblemon"
+  },
+  {
    "nombre": "Advancement Plaques",
    "version": "1.6.8",
    "licencia": "CC BY NC ND 4.0",
@@ -63,6 +69,12 @@
    "version": "5.14.2",
    "licencia": "MIT",
    "url": "https://modrinth.com/mod/adventure-platform-mod"
+  },
+  {
+   "nombre": "Amendments",
+   "version": "1.21-2.2.7",
+   "licencia": "Supplementaries Team License 1.1",
+   "url": "https://modrinth.com/mod/amendments"
   },
   {
    "nombre": "Another Furniture",
@@ -131,6 +143,12 @@
    "url": "https://modrinth.com/mod/better-combat"
   },
   {
+   "nombre": "Better Ping Display [Fabric]",
+   "version": "1.21.1-1.1.1",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/better-ping-display-fabric"
+  },
+  {
    "nombre": "Blabber",
    "version": "1.8.1",
    "licencia": "LGPL 3.0 or later",
@@ -165,6 +183,12 @@
    "version": "0.15.7",
    "licencia": "MPL 2.0",
    "url": "https://modrinth.com/mod/chat-heads"
+  },
+  {
+   "nombre": "Chunks fade in",
+   "version": "v3.0.26-1.21-fabric",
+   "licencia": "GPL 3.0 only",
+   "url": "https://modrinth.com/mod/chunks-fade-in"
   },
   {
    "nombre": "Chunky",
@@ -203,6 +227,19 @@
    "url": "https://modrinth.com/mod/cobblefurnies"
   },
   {
+   "nombre": "CobbleKanto Core",
+   "version": "0.9.3",
+   "licencia": "CobbleKanto Project Custom License",
+   "url": "https://modrinth.com/mod/cobblekanto-core",
+   "tipo": "Proyecto CobbleKanto · PrimordioCobble / CobbleKanto Team"
+  },
+  {
+   "nombre": "Cobbleloots: Loot Balls and More!",
+   "version": "2.5.0-alpha.2",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/cobbleloots"
+  },
+  {
    "nombre": "Cobblemon",
    "version": "1.8.4F",
    "licencia": "MPL 2.0",
@@ -221,6 +258,12 @@
    "url": "https://modrinth.com/mod/cobblemon-cities-structures"
   },
   {
+   "nombre": "Cobblemon Effectiveness",
+   "version": "0.4.0-beta.1",
+   "licencia": "GPL 3.0 or later",
+   "url": "https://modrinth.com/mod/cobblemon-effectiveness"
+  },
+  {
    "nombre": "Cobblemon EV Pool",
    "version": "1.8.4",
    "licencia": "All Rights Reserved",
@@ -237,6 +280,18 @@
    "version": "0.11.3",
    "licencia": "MIT",
    "url": "https://modrinth.com/mod/cobblemon-fight-or-flight-reborn"
+  },
+  {
+   "nombre": "Cobblemon Instant-Run",
+   "version": "1.1.0",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/cobblerun"
+  },
+  {
+   "nombre": "Cobblemon Leaderboards",
+   "version": "4.0",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/cobblemon-leaderboards"
   },
   {
    "nombre": "Cobblemon PokeNav",
@@ -281,6 +336,12 @@
    "url": "https://modrinth.com/mod/cobbreeding"
   },
   {
+   "nombre": "Controlling",
+   "version": "19.0.5",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/controlling"
+  },
+  {
    "nombre": "CreativeCore",
    "version": "2.13.54",
    "licencia": "LGPL 3.0 only",
@@ -291,6 +352,18 @@
    "version": "3.1.5-1.21.1-fabric",
    "licencia": "DSMSLv3",
    "url": "https://modrinth.com/mod/drippy-loading-screen"
+  },
+  {
+   "nombre": "Dynamic Crosshair",
+   "version": "9.11+1.21.1-fabric",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/mod/dynamiccrosshair"
+  },
+  {
+   "nombre": "Dynamic Crosshair Compat",
+   "version": "4.4+1.21.1-fabric",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/mod/dynamiccrosshaircompat"
   },
   {
    "nombre": "Easy NPC",
@@ -377,6 +450,12 @@
    "url": "https://modrinth.com/mod/fabric-language-kotlin"
   },
   {
+   "nombre": "Fancy Toasts | Better Advancements",
+   "version": "1.5.1-fabric-1.21.1",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/fancy-toasts"
+  },
+  {
    "nombre": "FancyMenu",
    "version": "3.10.0-1.21.1-fabric",
    "licencia": "DSMSLv3.1",
@@ -401,6 +480,12 @@
    "url": "https://modrinth.com/mod/forge-config-api-port"
   },
   {
+   "nombre": "Framework (MrCrayfish)",
+   "version": "0.13.11",
+   "licencia": "LGPL 2.1",
+   "url": "https://github.com/MrCrayfish/Framework"
+  },
+  {
    "nombre": "Fzzy Config",
    "version": "0.7.7+1.21",
    "licencia": "TDL M",
@@ -413,6 +498,18 @@
    "url": "https://modrinth.com/mod/geckolib"
   },
   {
+   "nombre": "Give Us Terracotta Stairs! (G.U.T.S)",
+   "version": "1.1",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/guts"
+  },
+  {
+   "nombre": "Handcrafted",
+   "version": "4.0.3",
+   "licencia": "Terrarium Licence",
+   "url": "https://modrinth.com/mod/handcrafted"
+  },
+  {
    "nombre": "Iceberg",
    "version": "1.3.2",
    "licencia": "CC BY NC ND 4.0",
@@ -423,6 +520,12 @@
    "version": "1.6.15+1.21.1-fabric",
    "licencia": "LGPL 3.0 or later",
    "url": "https://modrinth.com/mod/immediatelyfast"
+  },
+  {
+   "nombre": "Immersive Hotbar",
+   "version": "1.3.0-1.21-1.21.1",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/immersive-hotbar"
   },
   {
    "nombre": "Immersive UI",
@@ -455,10 +558,46 @@
    "url": "https://modrinth.com/mod/jade"
   },
   {
+   "nombre": "KantoBlocks",
+   "version": "1.1.1",
+   "licencia": "CobbleKanto Project Custom License",
+   "url": "https://modrinth.com/mod/kantoblocks",
+   "tipo": "Proyecto CobbleKanto · PrimordioCobble / CobbleKanto Team"
+  },
+  {
+   "nombre": "KantoItems",
+   "version": "0.1.2",
+   "licencia": "CobbleKanto Project Custom License",
+   "url": "https://modrinth.com/mod/kantoitems",
+   "tipo": "Proyecto CobbleKanto · PrimordioCobble / CobbleKanto Team"
+  },
+  {
+   "nombre": "KantoModels",
+   "version": "1.3.7",
+   "licencia": "CobbleKanto Project Custom License",
+   "url": "https://modrinth.com/mod/kantomodels",
+   "tipo": "Proyecto CobbleKanto · PrimordioCobble / CobbleKanto Team"
+  },
+  {
    "nombre": "KantoNPCs",
    "version": "1.0.7",
    "licencia": "CobbleKanto Project Custom License",
-   "url": "https://modrinth.com/mod/kantonpcs"
+   "url": "https://modrinth.com/mod/kantonpcs",
+   "tipo": "Proyecto CobbleKanto · PrimordioCobble / CobbleKanto Team"
+  },
+  {
+   "nombre": "KantoSpawners",
+   "version": "0.0.5",
+   "licencia": "CobbleKanto Project Custom License",
+   "url": "https://modrinth.com/mod/kantospawners",
+   "tipo": "Proyecto CobbleKanto · PrimordioCobble / CobbleKanto Team"
+  },
+  {
+   "nombre": "KantoTeleports",
+   "version": "0.1.2",
+   "licencia": "CobbleKanto Project Custom License",
+   "url": "https://modrinth.com/mod/kantoteleports",
+   "tipo": "Proyecto CobbleKanto · PrimordioCobble / CobbleKanto Team"
   },
   {
    "nombre": "Konkrete",
@@ -507,6 +646,12 @@
    "version": "1.1.2",
    "licencia": "All Rights Reserved",
    "url": "https://modrinth.com/mod/macaws-holidays"
+  },
+  {
+   "nombre": "Macaw's Roofs",
+   "version": "2.3.2",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/macaws-roofs"
   },
   {
    "nombre": "MaLiLib",
@@ -599,6 +744,12 @@
    "url": "https://modrinth.com/mod/packed-packs"
   },
   {
+   "nombre": "Packet Fixer",
+   "version": "3.3.1",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/packet-fixer"
+  },
+  {
    "nombre": "Particle Rain",
    "version": "v4.0.3+1.21.1-fabric",
    "licencia": "MIT",
@@ -615,6 +766,12 @@
    "version": "0.1.6",
    "licencia": "MIT",
    "url": "https://modrinth.com/mod/pokebelt-cobblemon"
+  },
+  {
+   "nombre": "PokeBike [Cobblemon & Pixelmon Addon]",
+   "version": "4.0",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/pokebike"
   },
   {
    "nombre": "Pokeblocks",
@@ -641,6 +798,12 @@
    "url": "https://modrinth.com/mod/punchy-fpa"
   },
   {
+   "nombre": "Puzzles Lib",
+   "version": "21.1.66",
+   "licencia": "MPL 2.0",
+   "url": "https://modrinth.com/mod/puzzles-lib"
+  },
+  {
    "nombre": "quick pack",
    "version": "fabric-1.5.1+1.21.1",
    "licencia": "MIT",
@@ -665,10 +828,41 @@
    "url": "https://modrinth.com/mod/rctapi"
   },
   {
+   "nombre": "Reese's Sodium Options",
+   "version": "mc1.21.1-2.2.4+fabric",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/reeses-sodium-options"
+  },
+  {
+   "nombre": "Resourceful Lib",
+   "version": "3.0.12",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/resourceful-lib"
+  },
+  {
+   "nombre": "SceneBlocks",
+   "version": "0.2.5",
+   "licencia": "CobbleKanto Project Custom License",
+   "url": "https://modrinth.com/mod/sceneblocks",
+   "tipo": "Proyecto CobbleKanto · PrimordioCobble / CobbleKanto Team"
+  },
+  {
+   "nombre": "Scholar",
+   "version": "1.2.10",
+   "licencia": "GPL 3.0 only",
+   "url": "https://modrinth.com/mod/scholar"
+  },
+  {
    "nombre": "Scoreboard Overhaul",
    "version": "1.4.1-mc1.21.0",
    "licencia": "LGPL 3.0 only",
    "url": "https://modrinth.com/mod/scoreboard-overhaul"
+  },
+  {
+   "nombre": "Searchables",
+   "version": "1.0.2",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/searchables"
   },
   {
    "nombre": "ShatterLib | OctoLib",
@@ -707,16 +901,40 @@
    "url": "https://modrinth.com/mod/spark"
   },
   {
+   "nombre": "Stoneworks",
+   "version": "v21.1.0-1.21.1-Fabric",
+   "licencia": "MPL 2.0",
+   "url": "https://modrinth.com/mod/stoneworks"
+  },
+  {
    "nombre": "Subtle Effects",
    "version": "1.15.2-hotfix.1",
    "licencia": "All Rights Reserved",
    "url": "https://modrinth.com/mod/subtle-effects"
   },
   {
+   "nombre": "Supplementaries",
+   "version": "1.21.1-4.1.2",
+   "licencia": "Supplementaries Team License",
+   "url": "https://modrinth.com/mod/supplementaries"
+  },
+  {
    "nombre": "Text Placeholder API",
    "version": "2.4.2+1.21",
    "licencia": "LGPL 3.0 only",
    "url": "https://modrinth.com/mod/placeholder-api"
+  },
+  {
+   "nombre": "TMCraft",
+   "version": "1.4.19+1.8.4",
+   "licencia": "GPL 3.0 only",
+   "url": "https://modrinth.com/mod/tmcraft"
+  },
+  {
+   "nombre": "Traveler's Backpack",
+   "version": "1.21.1-10.1.40",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/mod/travelersbackpack"
   },
   {
    "nombre": "Traveler's Titles",
@@ -777,6 +995,12 @@
    "version": "1.21.1-Fabric-5.1.9",
    "licencia": "LGPL 3.0 only",
    "url": "https://modrinth.com/mod/yungs-api"
+  },
+  {
+   "nombre": "【Cobblemon】BadgeBox",
+   "version": "1.3.0",
+   "licencia": "All Rights Reserved",
+   "url": "https://modrinth.com/mod/cobblemon-badgebox"
   }
  ],
  "servidor": [
