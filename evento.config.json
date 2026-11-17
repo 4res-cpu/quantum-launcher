@@ -19,37 +19,20 @@
     "37.187.159.20:9175"
   ],
   "discord": "https://discord.gg/srGGsHJug8",
-  "fechaEvento": null,
   "textos": {
-    "marca": "Network",
-    "lema1": "Cobblemon · SkyWars · Minijuegos",
-    "lema2": "Un launcher, todos los modos",
-    "cuentaAtras": "La network abre en",
-    "abierto": "La network está abierta",
-    "suerte": "¡Nos vemos dentro!",
-    "noticiasSub": "Lo último de Quantum Network",
-    "cuentasSobre": "Bienvenido a Quantum",
-    "cuentasSub": "Elige con qué cuenta entras a la network."
+    "lema": "Cobblemon · Región de Quanta"
   },
-  "fondos": [
-    "arte-1.jpg",
-    "arte-2.jpg",
-    "arte-3.jpg",
-    "arte-4.jpg",
-    "arte-5.jpg",
-    "arte-6.jpg",
-    "arte-7.jpg",
-    "arte-8.gif"
-  ],
   "logo": "logo-network.png",
   "gifs": {
+    "portada": null,
     "progreso": "progreso.gif",
     "noticias": "noticias.gif",
     "cuentas": "cuentas.gif"
   },
   "urls": {
     "manifiesto": "https://raw.githubusercontent.com/4res-cpu/quantum-datos/main/manifest.json",
-    "noticias": "https://raw.githubusercontent.com/4res-cpu/quantum-datos/main/noticias.json"
+    "noticias": "https://raw.githubusercontent.com/4res-cpu/quantum-datos/main/noticias.json",
+    "contenido": "https://raw.githubusercontent.com/4res-cpu/quantum-datos/main/contenido.json"
   },
   "microsoft": {
     "clientId": "570c7fc6-9a3a-4a41-9dbf-8cb5ead6110b",
@@ -168,21 +151,26 @@
       "nombre": "Cobblemon",
       "desc": "Región de Quanta · legendarios · raids",
       "estado": "abierto"
-    },
-    {
-      "nombre": "SkyWars",
-      "desc": "Islas, cofres y último en pie",
-      "estado": "pronto"
-    },
-    {
-      "nombre": "Duels",
-      "desc": "1 contra 1 con kits",
-      "estado": "pronto"
-    },
-    {
-      "nombre": "Build Battle",
-      "desc": "Construye contra el reloj",
-      "estado": "pronto"
     }
-  ]
+  ],
+  "ilustraciones": [
+    {
+      "archivo": "legendarios.jpg",
+      "titulo": "Legendarios de Hoenn",
+      "autor": "Quantum"
+    }
+  ],
+  "enlaces": {
+    "discord": "https://discord.gg/srGGsHJug8",
+    "web": null,
+    "tienda": null,
+    "youtube": null,
+    "tiktok": null,
+    "instagram": null,
+    "x": null
+  },
+  "legal": {
+    "titular": "Quantum Network",
+    "aviso": "Quantum Network es un proyecto independiente de la comunidad. No está afiliado, respaldado ni patrocinado por Mojang Studios, Microsoft, Nintendo, Game Freak, Creatures Inc. ni The Pokémon Company. Minecraft es marca de Mojang Synergies AB. Pokémon y sus personajes son marcas de sus respectivos titulares. Cobblemon es un mod de la comunidad con licencia propia. Las ilustraciones del launcher pertenecen a sus autores y se usan con permiso."
+  }
 }

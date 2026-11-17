@@ -73,6 +73,14 @@ Module._load = function (req, ...rest) { return req === 'electron' ? electron : 
   const cuentas = fs.readFileSync(path.join(tmp, 'appData', 'QuantumLauncher', 'cuentas.json'), 'utf8');
   console.log('  datos en', path.join(tmp, 'appData', 'QuantumLauncher'), '(sin .minecraft:', !fs.existsSync(path.join(tmp, '.minecraft')), ')');
   assert.ok(cuentas.includes('Prueba_Quantum'));
+  const aj2 = await call('ajustes:guardar', { idioma: 'xx', tema: 'papel', acento: 'jade', volumen: 400, javaArgs: '-XX:+UseZGC' });
+  assert.equal(aj2.idioma, 'es'); assert.equal(aj2.tema, 'papel'); assert.equal(aj2.volumen, 100);
+  const est = await call('stats'); assert.equal(typeof est.totalMs, 'number');
+  const md = await call('mods:listar'); assert.ok(Array.isArray(md.mods));
+  assert.deepEqual(await call('capturas:listar'), []);
+  const { argsJavaJugador } = require('../src/core/launcher');
+  assert.deepEqual(argsJavaJugador('-Xmx9G -XX:+UseZGC rm -Dfoo=1'), ['-XX:+UseZGC', '-Dfoo=1']);
+  console.log('  ajustes nuevos, estadísticas, mods y argumentos de Java: ok');
   console.log('\nPrueba del proceso principal superada');
   mock.stop();
   fs.rmSync(tmp, { recursive: true, force: true });

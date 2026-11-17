@@ -1,259 +1,327 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-tema="tinta" data-acento="oro">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; connect-src 'none'">
-  <title>Quantum Launcher</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@600;800;900&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800&display=swap">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self'; font-src 'self'; script-src 'self'; connect-src 'none'; media-src 'none'">
+  <title>Quantum Network</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Fondo: ilustraciones que se van cambiando, niebla y velo oscuro -->
-  <div class="fondos" id="fondos" aria-hidden="true"></div>
-  <div class="velo" aria-hidden="true"></div>
-  <canvas class="campo" id="campo" aria-hidden="true"></canvas>
-  <div class="niebla" aria-hidden="true"><i></i><i></i></div>
+  <!-- Intro -->
+  <div class="intro" id="intro" aria-hidden="true">
+    <svg class="enso" viewBox="0 0 200 200"><path d="M100 18a82 82 0 1 1-71 41" /></svg>
+    <img class="intro-logo" src="../../assets/logo-network.png" alt="">
+  </div>
+
+  <div class="fondo-tinta" aria-hidden="true"></div>
+  <div class="fondo-ilustracion" id="fondo-ilustracion" aria-hidden="true"></div>
   <div class="grano" aria-hidden="true"></div>
 
   <header class="barra">
-    <div class="marca">
-      <img class="marca-logo" src="../../assets/icon.png" alt="">
-      <span class="marca-txt"><b>Quantum</b><i></i><span id="t-marca">Network</span></span>
-    </div>
+    <div class="marca"><img src="../../assets/marca.png" alt=""><span>Quantum <b>Network</b></span></div>
+    <div class="barra-centro" id="barra-titulo"></div>
     <div class="ventana">
-      <button type="button" class="win-btn" id="win-min" aria-label="Minimizar"><svg viewBox="0 0 12 12"><path d="M2 6h8" /></svg></button>
-      <button type="button" class="win-btn" id="win-max" aria-label="Maximizar"><svg viewBox="0 0 12 12"><rect x="2.5" y="2.5" width="7" height="7" /></svg></button>
-      <button type="button" class="win-btn cerrar" id="win-cerrar" aria-label="Cerrar"><svg viewBox="0 0 12 12"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" /></svg></button>
+      <button type="button" class="win-btn" id="win-min" data-t-aria="minimizar"><svg viewBox="0 0 12 12"><path d="M2 6h8"/></svg></button>
+      <button type="button" class="win-btn" id="win-max" data-t-aria="maximizar"><svg viewBox="0 0 12 12"><rect x="2.5" y="2.5" width="7" height="7"/></svg></button>
+      <button type="button" class="win-btn cerrar" id="win-cerrar" data-t-aria="cerrar"><svg viewBox="0 0 12 12"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7"/></svg></button>
     </div>
   </header>
 
-  <!-- Barra lateral de iconos -->
-  <nav class="riel" aria-label="Menú">
-    <button class="riel-btn" id="btn-ajustes" type="button" aria-label="Ajustes">
-      <svg viewBox="0 0 24 24"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
-      <span>Ajustes</span>
-    </button>
-    <button class="riel-btn" id="btn-modulos" type="button" aria-label="Módulos">
-      <svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><path d="M17 14v6M14 17h6"/></svg>
-      <span>Módulos</span>
-    </button>
-    <button class="riel-btn" id="btn-noticias" type="button" aria-label="Noticias">
-      <svg viewBox="0 0 24 24"><path d="M4 5h13v14H6a2 2 0 0 1-2-2V5Z"/><path d="M17 9h3v8a2 2 0 0 1-2 2h-1"/><path d="M7.5 9h6M7.5 12.5h6M7.5 16h4"/></svg>
-      <span>Noticias</span><em class="punto oculto" id="noticias-punto"></em>
-    </button>
-    <button class="riel-btn" id="discord" type="button" aria-label="Discord">
-      <svg viewBox="0 0 24 24" class="relleno"><path d="M20.3 4.4A19.6 19.6 0 0 0 15.4 3l-.6 1.3a18 18 0 0 0-5.6 0L8.6 3a19.5 19.5 0 0 0-4.9 1.5C.6 9.1-.3 13.6.1 18a19.8 19.8 0 0 0 6 3l1.3-2.1a12.8 12.8 0 0 1-2-1l.5-.4a14 14 0 0 0 12.2 0l.5.4c-.6.4-1.3.7-2 1L17.9 21a19.7 19.7 0 0 0 6-3c.5-5.1-.8-9.6-3.6-13.6ZM8 15.3c-1.2 0-2.2-1.1-2.2-2.4S6.8 10.5 8 10.5s2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Zm8 0c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Z"/></svg>
-      <span>Discord</span>
-    </button>
+  <nav class="riel" id="riel">
+    <div class="riel-grupo">
+      <button type="button" class="riel-btn activo" data-pagina="inicio" data-icon="inicio"><span data-t="inicio">Inicio</span></button>
+      <button type="button" class="riel-btn" data-pagina="noticias" data-icon="noticias"><span data-t="noticias">Noticias</span><em class="punto oculto" id="punto-noticias"></em></button>
+      <button type="button" class="riel-btn" data-pagina="eventos" data-icon="calendario"><span data-t="eventos">Eventos</span></button>
+      <button type="button" class="riel-btn" data-pagina="pase" data-icon="pase"><span data-t="pase">Pase</span></button>
+      <button type="button" class="riel-btn" data-pagina="capturas" data-icon="camara"><span data-t="capturas">Capturas</span></button>
+      <button type="button" class="riel-btn" data-pagina="mods" data-icon="mods"><span data-t="mods">Mods</span></button>
+      <button type="button" class="riel-btn" data-pagina="normas" data-icon="normas"><span data-t="normas">Normas</span></button>
+    </div>
+    <div class="riel-grupo">
+      <button type="button" class="riel-btn" id="btn-comunidad" data-icon="globo"><span data-t="comunidad">Comunidad</span></button>
+      <button type="button" class="riel-btn" id="btn-soporte" data-icon="soporte"><span data-t="soporte">Soporte</span></button>
+      <button type="button" class="riel-btn" data-pagina="ajustes" data-icon="ajustes"><span data-t="ajustes">Ajustes</span></button>
+    </div>
   </nav>
 
   <div class="aviso oculto" id="aviso" role="status"></div>
 
-  <!-- Noticia destacada (arriba a la derecha) -->
-  <button class="destacada oculto" id="destacada" type="button">
-    <span class="destacada-tag">Última noticia</span>
-    <b id="destacada-titulo"></b>
-    <span class="destacada-ver">Ver noticias →</span>
-  </button>
+  <main class="paginas">
+    <!-- ================= INICIO ================= -->
+    <section class="pagina inicio activa" data-pagina="inicio">
+      <div class="inicio-col">
+        <img class="logo" id="logo" src="../../assets/logo-network.png" alt="Quantum Network">
+        <p class="lema" id="lema">Cobblemon · Región de Quanta</p>
 
-  <main class="escena">
-    <svg class="runa" viewBox="0 0 400 400" aria-hidden="true">
-      <g class="runa-a"><circle cx="200" cy="200" r="188"/><circle cx="200" cy="200" r="176" class="fina"/><path d="M200 4v22M200 374v22M4 200h22M374 200h22"/><path d="M200 12l7 12-7 12-7-12zM200 364l7 12-7 12-7-12zM12 200l12-7 12 7-12 7zM364 200l12-7 12 7-12 7z" class="llena"/></g>
-      <g class="runa-b"><circle cx="200" cy="200" r="150" class="trazos"/><path d="M94 94l18 18M306 94l-18 18M94 306l18-18M306 306l-18-18"/></g>
-    </svg>
-    <img class="logo-evento" id="logo-evento" src="../../assets/logo-network.png" alt="">
-    <p class="lema"><span id="t-lema1">Quantum Network</span><i></i><span id="t-lema2"></span></p>
+        <div class="servidor" id="servidor">
+          <div class="srv-estado">
+            <span class="led" id="led"></span>
+            <div>
+              <b class="srv-num" id="srv-num">--</b><span class="srv-max" id="srv-max"></span>
+              <p class="srv-txt" id="srv-txt" data-t="comprobando">Comprobando el servidor…</p>
+            </div>
+          </div>
+          <div class="srv-ip">
+            <span class="etq" data-t="ip">IP del servidor</span>
+            <button type="button" class="ip" id="ip" data-t-title="copiarIp"><code id="ip-txt"></code><i data-icon="copiar"></i></button>
+          </div>
+          <div class="srv-meta">
+            <span class="etq" data-t="version">Versión</span>
+            <b id="srv-version">1.21.1 · Cobblemon</b>
+          </div>
+        </div>
 
-    <div class="selector"><div class="modos" id="modos" role="listbox" aria-label="Modalidades"></div><div class="modo-detalle" id="modo-detalle"></div></div>
+        <div class="fichas">
+          <div class="ficha" id="ficha-tiempo">
+            <i data-icon="reloj"></i>
+            <span class="etq" data-t="tiempoJugado">Tiempo jugado</span>
+            <b id="tiempo-total">0 min</b>
+            <small id="tiempo-sesiones"></small>
+          </div>
+          <button type="button" class="ficha" data-pagina-ir="eventos">
+            <i data-icon="calendario"></i>
+            <span class="etq" data-t="proximoEvento">Próximo evento</span>
+            <b id="evento-titulo" data-t="sinEventos">Sin eventos</b>
+            <small id="evento-cuando"></small>
+          </button>
+          <button type="button" class="ficha" data-pagina-ir="noticias">
+            <i data-icon="noticias"></i>
+            <span class="etq" data-t="ultimaNoticia">Última noticia</span>
+            <b id="noticia-titulo">—</b>
+            <small id="noticia-fecha"></small>
+          </button>
+        </div>
 
-    <div class="cuenta-atras oculto" id="cuenta-atras" aria-live="polite">
-      <p class="ca-texto" id="ca-texto">Empieza en</p>
-      <div class="ca-numeros" id="ca-numeros">
-        <span class="ca-bloque"><b id="ca-d">--</b><i>Días</i></span>
-        <span class="ca-sep">:</span>
-        <span class="ca-bloque"><b id="ca-h">--</b><i>Horas</i></span>
-        <span class="ca-sep">:</span>
-        <span class="ca-bloque"><b id="ca-m">--</b><i>Min</i></span>
-        <span class="ca-sep">:</span>
-        <span class="ca-bloque"><b id="ca-s">--</b><i>Seg</i></span>
+        <div class="mando">
+          <button type="button" class="cuenta" id="cuenta">
+            <span class="cara" id="cara" aria-hidden="true"></span>
+            <span class="cuenta-txt"><b id="cuenta-nombre" data-t="anadirCuenta">Añadir cuenta</b><small id="cuenta-tipo" data-t="premiumONo">Premium o no premium</small></span>
+            <svg class="chev" viewBox="0 0 12 12"><path d="M3 4.5l3 3 3-3"/></svg>
+          </button>
+          <div class="lanzar">
+            <div class="prog-linea"><img class="gif-progreso" id="gif-progreso" alt=""><span id="prog-etapa" data-t="listo">Listo para jugar</span><span id="prog-detalle"></span></div>
+            <button type="button" class="jugar" id="jugar"><span class="jugar-relleno" id="jugar-relleno"></span><span class="jugar-txt" id="jugar-txt" data-t="jugar">Jugar</span></button>
+          </div>
+        </div>
       </div>
-      <p class="ca-fecha" id="ca-fecha"></p>
-    </div>
+
+      <figure class="rollo" id="rollo">
+        <div class="cordel" aria-hidden="true"></div>
+        <div class="varilla arriba" aria-hidden="true"></div>
+        <div class="papel"><img id="ilustracion" alt=""></div>
+        <div class="varilla abajo" aria-hidden="true"></div>
+        <span class="sello" aria-hidden="true">Q</span>
+        <figcaption id="ilustracion-pie"></figcaption>
+      </figure>
+      <img class="gif-portada oculto" id="gif-portada" alt="">
+    </section>
+
+    <!-- ================= NOTICIAS ================= -->
+    <section class="pagina" data-pagina="noticias">
+      <header class="cab"><img class="cab-gif" id="gif-noticias" alt=""><div><h1 data-t="noticias">Noticias</h1><p data-t="noticiasSub">Lo último de Quantum Network</p></div></header>
+      <ol class="noticias" id="noticias"><li class="vacio" data-t="cargando">Cargando…</li></ol>
+    </section>
+
+    <!-- ================= EVENTOS ================= -->
+    <section class="pagina" data-pagina="eventos">
+      <header class="cab"><div><h1 data-t="eventos">Eventos</h1><p data-t="eventosSub">Calendario de la región de Quanta</p></div></header>
+      <div class="eventos-cuerpo">
+        <div class="calendario">
+          <div class="cal-cab"><button type="button" class="ico-btn" id="cal-ant" data-icon="izq" data-t-aria="anterior"></button><b id="cal-mes"></b><button type="button" class="ico-btn" id="cal-sig" data-icon="der" data-t-aria="siguiente"></button></div>
+          <div class="cal-dias" id="cal-semana"></div>
+          <div class="cal-grid" id="cal-grid"></div>
+        </div>
+        <ol class="lista-eventos" id="lista-eventos"></ol>
+      </div>
+    </section>
+
+    <!-- ================= PASE ================= -->
+    <section class="pagina" data-pagina="pase">
+      <header class="cab"><div><h1 id="pase-nombre" data-t="pase">Pase de temporada</h1><p id="pase-sub"></p></div></header>
+      <div class="pase" id="pase"></div>
+      <p class="nota" id="pase-nota" data-t="paseNota">Tu progreso del pase se gana jugando en el servidor.</p>
+    </section>
+
+    <!-- ================= CAPTURAS ================= -->
+    <section class="pagina" data-pagina="capturas">
+      <header class="cab"><div><h1 data-t="capturas">Capturas</h1><p data-t="capturasSub">Pulsa F2 dentro del juego para guardar una</p></div><button type="button" class="btn" id="btn-carpeta-capturas" data-t="abrirCarpeta">Abrir carpeta</button></header>
+      <div class="capturas" id="capturas"></div>
+    </section>
+
+    <!-- ================= MODS ================= -->
+    <section class="pagina" data-pagina="mods">
+      <header class="cab"><div><h1 data-t="mods">Mods</h1><p id="mods-sub"></p></div>
+        <div class="cab-acciones"><input type="search" id="mods-buscar" data-t-ph="buscar" placeholder="Buscar"><button type="button" class="btn" id="btn-modulos" data-t="modulos">Módulos</button></div></header>
+      <div class="segmentos" role="tablist"><button type="button" role="tab" aria-selected="true" data-seg="mods" data-t="mods">Mods</button><button type="button" role="tab" aria-selected="false" data-seg="texturas" data-t="texturas">Paquetes de texturas</button></div>
+      <ul class="lista-mods" id="lista-mods"></ul>
+      <div class="fila"><button type="button" class="btn" id="btn-carpeta-mods" data-t="abrirCarpeta">Abrir carpeta</button></div>
+    </section>
+
+    <!-- ================= NORMAS ================= -->
+    <section class="pagina" data-pagina="normas">
+      <header class="cab"><div><h1 data-t="normas">Normas</h1><p data-t="normasSub">Para que todos disfrutemos de Quanta</p></div></header>
+      <ol class="normas" id="normas"></ol>
+    </section>
+
+    <!-- ================= AJUSTES ================= -->
+    <section class="pagina ajustes" data-pagina="ajustes">
+      <nav class="ajustes-tabs" role="tablist">
+        <button type="button" data-tab="personalizar" aria-selected="true" data-t="personalizar">Personalizar</button>
+        <button type="button" data-tab="juego" data-t="juego">Juego</button>
+        <button type="button" data-tab="memoria" data-t="memoria">Memoria</button>
+        <button type="button" data-tab="rendimiento" data-t="rendimiento">Rendimiento</button>
+        <button type="button" data-tab="modulos" data-t="modulos">Módulos</button>
+        <button type="button" data-tab="java" data-t="java">Java</button>
+        <button type="button" data-tab="instalacion" data-t="instalacion">Instalación</button>
+        <button type="button" data-tab="acerca" data-t="acerca">Acerca y legal</button>
+      </nav>
+      <div class="ajustes-cuerpo">
+        <section data-panel="personalizar">
+          <h2 data-t="personalizar">Personalizar</h2>
+          <div class="opcion"><div><b data-t="idioma">Idioma</b><small data-t="idiomaSub">Idioma del launcher</small></div>
+            <div class="chips" id="op-idioma"><button type="button" data-v="es">Español</button><button type="button" data-v="en">English</button><button type="button" data-v="pt">Português</button></div></div>
+          <div class="opcion"><div><b data-t="tema">Tema</b><small data-t="temaSub">Tinta oscura o papel claro</small></div>
+            <div class="chips" id="op-tema"><button type="button" data-v="tinta" data-t="tinta">Tinta</button><button type="button" data-v="papel" data-t="papelT">Papel</button></div></div>
+          <div class="opcion"><div><b data-t="acento">Color de acento</b><small data-t="acentoSub">Botones y detalles</small></div>
+            <div class="chips colores" id="op-acento"><button type="button" data-v="oro" class="c-oro" data-t-aria="oro"></button><button type="button" data-v="jade" class="c-jade" data-t-aria="jade"></button><button type="button" data-v="carmesi" class="c-carmesi" data-t-aria="carmesi"></button><button type="button" data-v="violeta" class="c-violeta" data-t-aria="violeta"></button></div></div>
+          <div class="opcion"><div><b data-t="ilustracionOp">Ilustración</b><small data-t="ilustracionSub">Cómo se muestra el arte en el inicio</small></div>
+            <div class="chips" id="op-ilustracion"><button type="button" data-v="rollo" data-t="rolloT">Rollo</button><button type="button" data-v="fondo" data-t="fondoT">Fondo</button><button type="button" data-v="oculta" data-t="ocultaT">Oculta</button></div></div>
+          <label class="interruptor"><input type="checkbox" id="op-animaciones"><span class="sw"></span><span><b data-t="animaciones">Animaciones</b><small data-t="animacionesSub">Movimiento del rollo, transiciones y partículas</small></span></label>
+          <label class="interruptor"><input type="checkbox" id="op-intro"><span class="sw"></span><span><b data-t="intro">Animación al abrir</b><small data-t="introSub">El trazo de tinta al iniciar el launcher</small></span></label>
+          <label class="interruptor"><input type="checkbox" id="op-sonidos"><span class="sw"></span><span><b data-t="sonidos">Sonidos</b><small data-t="sonidosSub">Efectos suaves al navegar y al jugar</small></span></label>
+          <div class="opcion"><div><b data-t="volumen">Volumen</b></div><div class="rango"><input type="range" id="op-volumen" min="0" max="100" step="5"><output id="op-volumen-v"></output></div></div>
+        </section>
+
+        <section data-panel="juego" hidden>
+          <h2 data-t="juego">Juego</h2>
+          <div class="opcion"><div><b data-t="resolucion">Resolución</b><small data-t="resolucionSub">Tamaño de la ventana de Minecraft</small></div>
+            <div class="fila"><select id="op-res"><option value="1280x720">1280 × 720</option><option value="1600x900">1600 × 900</option><option value="1920x1080">1920 × 1080</option><option value="2560x1440">2560 × 1440</option><option value="x" data-t="personalizada">Personalizada</option></select>
+            <input type="number" id="op-ancho" min="640" max="7680"><span class="por">×</span><input type="number" id="op-alto" min="480" max="4320"></div></div>
+          <label class="interruptor"><input type="checkbox" id="op-completa"><span class="sw"></span><span><b data-t="pantallaCompleta">Pantalla completa</b><small data-t="pantallaCompletaSub">Abrir el juego a pantalla completa</small></span></label>
+          <label class="interruptor"><input type="checkbox" id="op-ocultar"><span class="sw"></span><span><b data-t="ocultarLauncher">Ocultar el launcher al jugar</b><small data-t="ocultarLauncherSub">Vuelve a aparecer al cerrar el juego</small></span></label>
+          <label class="interruptor"><input type="checkbox" id="op-directo"><span class="sw"></span><span><b data-t="directo">Entrar directo al servidor</b><small data-t="directoSub">Sin pasar por el menú de Minecraft</small></span></label>
+          <div class="opcion"><div><b data-t="idiomaJuego">Idioma del juego</b></div>
+            <select id="op-idioma-juego"><option value="es_es">Español (España)</option><option value="es_mx">Español (México)</option><option value="en_us">English</option><option value="pt_br">Português (Brasil)</option></select></div>
+        </section>
+
+        <section data-panel="memoria" hidden>
+          <h2 data-t="memoria">Memoria</h2>
+          <p class="sub" data-t="memoriaSub">RAM que puede usar Minecraft.</p>
+          <div class="ram"><input type="range" id="op-ram" step="256"><output id="op-ram-v"></output></div>
+          <div class="ram-escala" id="ram-escala"></div>
+          <p class="ayuda" id="ram-ayuda"></p>
+        </section>
+
+        <section data-panel="rendimiento" hidden>
+          <h2 data-t="rendimiento">Rendimiento</h2>
+          <p class="sub" id="pc-info"></p>
+          <div class="perfiles" id="op-perfil">
+            <button type="button" data-v="auto"><b data-t="auto">Auto</b><small id="perfil-auto"></small></button>
+            <button type="button" data-v="bajo"><b data-t="bajo">Baja</b><small>FPS+</small></button>
+            <button type="button" data-v="medio"><b data-t="medio">Media</b><small data-t="equilibrio">Equilibrio</small></button>
+            <button type="button" data-v="alto"><b data-t="alto">Alta</b><small data-t="calidad">Calidad</small></button>
+            <button type="button" data-v="ultra"><b>Ultra</b><small data-t="maximo">Máximo</small></button>
+          </div>
+          <div class="fila"><button type="button" class="btn" id="btn-optimizar" data-t="aplicarJuego">Aplicar al juego</button></div>
+          <label class="interruptor"><input type="checkbox" id="op-ligero"><span class="sw"></span><span><b data-t="ligero">Modo bajo consumo</b><small data-t="ligeroSub">Quita efectos visuales y sonidos ambientales</small></span></label>
+          <label class="interruptor"><input type="checkbox" id="op-seguro"><span class="sw"></span><span><b data-t="seguro">Modo seguro</b><small data-t="seguroSub">Permite iniciar sin paquetes de texturas si el juego se cierra al cargar</small></span></label>
+        </section>
+
+        <section data-panel="modulos" hidden>
+          <h2 data-t="modulos">Módulos</h2>
+          <p class="sub"><span data-t="modulosSub">Enciende solo lo que usas. Se aplica la próxima vez que pulses Jugar.</span> <b id="mod-cuenta"></b></p>
+          <div class="modulos" id="modulos"></div>
+        </section>
+
+        <section data-panel="java" hidden>
+          <h2>Java</h2>
+          <p class="sub" data-t="javaSub">Argumentos extra para usuarios avanzados. La RAM se ajusta en Memoria.</p>
+          <textarea id="op-java" rows="4" spellcheck="false" placeholder="-XX:+UseZGC"></textarea>
+          <p class="ayuda" data-t="javaAyuda">Solo se aceptan argumentos que empiezan por -XX:, -D o -X. Déjalo vacío si no sabes qué es.</p>
+        </section>
+
+        <section data-panel="instalacion" hidden>
+          <h2 data-t="instalacion">Instalación</h2>
+          <div class="opcion"><div><b data-t="directorio">Directorio de datos</b><small id="ruta-datos"></small></div><button type="button" class="btn" id="btn-carpeta-datos" data-t="abrir">Abrir</button></div>
+          <div class="opcion"><div><b data-t="carpetaJuego">Carpeta del juego</b><small id="ruta-juego"></small></div><button type="button" class="btn" id="btn-carpeta-juego" data-t="abrir">Abrir</button></div>
+          <div class="fila"><button type="button" class="btn" id="btn-reparar" data-t="reparar">Reparar instalación</button><button type="button" class="btn" id="btn-registro" data-t="informe">Ver informe técnico</button></div>
+          <p class="ayuda" data-t="repararAyuda">Reparar vuelve a comprobar todos los archivos. Tus mundos y ajustes se conservan.</p>
+        </section>
+
+        <section data-panel="acerca" hidden>
+          <h2 data-t="acerca">Acerca y legal</h2>
+          <img class="acerca-logo" src="../../assets/logo-network.png" alt="Quantum Network">
+          <p class="ayuda" id="acerca-version"></p>
+          <div class="redes" id="redes-acerca"></div>
+          <h3 data-t="legal">Aviso legal</h3>
+          <p class="legal" id="legal"></p>
+          <p class="legal" id="creditos"></p>
+        </section>
+      </div>
+    </section>
   </main>
 
-  <footer class="mando">
-    <button class="cuenta-chip" id="cuenta-chip" type="button" aria-haspopup="dialog">
-      <span class="cuenta-cara" id="cuenta-cara" aria-hidden="true"></span>
-      <span class="cuenta-txt">
-        <span class="cuenta-nombre" id="cuenta-nombre">Añadir cuenta</span>
-        <span class="cuenta-tipo" id="cuenta-tipo">Premium o no premium</span>
-      </span>
-      <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" /></svg>
-    </button>
-
-    <div class="estado-srv" id="estado-srv">
-      <span class="srv-titulo"><span class="led" id="led"></span><span id="srv-nombre">Servidor</span></span>
-      <span class="srv-jugadores"><b id="srv-jug">--</b><i id="srv-max"></i></span>
-      <span class="srv-detalle" id="estado-txt">Comprobando el servidor…</span>
-    </div>
-
-    <div class="lanzar">
-      <div class="progreso" id="progreso">
-        <img class="corre" id="corre" src="../../assets/gif/progreso.gif" alt="">
-        <div class="prog-texto"><span id="prog-etapa">Listo para jugar</span><span id="prog-detalle"></span></div>
-        <div class="prog-barra"><div class="prog-relleno" id="prog-relleno"></div></div>
-      </div>
-      <button class="jugar" id="jugar" type="button"><span class="jugar-txt" id="jugar-txt">Jugar</span></button>
-    </div>
-    <div class="version" id="version"></div>
-  </footer>
-
-  <!-- Cajón de noticias -->
-  <aside class="cajon" id="cajon" aria-labelledby="t-noticias" aria-hidden="true">
-    <div class="cajon-cab">
-      <img id="gif-noticias" src="../../assets/gif/noticias.gif" alt="">
-      <div><h2 id="t-noticias">Noticias</h2><p id="t-noticias-sub">Lo último de Quantum Network</p></div>
-      <button class="x" id="cajon-cerrar" type="button" aria-label="Cerrar">✕</button>
-    </div>
-    <ol class="noticias" id="noticias"><li class="noticia vacia">Cargando noticias…</li></ol>
-  </aside>
-  <div class="cajon-fondo" id="cajon-fondo"></div>
+  <!-- Comunidad -->
+  <div class="pop oculto" id="pop-comunidad" role="menu"></div>
 
   <!-- Cuentas -->
-  <dialog class="modal" id="dlg-cuentas" aria-labelledby="t-cuentas">
-    <div class="modal-portada">
-      <img id="gif-cuentas" src="../../assets/gif/cuentas.gif" alt="">
+  <dialog class="modal" id="dlg-cuentas">
+    <div class="modal-cab"><img class="cab-gif" id="gif-cuentas" alt=""><div><h2 data-t="cuentas">Cuentas</h2><p data-t="cuentasSub">Elige con qué cuenta entras a Quanta.</p></div><form method="dialog"><button class="x" data-t-aria="cerrar">✕</button></form></div>
+    <div class="cuentas-cuerpo">
+      <div class="skin"><img id="skin-cuerpo" alt=""><button type="button" class="btn" id="btn-skin" data-t="cambiarSkin">Cambiar skin</button><small id="skin-nota"></small></div>
       <div>
-        <p class="sobre" id="t-cuentas-sobre">Bienvenido</p>
-        <h2 id="t-cuentas">Cuentas</h2>
-        <p class="sub" id="t-cuentas-sub">Elige con qué cuenta entras.</p>
-      </div>
-      <form method="dialog"><button class="x" aria-label="Cerrar">✕</button></form>
-    </div>
-    <ul class="lista-cuentas" id="lista-cuentas"></ul>
-    <div class="anadir">
-      <button class="btn btn-ms" id="btn-ms" type="button">
-        <svg viewBox="0 0 20 20" aria-hidden="true"><path fill="#f25022" d="M1 1h8.5v8.5H1z"/><path fill="#7fba00" d="M10.5 1H19v8.5h-8.5z"/><path fill="#00a4ef" d="M1 10.5h8.5V19H1z"/><path fill="#ffb900" d="M10.5 10.5H19V19h-8.5z"/></svg>
-        Iniciar sesión con Microsoft (premium)
-      </button>
-      <div class="ms-codigo" id="ms-codigo" hidden>
-        <p class="ms-paso">Se abrió tu navegador. Inicia sesión con tu cuenta de Minecraft y, si te lo pide, escribe este código:</p>
-        <div class="ms-num" id="ms-num">—</div>
-        <div class="fila">
-          <button class="btn btn-verde" id="ms-abrir" type="button">Abrir microsoft.com/link</button>
-          <button class="btn" id="ms-copiar" type="button">Copiar código</button>
+        <ul class="lista-cuentas" id="lista-cuentas"></ul>
+        <button class="btn btn-ms" id="btn-ms" type="button"><svg viewBox="0 0 20 20" aria-hidden="true"><path fill="#f25022" d="M1 1h8.5v8.5H1z"/><path fill="#7fba00" d="M10.5 1H19v8.5h-8.5z"/><path fill="#00a4ef" d="M1 10.5h8.5V19H1z"/><path fill="#ffb900" d="M10.5 10.5H19V19h-8.5z"/></svg><span data-t="entrarMs">Iniciar sesión con Microsoft (premium)</span></button>
+        <div class="ms-codigo" id="ms-codigo" hidden>
+          <p data-t="msPaso">Se abrió tu navegador. Inicia sesión y, si te lo pide, escribe este código:</p>
+          <div class="ms-num" id="ms-num">—</div>
+          <div class="fila"><button class="btn btn-acento" id="ms-abrir" type="button">microsoft.com/link</button><button class="btn" id="ms-copiar" type="button" data-t="copiarCodigo">Copiar código</button><button class="btn btn-link" id="ms-cancelar" type="button" data-t="cancelar">Cancelar</button></div>
+          <p class="nota" id="ms-estado"></p>
         </div>
-        <p class="nota" id="ms-estado">Esperando a que aceptes en el navegador… esta ventana se actualiza sola.</p>
-        <button class="btn btn-link" id="ms-cancelar" type="button">Cancelar</button>
+        <div class="o"><span data-t="o">o</span></div>
+        <form class="offline" id="form-offline" novalidate>
+          <label for="nombre-offline" data-t="sinPremium">Jugar sin cuenta premium</label>
+          <div class="fila"><input id="nombre-offline" maxlength="16" autocomplete="off" spellcheck="false" data-t-ph="tuNombre" placeholder="Tu nombre en el juego"><button class="btn btn-acento" type="submit" data-t="anadir">Añadir</button></div>
+          <p class="error" id="offline-error" role="alert"></p>
+          <p class="nota"><span data-t="registroNota">Primera vez en el servidor:</span> <code>/register &lt;contraseña&gt; &lt;contraseña&gt;</code> · <code>/login &lt;contraseña&gt;</code></p>
+        </form>
       </div>
-      <div class="o"><span>o</span></div>
-      <form class="offline" id="form-offline" novalidate>
-        <label for="nombre-offline">Jugar sin cuenta premium</label>
-        <div class="fila">
-          <input id="nombre-offline" autofocus maxlength="16" autocomplete="off" spellcheck="false" placeholder="Tu nombre en el juego">
-          <button class="btn btn-verde" type="submit">Añadir</button>
-        </div>
-        <p class="ayuda error" id="offline-error" role="alert"></p>
-        <p class="nota">Primera vez en el servidor: <code>/register &lt;contraseña&gt; &lt;contraseña&gt;</code><br>Después: <code>/login &lt;contraseña&gt;</code></p>
-      </form>
     </div>
   </dialog>
 
-  <!-- Ajustes -->
-  <dialog class="modal panel" id="dlg-ajustes" aria-labelledby="t-ajustes">
-    <div class="panel-lado">
-      <h2 id="t-ajustes">Ajustes</h2>
-      <nav class="pestanas" role="tablist">
-        <button type="button" role="tab" data-tab="juego" aria-selected="true">Juego</button>
-        <button type="button" role="tab" data-tab="modulos">Módulos</button>
-        <button type="button" role="tab" data-tab="memoria">Memoria</button>
-        <button type="button" role="tab" data-tab="rendimiento">Rendimiento</button>
-        <button type="button" role="tab" data-tab="instalacion">Instalación</button>
-        <button type="button" role="tab" data-tab="acerca">Acerca de</button>
-      </nav>
-      <form method="dialog"><button class="btn volver">← Volver al inicio</button></form>
-    </div>
-    <div class="panel-cuerpo">
-      <section data-panel="juego">
-        <h3>Pantalla del juego</h3>
-        <p class="sub">Tamaño de la ventana de Minecraft al abrirse.</p>
-        <div class="fila">
-          <label class="campo">Ancho<input type="number" id="ancho" min="640" max="7680"></label>
-          <span class="por">×</span>
-          <label class="campo">Alto<input type="number" id="alto" min="480" max="4320"></label>
-        </div>
-        <label class="interruptor"><input type="checkbox" id="pantalla-completa"><span class="sw"></span><span>Abrir en pantalla completa</span></label>
-        <label class="interruptor"><input type="checkbox" id="cerrar-al-jugar"><span class="sw"></span><span>Ocultar el launcher mientras juego</span></label>
-      </section>
-      <section data-panel="memoria" hidden>
-        <h3>Memoria para el juego</h3>
-        <p class="sub">Cantidad de RAM que puede usar Minecraft.</p>
-        <div class="ram"><input type="range" id="ram" step="256"><output id="ram-valor"></output></div>
-        <p class="ayuda" id="ram-ayuda"></p>
-      </section>
-      <section data-panel="rendimiento" hidden>
-        <h3>Rendimiento</h3>
-        <p class="sub" id="pc-info"></p>
-        <div class="fila">
-          <label class="campo">Calidad gráfica
-            <select id="perfil">
-              <option value="auto">Automática</option><option value="bajo">Baja</option><option value="medio">Media</option><option value="alto">Alta</option><option value="ultra">Ultra</option>
-            </select>
-          </label>
-          <button class="btn" id="btn-optimizar" type="button">Aplicar al juego</button>
-        </div>
-        <label class="interruptor"><input type="checkbox" id="modo-ligero"><span class="sw"></span><span>Modo bajo consumo <small>Desactiva efectos visuales y sonidos ambientales.</small></span></label>
-        <label class="interruptor"><input type="checkbox" id="modo-seguro"><span class="sw"></span><span>Modo seguro <small>Al pulsar Jugar podrás iniciar sin paquetes de texturas. Úsalo si el juego se cierra mientras carga.</small></span></label>
-      </section>
-      <section data-panel="modulos" hidden>
-        <h3>Módulos</h3>
-        <p class="sub">Enciende solo lo que usas: lo apagado no se instala y el juego va más ligero. Los cambios se aplican la próxima vez que pulses Jugar. <b id="mod-cuenta"></b></p>
-        <div class="modulos" id="modulos"></div>
-      </section>
-      <section data-panel="instalacion" hidden>
-        <h3>Instalación</h3>
-        <p class="sub">Si el juego no abre o falta algún archivo.</p>
-        <div class="fila">
-          <button class="btn" id="btn-reparar" type="button">Reparar instalación</button>
-          <button class="btn" id="btn-carpeta" type="button">Abrir carpeta del juego</button>
-          <button class="btn" id="btn-registro" type="button">Ver informe técnico</button>
-        </div>
-        <p class="ayuda">Tus mundos y ajustes se conservan.</p>
-      </section>
-      <section data-panel="acerca" hidden>
-        <h3>Acerca de</h3>
-        <img class="acerca-logo" src="../../assets/logo-network.png" alt="Quantum Network">
-        <p class="ayuda" id="acerca-version"></p>
-        <p class="ayuda">Quantum Network</p>
-      </section>
-    </div>
+  <!-- Soporte -->
+  <dialog class="modal" id="dlg-soporte">
+    <div class="modal-cab"><div><h2 data-t="soporte">Soporte</h2><p data-t="soporteSub">¿Algo no funciona? Te ayudamos por Discord.</p></div><form method="dialog"><button class="x" data-t-aria="cerrar">✕</button></form></div>
+    <ol class="pasos-soporte">
+      <li><b data-t="sop1">Guarda el informe técnico</b><small data-t="sop1s">Tiene lo que el staff necesita para ayudarte.</small><button type="button" class="btn" id="sop-informe" data-t="guardarInforme">Guardar informe</button></li>
+      <li><b data-t="sop2">Abre un ticket en Discord</b><small data-t="sop2s">Adjunta el archivo y cuenta qué pasó.</small><button type="button" class="btn btn-acento" id="sop-discord" data-t="abrirDiscord">Abrir Discord</button></li>
+    </ol>
+    <details class="faq"><summary data-t="faq1">El juego se cierra al cargar</summary><p data-t="faq1r">Activa el modo seguro en Ajustes → Rendimiento, o sube la RAM en Ajustes → Memoria.</p></details>
+    <details class="faq"><summary data-t="faq2">Va lento o con tirones</summary><p data-t="faq2r">Elige la calidad Baja, activa el modo bajo consumo y apaga los módulos que no uses.</p></details>
+    <details class="faq"><summary data-t="faq3">No puedo iniciar sesión premium</summary><p data-t="faq3r">Revisa que tu cuenta de Microsoft tenga Minecraft Java y vuelve a añadirla en Cuentas.</p></details>
+  </dialog>
+
+  <!-- Visor de capturas -->
+  <dialog class="modal visor" id="dlg-visor">
+    <img id="visor-img" alt="">
+    <div class="fila derecha"><span id="visor-nombre"></span><button type="button" class="btn" id="visor-abrir" data-t="abrir">Abrir</button><form method="dialog"><button class="btn" data-t="cerrar">Cerrar</button></form></div>
   </dialog>
 
   <!-- Modo seguro -->
-  <dialog class="modal" id="dlg-seguro" aria-labelledby="t-seguro">
-    <div class="modal-cab"><h2 id="t-seguro">Modo seguro</h2><form method="dialog"><button class="x" aria-label="Cerrar">✕</button></form></div>
-    <div class="seguro-cuerpo">
-      <p>El juego se abrirá sin paquetes de texturas.</p>
-      <p class="ayuda">Cuando estés dentro del servidor, actívalos en <b>Opciones → Paquetes de recursos</b>.</p>
-    </div>
-    <div class="fila derecha">
-      <button class="btn" id="seguro-normal" type="button">Iniciar normal</button>
-      <button class="btn btn-verde" id="seguro-sin" type="button">Iniciar sin texturas</button>
-    </div>
+  <dialog class="modal" id="dlg-seguro">
+    <div class="modal-cab"><div><h2 data-t="seguro">Modo seguro</h2><p data-t="seguroPregunta">¿Cómo quieres iniciar?</p></div></div>
+    <div class="fila derecha"><button class="btn" id="seguro-normal" type="button" data-t="iniciarNormal">Iniciar normal</button><button class="btn btn-acento" id="seguro-sin" type="button" data-t="iniciarSin">Sin texturas</button></div>
   </dialog>
 
-  <!-- Registro / error -->
-  <dialog class="modal ancho" id="dlg-registro" aria-labelledby="t-registro">
-    <div class="modal-cab"><h2 id="t-registro">Informe técnico</h2><form method="dialog"><button class="x" aria-label="Cerrar">✕</button></form></div>
+  <!-- Informe técnico -->
+  <dialog class="modal ancho" id="dlg-registro">
+    <div class="modal-cab"><div><h2 data-t="informe">Informe técnico</h2></div><form method="dialog"><button class="x" data-t-aria="cerrar">✕</button></form></div>
     <p class="error-resumen oculto" id="error-resumen"></p>
-    <pre class="registro" id="registro" tabindex="0" autofocus></pre>
-    <div class="fila derecha">
-      <button class="btn" id="btn-copiar" type="button">Copiar</button>
-      <button class="btn" id="btn-guardar-reg" type="button">Guardar en un archivo</button>
-    </div>
+    <pre class="registro" id="registro" tabindex="0"></pre>
+    <div class="fila derecha"><button class="btn" id="btn-copiar" type="button" data-t="copiar">Copiar</button><button class="btn" id="btn-guardar-reg" type="button" data-t="guardarInforme">Guardar informe</button></div>
   </dialog>
 
+  <script src="i18n.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

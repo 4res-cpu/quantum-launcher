@@ -38,6 +38,12 @@ function texturasDelPack(overrides) {
   try { const v = JSON.parse(l.slice('resourcePacks:'.length)); return Array.isArray(v) ? v.filter((p) => typeof p === 'string' && p.startsWith('file/')) : []; } catch { return []; }
 }
 
+/** Argumentos de Java que escribe el jugador: solo -XX, -D y -X (sin tocar la RAM, que va en su ajuste). */
+function argsJavaJugador(texto) {
+  if (!texto || typeof texto !== 'string') return [];
+  return texto.split(/\s+/).filter((a) => /^-(XX:|D[\w.]+=?|X(?!mx|ms|ss)\w)/.test(a) && a.length < 200).slice(0, 30);
+}
+
 class QuantumCore {
   /**
    * @param {object} cfg  evento.config.json
@@ -90,6 +96,20 @@ class QuantumCore {
       return n;
     } catch {
       try { return JSON.parse(await fsp.readFile(cacheFile, 'utf8')); } catch { return { noticias: [] }; }
+    }
+  }
+
+  /** JSON remoto con copia local (eventos, pase de temporada, normas, enlaces). */
+  async leerRemoto(nombre, url) {
+    const cacheFile = path.join(this.dirs.cache, `${nombre}.json`);
+    if (!url) { try { return JSON.parse(await fsp.readFile(cacheFile, 'utf8')); } catch { return null; } }
+    try {
+      const n = await http.fetchJson(`${url}${url.includes('?') ? '&' : '?'}t=${Date.now()}`, { retries: 1, timeoutMs: 10000 });
+      await fsp.mkdir(this.dirs.cache, { recursive: true });
+      await fsp.writeFile(cacheFile, JSON.stringify(n));
+      return n;
+    } catch {
+      try { return JSON.parse(await fsp.readFile(cacheFile, 'utf8')); } catch { return null; }
     }
   }
 
@@ -213,10 +233,22 @@ class QuantumCore {
       await fsp.writeFile(optFile, hardware.optionsTxt(perfil, this.cfg.opcionesIniciales || {}));
       this.log(`options.txt creado con el perfil gráfico "${perfil}"`);
     }
+    if (ajustes.idiomaJuego) await this.ponerOpcion('lang', ajustes.idiomaJuego);
     await this.texturas(sinTexturas, texturasDelPack(overrides));
     this.onProgress({ etapa: 'listo', texto: 'Todo listo' });
     this.log(`Instalación verificada en ${((Date.now() - t0) / 1000).toFixed(1)} s`);
     return { java, install, packVersion, mcVersion, loaderVersion, reporte: rep };
+  }
+
+  /** Cambia una sola opción de options.txt sin tocar el resto. */
+  async ponerOpcion(clave, valor) {
+    const optFile = path.join(this.dirs.game, 'options.txt');
+    let txt = '';
+    try { txt = await fsp.readFile(optFile, 'utf8'); } catch { return; }
+    const lineas = txt.split(/\r?\n/).filter(Boolean);
+    const i = lineas.findIndex((l) => l.startsWith(`${clave}:`));
+    if (i >= 0) lineas[i] = `${clave}:${valor}`; else lineas.push(`${clave}:${valor}`);
+    await fsp.writeFile(optFile, `${lineas.join('\n')}\n`);
   }
 
   /** Aplica un perfil gráfico al options.txt existente (botón "Optimizar para mi PC"). */
@@ -303,7 +335,7 @@ class QuantumCore {
       width: ajustes.ancho, height: ajustes.alto, fullscreen: !!ajustes.pantallaCompleta,
       quickPlay: ajustes.conectarDirecto === false ? '' : `${s.host}:${s.puerto}`,
       launcherVersion: this.launcherVersion,
-      jvmExtra: this.cfg.jvmExtra || [],
+      jvmExtra: [...(this.cfg.jvmExtra || []), ...argsJavaJugador(ajustes.javaArgs)],
     });
     // En Windows, Java lee los argumentos con la página de códigos del sistema: pasarlos directamente
     // funciona con rutas con tildes o ñ (C:\Users\José). Solo si la línea es demasiado larga
@@ -362,4 +394,4 @@ class QuantumCore {
   detener() { if (this.child) this.child.kill(); }
 }
 
-module.exports = { QuantumCore, cmpVersion, texturasDelPack };
+module.exports = { argsJavaJugador, QuantumCore, cmpVersion, texturasDelPack };

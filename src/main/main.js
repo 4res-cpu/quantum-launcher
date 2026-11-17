@@ -1,6 +1,6 @@
 'use strict';
 // Proceso principal de Electron: ventana, IPC y conexión con el núcleo del launcher.
-const { app, BrowserWindow, ipcMain, shell, net, safeStorage, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, shell, net, safeStorage, dialog, nativeImage } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const http = require('../core/http');
@@ -33,7 +33,8 @@ function send(canal, datos) { if (win && !win.isDestroyed()) win.webContents.sen
 
 function leerAjustes() {
   const lim = hardware.limitesRam(hw.ramMB, cfg.ram);
-  const def = { ramMB: lim.recomendado, ancho: 1280, alto: 720, pantallaCompleta: false, perfil: 'auto', modoLigero: null, modoSeguro: false, conectarDirecto: true, cerrarAlJugar: false };
+  const def = { ramMB: lim.recomendado, ancho: 1280, alto: 720, pantallaCompleta: false, perfil: 'auto', modoLigero: null, modoSeguro: false, conectarDirecto: true, cerrarAlJugar: false,
+    idioma: 'es', tema: 'tinta', acento: 'oro', sonidos: true, volumen: 60, animaciones: true, intro: true, ilustracion: 'rollo', javaArgs: '', idiomaJuego: 'es_es' };
   try { return { ...def, ...JSON.parse(fs.readFileSync(ajustesFile, 'utf8')) }; } catch { return def; }
 }
 function guardarAjustes(a) {
@@ -42,9 +43,56 @@ function guardarAjustes(a) {
   limpio.ramMB = Math.max(lim.min, Math.min(lim.max, Math.round(Number(limpio.ramMB) / 256) * 256 || lim.recomendado));
   limpio.ancho = Math.max(640, Math.min(7680, Number(limpio.ancho) || 1280));
   limpio.alto = Math.max(480, Math.min(4320, Number(limpio.alto) || 720));
+  const de = (v, lista, d) => (lista.includes(v) ? v : d);
+  limpio.idioma = de(limpio.idioma, ['es', 'en', 'pt'], 'es');
+  limpio.tema = de(limpio.tema, ['tinta', 'papel'], 'tinta');
+  limpio.acento = de(limpio.acento, ['oro', 'jade', 'carmesi', 'violeta'], 'oro');
+  limpio.ilustracion = de(limpio.ilustracion, ['rollo', 'fondo', 'oculta'], 'rollo');
+  limpio.idiomaJuego = de(limpio.idiomaJuego, ['es_es', 'es_mx', 'en_us', 'pt_br'], 'es_es');
+  limpio.volumen = Math.max(0, Math.min(100, Number(limpio.volumen) || 0));
+  for (const k of ['sonidos', 'animaciones', 'intro', 'pantallaCompleta', 'cerrarAlJugar', 'conectarDirecto', 'modoSeguro']) limpio[k] = !!limpio[k];
+  limpio.javaArgs = String(limpio.javaArgs || '').slice(0, 1000);
   fs.mkdirSync(dataDir, { recursive: true });
   fs.writeFileSync(ajustesFile, JSON.stringify(limpio, null, 1));
   return limpio;
+}
+
+// ---------- Tiempo de juego ----------
+const statsFile = path.join(dataDir, 'estadisticas.json');
+function leerStats() {
+  try { return { totalMs: 0, sesiones: 0, ultima: null, ...JSON.parse(fs.readFileSync(statsFile, 'utf8')) }; } catch { return { totalMs: 0, sesiones: 0, ultima: null }; }
+}
+function sumarSesion(ms) {
+  if (!(ms > 15000)) return;
+  const s = leerStats();
+  s.totalMs += ms; s.sesiones += 1; s.ultima = new Date().toISOString(); s.ultimaMs = ms;
+  try { fs.mkdirSync(dataDir, { recursive: true }); fs.writeFileSync(statsFile, JSON.stringify(s)); } catch { /* */ }
+}
+
+// ---------- Capturas, mods y carpetas ----------
+const CARPETAS = { juego: '', capturas: 'screenshots', mods: 'mods', texturas: 'resourcepacks', registros: 'logs' };
+function carpeta(id) {
+  if (id === 'datos') return dataDir;
+  return path.join(core.dirs.game, CARPETAS[id] ?? '');
+}
+function capturaSegura(nombre) {
+  const base = path.basename(String(nombre || ''));
+  if (!/\.(png|jpe?g)$/i.test(base)) throw new Error('Archivo no válido');
+  return path.join(carpeta('capturas'), base);
+}
+function listarCapturas() {
+  const dir = carpeta('capturas');
+  let files = [];
+  try { files = fs.readdirSync(dir).filter((f) => /\.(png|jpe?g)$/i.test(f)); } catch { return []; }
+  return files.map((f) => ({ f, t: fs.statSync(path.join(dir, f)).mtimeMs })).sort((a, b) => b.t - a.t).slice(0, 48).map(({ f, t }) => {
+    let miniatura = '';
+    try { miniatura = nativeImage.createFromPath(path.join(dir, f)).resize({ width: 360, quality: 'good' }).toDataURL(); } catch { /* */ }
+    return { nombre: f, fecha: new Date(t).toISOString(), miniatura };
+  });
+}
+function listarMods() {
+  const leer = (id, filtro) => { try { return fs.readdirSync(carpeta(id)).filter(filtro).map((f) => ({ nombre: f, kb: Math.round(fs.statSync(path.join(carpeta(id), f)).size / 1024) })); } catch { return []; } };
+  return { mods: leer('mods', (f) => /\.jar$/i.test(f)), desactivados: leer('mods', (f) => /\.jar\.disabled$/i.test(f)), texturas: leer('texturas', (f) => /\.zip$/i.test(f) || !f.includes('.')) };
 }
 
 const cipher = {
@@ -173,12 +221,20 @@ function manejar(canal, fn) {
 
 function registrarIpc() {
   manejar('init', async () => ({
-    evento: { nombre: cfg.nombre, evento: cfg.evento, organiza: cfg.organiza, discord: cfg.discord, fechaEvento: cfg.fechaEvento, servidor: cfg.servidor.nombreVisible, ip: `${cfg.servidor.host}:${cfg.servidor.puerto}`,
-      textos: cfg.textos || {}, fondos: cfg.fondos || null, logo: cfg.logo || null, gifs: cfg.gifs ?? null, modos: cfg.modos || [], modulos: (cfg.modulos || []).map((m) => ({ id: m.id, nombre: m.nombre, desc: m.desc, defecto: m.defecto !== false, icono: m.icono || '' })) },
+    evento: { nombre: cfg.nombre, evento: cfg.evento, organiza: cfg.organiza, discord: cfg.discord, servidor: cfg.servidor.nombreVisible, ip: `${cfg.servidor.host}:${cfg.servidor.puerto}`,
+      textos: cfg.textos || {}, logo: cfg.logo || null, gifs: cfg.gifs ?? null, modos: cfg.modos || [], modulos: (cfg.modulos || []).map((m) => ({ id: m.id, nombre: m.nombre, desc: m.desc, defecto: m.defecto !== false, icono: m.icono || '' })) },
     version: VERSION, portable: PORTABLE,
     hw, ram: hardware.limitesRam(hw.ramMB, cfg.ram), perfilAuto: hardware.perfilAuto(hw),
     ajustes: leerAjustes(), cuentas: store.list(), instalado: (await core.estadoInstalacion())?.packVersion || null,
+    stats: leerStats(), rutas: { datos: dataDir, juego: core.dirs.game }, plataforma: process.platform,
+    enlaces: cfg.enlaces || {}, ilustraciones: cfg.ilustraciones || [], legal: cfg.legal || null,
   }));
+  manejar('contenido', () => core.leerRemoto('contenido', cfg.urls?.contenido));
+  manejar('stats', () => leerStats());
+  manejar('capturas:listar', () => listarCapturas());
+  manejar('capturas:ver', (nombre) => nativeImage.createFromPath(capturaSegura(nombre)).resize({ width: 1600, quality: 'good' }).toDataURL());
+  manejar('capturas:abrir', async (nombre) => { await shell.openPath(capturaSegura(nombre)); });
+  manejar('mods:listar', () => listarMods());
   manejar('noticias', () => core.leerNoticias());
   manejar('servidor:estado', () => ping(cfg.servidor.host, cfg.servidor.puerto));
   manejar('actualizacion', () => core.comprobarActualizacion().then((r) => ({ instalada: r.instalada, disponible: r.disponible, hayNueva: r.hayNueva, launcherNuevo: r.launcherNuevo && PORTABLE, launcherVersion: r.manifiesto?.launcher?.version, launcherDescarga: r.manifiesto?.launcher?.descarga, nota: r.manifiesto?.modpack?.nota || '' })));
@@ -191,7 +247,7 @@ function registrarIpc() {
 
   manejar('ajustes:guardar', (a) => guardarAjustes(a));
   manejar('perfil:aplicar', async (id) => { const p = id === 'auto' ? hardware.perfilAuto(hw) : id; await core.aplicarPerfil(p); return p; });
-  manejar('carpeta:abrir', async () => { fs.mkdirSync(core.dirs.game, { recursive: true }); await shell.openPath(core.dirs.game); });
+  manejar('carpeta:abrir', async (id = 'juego') => { const d = carpeta(id); fs.mkdirSync(d, { recursive: true }); await shell.openPath(d); });
   manejar('enlace:abrir', async (url) => abrirExterno(url));
   manejar('registro', async () => core.logLines.join('\n'));
   manejar('registro:guardar', async (texto) => {
@@ -214,14 +270,17 @@ function registrarIpc() {
       }
       const prep = await core.preparar({ reparar, ajustes, hw, sinTexturas: !!sinTexturas });
       send('progreso', { etapa: 'juego', texto: 'Abriendo Minecraft…' });
+      let inicio = 0;
       const r = await core.lanzar(prep, cuenta, ajustes, {
         onStarted: () => {
+          inicio = Date.now();
           send('juego', { estado: 'abierto' });
           setTimeout(() => { if (jugando && win) { if (ajustes.cerrarAlJugar) win.hide(); else win.minimize(); } }, 4000);
         },
       });
+      if (inicio) sumarSesion(Date.now() - inicio);
       if (win) { win.show(); win.restore(); }
-      send('juego', { estado: 'cerrado', ...r });
+      send('juego', { estado: 'cerrado', ...r, stats: leerStats() });
       return { packVersion: prep.packVersion, reporte: prep.reporte };
     } finally { jugando = false; }
   });

@@ -22,6 +22,12 @@ contextBridge.exposeInMainWorld('quantum', {
   guardarRegistro: invoke('registro:guardar'),
   instalarActualizacion: invoke('launcher:instalarActualizacion'),
   jugar: invoke('jugar'),
+  contenido: invoke('contenido'),
+  stats: invoke('stats'),
+  capturas: invoke('capturas:listar'),
+  verCaptura: invoke('capturas:ver'),
+  abrirCaptura: invoke('capturas:abrir'),
+  mods: invoke('mods:listar'),
   ventana: (accion) => ipcRenderer.send('ventana', accion),
   on: (canal, fn) => {
     if (!['progreso', 'log', 'juego', 'launcher:update', 'cuentas:codigo'].includes(canal)) return;
