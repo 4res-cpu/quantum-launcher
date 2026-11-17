@@ -593,8 +593,12 @@ article.norma { padding: 14px 16px; } article.norma p { margin: 4px 0 0; }
 .lista-mods .quitar { width: 24px; height: 24px; font-size: 11px; }
 .modal.soporte .pasos-soporte li::before { content: none; }
 
-/* Edición Normal / Plus */
-.edicion { display: inline-flex; gap: 2px; padding: 3px; margin-bottom: 8px; border-radius: 999px; background: var(--panel); border: 1px solid var(--linea); }
-.edicion button { padding: 5px 14px; border: 0; border-radius: 999px; background: transparent; color: var(--texto-2, inherit); font: inherit; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: background 0.2s, color 0.2s; }
+/* Edición Normal / Plus: selector vertical a la izquierda de Jugar */
+.lanzar { display: grid; grid-template-columns: auto 1fr; column-gap: 10px; row-gap: 8px; }
+.lanzar .prog-linea { grid-column: 2; grid-row: 1; }
+.lanzar .jugar { grid-column: 2; grid-row: 2; }
+.edicion { grid-column: 1; grid-row: 2; align-self: stretch; display: flex; flex-direction: column; gap: 3px; padding: 3px; border-radius: 14px; background: var(--panel); border: 1px solid var(--linea); }
+.edicion button { flex: 1; min-width: 74px; padding: 4px 12px; border: 0; border-radius: 10px; background: transparent; color: var(--texto-2, inherit); font: 600 0.8rem/1 var(--f-titulo, inherit); cursor: pointer; transition: background 0.2s, color 0.2s; }
+.edicion button:hover { color: var(--texto, inherit); }
 .edicion button[aria-checked="true"] { background: var(--acento); color: #0b0b12; }
 .edicion button[data-ed="plus"][aria-checked="true"] { background: linear-gradient(135deg, #ffd98a, #ffbf3c); color: #1a1205; }
