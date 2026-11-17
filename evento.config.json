@@ -347,6 +347,27 @@
       "color": "#ecd7b8",
       "claro": true,
       "horizontal": true
+    },
+    {
+      "id": "eevee-evoluciones",
+      "archivo": "eevee-evoluciones.webp",
+      "titulo": "Evoluciones de Eevee",
+      "autor": "ownyousumer",
+      "color": "#050a19"
+    },
+    {
+      "id": "honchkrow",
+      "archivo": "honchkrow.webp",
+      "titulo": "Honchkrow y Murkrow",
+      "autor": "ownyousumer",
+      "color": "#050a19"
+    },
+    {
+      "id": "flygon",
+      "archivo": "flygon.webp",
+      "titulo": "Flygon del desierto",
+      "autor": "ownyousumer",
+      "color": "#050a19"
     }
   ],
   "enlaces": {
