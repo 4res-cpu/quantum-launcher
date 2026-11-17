@@ -430,6 +430,12 @@ code { font: 600 12px/1 ui-monospace, Consolas, monospace; padding: 2px 5px; bor
 .intro { position: fixed; inset: 0; z-index: 100; display: none; place-items: center; background: radial-gradient(60% 60% at 50% 45%, #0a1630, #03060f 70%); overflow: hidden; }
 body.con-intro .intro { display: grid; animation: intro-sale 0.7s var(--ease) 2.3s forwards; }
 .intro > * { grid-area: 1 / 1; }
+.intro-arte { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; opacity: 0; transform: scale(1.12); filter: blur(2px); animation: arte-in 2.6s var(--ease) forwards; -webkit-mask-image: radial-gradient(75% 75% at 50% 45%, #000 30%, transparent 100%); }
+.intro-arte.claro { filter: invert(1) hue-rotate(180deg) blur(2px); }
+.intro-arte.horizontal { object-position: 80% 50%; }
+@keyframes arte-in { to { opacity: 0.38; transform: scale(1.03); filter: blur(0); } }
+.intro-arte.claro { animation-name: arte-in-c; }
+@keyframes arte-in-c { to { opacity: 0.38; transform: scale(1.03); filter: invert(1) hue-rotate(180deg) blur(0); } }
 .intro-halo { width: 520px; height: 520px; border-radius: 50%; background: radial-gradient(closest-side, color-mix(in srgb, var(--acento) 32%, transparent), transparent); opacity: 0; transform: scale(0.6); animation: halo 1.6s var(--ease) 0.25s forwards; }
 .intro-linea { width: 0; height: 1px; margin-top: 250px; background: linear-gradient(90deg, transparent, var(--acento-2), transparent); animation: linea 1.1s var(--ease) 0.15s forwards; }
 .intro-logo { width: 190px; height: 190px; image-rendering: pixelated; opacity: 0; transform: translateY(10px) scale(0.92); filter: var(--tono-logo) drop-shadow(0 0 26px color-mix(in srgb, var(--acento) 55%, transparent)); animation: logo-in 0.9s var(--ease) 0.45s forwards; -webkit-mask-image: linear-gradient(100deg, #000 40%, rgba(0,0,0,0.55) 50%, #000 60%); -webkit-mask-size: 300% 100%; -webkit-mask-position: 100% 0; }

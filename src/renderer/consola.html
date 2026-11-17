@@ -7,8 +7,9 @@
   <link rel="stylesheet" href="consola.css">
 </head>
 <body>
+  <div class="arte" aria-hidden="true"><img src="../../assets/ilustraciones/lugia-sombra.jpg" alt=""></div>
   <header class="barra">
-    <div class="marca"><img src="../../assets/marca.png" alt=""><span>Consola <b>en vivo</b></span><i class="vivo" id="vivo"></i></div>
+    <div class="marca"><img src="../../assets/genesect.png" alt=""><span>Quantum <b>Consola</b></span><i class="vivo" id="vivo"></i><em id="estado-juego">Esperando al juego</em></div>
     <div class="ventana">
       <button type="button" id="w-min" aria-label="Minimizar"><svg viewBox="0 0 12 12"><path d="M2 6h8"/></svg></button>
       <button type="button" id="w-max" aria-label="Maximizar"><svg viewBox="0 0 12 12"><rect x="2.5" y="2.5" width="7" height="7"/></svg></button>
@@ -30,6 +31,7 @@
     <button type="button" id="limpiar">Limpiar</button>
   </div>
   <main id="log" class="log" tabindex="0"></main>
+  <footer class="pie"><span id="pie-lineas">0 líneas</span><span id="pie-err"></span><span class="der">Quantum Network · Cobblemon 1.21.1</span></footer>
   <script src="consola.js"></script>
 </body>
 </html>

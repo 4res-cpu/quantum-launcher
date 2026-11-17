@@ -18,7 +18,11 @@ function visible(d) {
   const okB = !busca || d.textContent.toLowerCase().includes(busca);
   return okF && okB;
 }
-function pintarCuenta() { for (const k of Object.keys(cuenta)) $(`n-${k}`).textContent = cuenta[k]; }
+function pintarCuenta() {
+  for (const k of Object.keys(cuenta)) $(`n-${k}`).textContent = cuenta[k];
+  $('pie-lineas').textContent = `${cuenta.todo} líneas`;
+  $('pie-err').textContent = cuenta.error ? `${cuenta.error} errores` : '';
+}
 let pendiente = [];
 function agregar(l) { pendiente.push(l); if (pendiente.length === 1) requestAnimationFrame(volcar); }
 function volcar() {
@@ -37,8 +41,8 @@ function volcar() {
   log.append(frag);
   while (log.childElementCount > MAX) log.firstElementChild.remove();
   pintarCuenta();
-  $('vivo').classList.add('on');
-  clearTimeout(volcar.t); volcar.t = setTimeout(() => $('vivo').classList.remove('on'), 4000);
+  $('vivo').classList.add('on'); $('estado-juego').textContent = 'Juego en ejecución'; $('estado-juego').classList.add('on');
+  clearTimeout(volcar.t); volcar.t = setTimeout(() => { $('vivo').classList.remove('on'); $('estado-juego').classList.remove('on'); $('estado-juego').textContent = 'En espera'; }, 8000);
   if ($('auto').checked && abajo) log.scrollTop = log.scrollHeight;
 }
 function refiltrar() { for (const d of log.children) if (d.dataset.n) d.classList.toggle('oculto', !visible(d)); }

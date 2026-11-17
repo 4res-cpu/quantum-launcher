@@ -1,12 +1,14 @@
 @font-face { font-family: 'Chakra'; font-weight: 600; src: url('../../assets/fuentes/chakra-petch-latin-600-normal.woff2') format('woff2'); }
 @font-face { font-family: 'Manrope'; font-weight: 500; src: url('../../assets/fuentes/manrope-latin-500-normal.woff2') format('woff2'); }
-:root { --fondo: #05091a; --panel: #0a1128; --linea: rgba(255,255,255,.08); --texto: #e8e6f0; --tenue: #7d84a3; --oro: #e2b23c; --rojo: #ff6b6b; --amarillo: #f5c451; --azul: #6fc3ff; }
+:root { --fondo: #05091a; --panel: #0a1128; --linea: rgba(255,255,255,.08); --texto: #e8e6f0; --tenue: #7d84a3; --oro: #16b3a5; --rojo: #ff6b6b; --amarillo: #f5c451; --azul: #6fc3ff; }
 * { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; }
-body { display: grid; grid-template-rows: 38px auto 1fr; background: var(--fondo); color: var(--texto); font: 500 13px/1.4 'Manrope', 'Segoe UI', sans-serif; overflow: hidden; }
-.barra { display: flex; align-items: center; justify-content: space-between; padding-left: 12px; border-bottom: 1px solid var(--linea); -webkit-app-region: drag; }
+body { display: grid; grid-template-rows: 44px auto 1fr 28px; position: relative; background: var(--fondo); color: var(--texto); font: 500 13px/1.4 'Manrope', 'Segoe UI', sans-serif; overflow: hidden; }
+.barra { position: relative; z-index: 1; background: linear-gradient(90deg, rgba(22,179,165,.16), transparent 55%); display: flex; align-items: center; justify-content: space-between; padding-left: 12px; border-bottom: 1px solid var(--linea); -webkit-app-region: drag; }
 .marca { display: flex; align-items: center; gap: 8px; font: 600 12px/1 'Chakra', sans-serif; letter-spacing: .14em; text-transform: uppercase; }
-.marca img { width: 20px; height: 20px; }
+.marca img { width: 28px; height: 28px; image-rendering: pixelated; filter: drop-shadow(0 0 8px rgba(22,179,165,.5)); }
+.marca em { font: 500 11px/1 'Manrope', sans-serif; letter-spacing: 0; text-transform: none; color: var(--tenue); margin-left: 6px; }
+.marca em.on { color: #3ddc84; }
 .marca b { color: var(--oro); }
 .vivo { width: 8px; height: 8px; border-radius: 50%; background: var(--tenue); }
 .vivo.on { background: #3ddc84; box-shadow: 0 0 0 0 rgba(61,220,132,.6); animation: late 1.6s infinite; }
@@ -15,16 +17,16 @@ body { display: grid; grid-template-rows: 38px auto 1fr; background: var(--fondo
 .ventana button { width: 44px; height: 38px; border: 0; background: none; color: var(--texto); }
 .ventana button:hover { background: rgba(255,255,255,.07); } .ventana .cerrar:hover { background: #c8332f; }
 .ventana svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.2; }
-.herramientas { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 8px 12px; border-bottom: 1px solid var(--linea); background: var(--panel); }
+.herramientas { position: relative; z-index: 1; backdrop-filter: blur(6px); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 8px 12px; border-bottom: 1px solid var(--linea); background: var(--panel); }
 .filtros { display: flex; gap: 4px; }
 button { font: inherit; color: var(--texto); background: rgba(255,255,255,.05); border: 1px solid var(--linea); border-radius: 8px; padding: 5px 10px; cursor: pointer; }
 button:hover { border-color: rgba(255,255,255,.2); }
-button[aria-pressed='true'] { background: var(--oro); color: #1a1305; border-color: var(--oro); }
+button[aria-pressed='true'] { background: var(--oro); color: #03201d; border-color: var(--oro); }
 button em { font-style: normal; opacity: .7; margin-left: 4px; font-size: 11px; }
 input[type=search] { flex: 1; min-width: 160px; font: inherit; color: var(--texto); background: rgba(0,0,0,.3); border: 1px solid var(--linea); border-radius: 8px; padding: 6px 10px; outline: none; }
 input[type=search]:focus { border-color: var(--oro); }
 .auto { display: flex; align-items: center; gap: 6px; color: var(--tenue); }
-.log { overflow: auto; padding: 8px 0; font: 12px/1.55 'Cascadia Mono', Consolas, 'Courier New', monospace; outline: none; }
+.log { position: relative; z-index: 1; overflow: auto; padding: 8px 0; font: 12px/1.55 'Cascadia Mono', Consolas, 'Courier New', monospace; outline: none; }
 .log div { padding: 0 14px; white-space: pre-wrap; word-break: break-word; border-left: 2px solid transparent; }
 .log div:hover { background: rgba(255,255,255,.03); }
 .log .warn { color: var(--amarillo); border-left-color: var(--amarillo); }
@@ -34,3 +36,13 @@ input[type=search]:focus { border-color: var(--oro); }
 .log mark { background: var(--oro); color: #1a1305; border-radius: 2px; }
 .vacio { color: var(--tenue); text-align: center; padding: 40px; }
 ::-webkit-scrollbar { width: 10px; } ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.12); border-radius: 5px; border: 2px solid var(--fondo); }
+
+.arte { position: fixed; top: 0; right: 0; bottom: 0; width: 46%; z-index: 0; pointer-events: none; opacity: .22; -webkit-mask-image: linear-gradient(90deg, transparent, #000 50%); }
+.arte img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; animation: deriva 60s ease-in-out infinite alternate; }
+@keyframes deriva { to { object-position: 50% 70%; transform: scale(1.06); } }
+.herramientas { background: rgba(10,17,40,.72) !important; border-bottom: 1px solid rgba(22,179,165,.25); }
+.pie { position: relative; z-index: 1; display: flex; gap: 16px; align-items: center; padding: 0 14px; border-top: 1px solid var(--linea); background: rgba(5,9,26,.85); color: var(--tenue); font-size: 11.5px; }
+.pie .der { margin-left: auto; letter-spacing: .08em; }
+#pie-err { color: var(--rojo); }
+.vacio { display: grid; place-items: center; gap: 10px; }
+.vacio::before { content: ''; width: 90px; height: 90px; background: url('../../assets/genesect.png') center / contain no-repeat; image-rendering: pixelated; opacity: .8; }

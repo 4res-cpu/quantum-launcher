@@ -782,6 +782,9 @@ function repintarTodo() {
   aplicarApariencia();
   const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (estado.ajustes.intro && estado.ajustes.animaciones && !reducido) {
+    const ils = estado.init.ilustraciones || [];
+    const il = ils[Math.floor(Math.random() * ils.length)];
+    if (il) { const im = $('intro-arte'); im.src = `../../assets/ilustraciones/${il.archivo}`; im.classList.toggle('claro', !!il.claro); im.classList.toggle('horizontal', !!il.horizontal); arte.indice = ils.indexOf(il); }
     document.body.classList.add('con-intro');
     const quitar = () => document.body.classList.remove('con-intro');
     setTimeout(quitar, 2400);
