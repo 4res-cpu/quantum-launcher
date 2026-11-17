@@ -155,6 +155,8 @@ function mostrarIlustracion(il) {
   if (!il) return;
   const capas = $$('.arte-capa'), siguiente = capas[1 - arte.capa], actual = capas[arte.capa];
   const img = siguiente.querySelector('img'), vid = siguiente.querySelector('video');
+  const tok = arte.tok = (arte.tok || 0) + 1;
+  img.onload = null;
   img.src = `../../assets/ilustraciones/${il.archivo}`;
   vid.pause(); vid.removeAttribute('src'); vid.classList.remove('lista');
   if (il.video && estado.ajustes.ilusAnimada && estado.ajustes.animaciones) {
@@ -164,12 +166,13 @@ function mostrarIlustracion(il) {
   }
   siguiente.classList.toggle('claro', !!il.claro);
   siguiente.classList.toggle('horizontal', !!il.horizontal);
-  siguiente.style.setProperty('--fondo-arte', il.horizontal ? 'none' : `url("../../assets/ilustraciones/${il.archivo}")`);
-  const mostrar = () => { siguiente.classList.add('visible'); actual.classList.remove('visible'); setTimeout(() => { if (!actual.classList.contains('visible')) actual.querySelector('video').pause(); }, 2400); };
+  const mostrar = () => {
+    if (tok !== arte.tok) return;
+    $('ilus-titulo').textContent = il.titulo || '';
+    $('ilus-autor').textContent = il.autor ? t('arteDe', { a: il.autor }) : '';
+    siguiente.classList.add('visible'); actual.classList.remove('visible'); setTimeout(() => { if (!actual.classList.contains('visible')) actual.querySelector('video').pause(); }, 2400); };
   if (img.complete) mostrar(); else img.onload = mostrar;
   arte.capa = 1 - arte.capa;
-  $('ilus-titulo').textContent = il.titulo || '';
-  $('ilus-autor').textContent = il.autor ? t('arteDe', { a: il.autor }) : '';
 }
 function ponerIlustracion() {
   const l = ilustraciones();
@@ -360,6 +363,7 @@ function configurarAjustes() {
   interruptor('op-seguro', a.modoSeguro, (v) => guardar({ modoSeguro: v }));
   // Módulos y mods de optimización
   pintarModulos();
+  prepararEdicion();
   // Java
   $('op-java').value = a.javaArgs || '';
   $('op-java').addEventListener('change', () => guardar({ javaArgs: $('op-java').value.trim() }));
@@ -380,14 +384,27 @@ function configurarAjustes() {
   }
   $('btn-modulos').addEventListener('click', () => { irA('ajustes'); $$('.ajustes-tabs [data-tab="modulos"]')[0].click(); });
 }
+function pintarEdicion() {
+  const plus = !!((estado.ajustes.modulos || {}).plus);
+  for (const b of $$('#edicion button')) b.setAttribute('aria-checked', String((b.dataset.ed === 'plus') === plus));
+}
+function prepararEdicion() {
+  for (const b of $$('#edicion button')) b.addEventListener('click', () => {
+    if (estado.jugando) return;
+    sonar('clic');
+    guardar({ modulos: { ...(estado.ajustes.modulos || {}), plus: b.dataset.ed === 'plus' } }).then(() => { pintarEdicion(); pintarModulos(); aviso(b.dataset.ed === 'plus' ? 'Edición Plus: se aplica al pulsar Jugar.' : 'Edición Normal: se aplica al pulsar Jugar.'); });
+  });
+  pintarEdicion();
+}
 function pintarModulos() {
+  pintarEdicion();
   const a = estado.ajustes;
   const lista = estado.init.evento.modulos || [];
   const elegido = (m) => (a.modulos || {})[m.id] ?? m.defecto;
   const porId = new Map(lista.map((m) => [m.id, m]));
   const bloqueado = (m) => m.requiere && porId.has(m.requiere) && !elegido(porId.get(m.requiere));
   const cambiar = (m, v) => { sonar('clic'); guardar({ modulos: { ...(estado.ajustes.modulos || {}), [m.id]: v } }).then(pintarModulos); };
-  const extras = lista.filter((m) => m.grupo !== 'optimizacion');
+  const extras = lista.filter((m) => m.grupo !== 'optimizacion' && m.grupo !== 'plus');
   const optim = lista.filter((m) => m.grupo === 'optimizacion');
   $('modulos').replaceChildren(...extras.map((m) => {
     const inp = el('input', { type: 'checkbox', disabled: bloqueado(m) }); inp.checked = elegido(m) && !bloqueado(m);

@@ -285,10 +285,33 @@ class QuantumCore {
       this.log(`options.txt creado con el perfil gráfico "${perfil}"`);
     }
     if (ajustes.idiomaJuego) await this.ponerOpcion('lang', ajustes.idiomaJuego);
+    await this.aplicarTeclas();
     await this.texturas(sinTexturas, texturasDelPack(overrides));
     this.onProgress({ etapa: 'listo', texto: 'Todo listo' });
     this.log(`Instalación verificada en ${((Date.now() - t0) / 1000).toFixed(1)} s`);
     return { java, install, packVersion, mcVersion, loaderVersion, reporte: rep };
+  }
+
+  /**
+   * Controles sin conflictos: aplica las teclas del evento una sola vez por versión.
+   * Si después el jugador cambia una tecla, se respeta hasta que el organizador publique otra versión.
+   */
+  async aplicarTeclas() {
+    const t = this.cfg.teclas; if (!t || !t.mapa) return;
+    const marca = path.join(this.dirs.game, '.quantum', 'teclas.json');
+    let hecha = 0; try { hecha = JSON.parse(await fsp.readFile(marca, 'utf8')).version || 0; } catch { /* primera vez */ }
+    if (hecha >= t.version) return;
+    const optFile = path.join(this.dirs.game, 'options.txt');
+    let txt = ''; try { txt = await fsp.readFile(optFile, 'utf8'); } catch { return; }
+    const lineas = txt.split(/\r?\n/).filter(Boolean);
+    for (const [k, v] of Object.entries(t.mapa)) {
+      const clave = `key_${k}:`; const i = lineas.findIndex((l) => l.startsWith(clave));
+      if (i >= 0) lineas[i] = `${clave}${v}`; else lineas.push(`${clave}${v}`);
+    }
+    await fsp.writeFile(optFile, `${lineas.join('\n')}\n`);
+    await fsp.mkdir(path.dirname(marca), { recursive: true });
+    await fsp.writeFile(marca, JSON.stringify({ version: t.version }));
+    this.log(`Controles del evento aplicados (versión ${t.version})`);
   }
 
   /** Cambia una sola opción de options.txt sin tocar el resto. */

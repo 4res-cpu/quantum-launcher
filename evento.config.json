@@ -67,6 +67,25 @@
   ],
   "modulos": [
     {
+      "id": "plus",
+      "grupo": "plus",
+      "nombre": "Quantum Plus",
+      "defecto": false,
+      "desc": "Edición gráfica: horizonte lejano (Distant Horizons), luces dinámicas, sonido 3D realista, ambiente y pasos, hojas que caen, capas 3D de skin, capas onduladas y texturas conectadas. Necesita un PC potente; quita FPS.",
+      "efecto": "Gráficos ++",
+      "prefijos": [
+        "DistantHorizons",
+        "sound-physics-remastered",
+        "AmbientSounds",
+        "PresenceFootsteps",
+        "fallingleaves",
+        "waveycapes",
+        "skinlayers3d",
+        "lambdynamiclights",
+        "continuity"
+      ]
+    },
+    {
       "id": "sodium",
       "grupo": "optimizacion",
       "nombre": "Sodium",
@@ -342,5 +361,47 @@
   "legal": {
     "titular": "Quantum Network",
     "aviso": "Quantum Network es un proyecto independiente de la comunidad. No está afiliado, respaldado ni patrocinado por Mojang Studios, Microsoft, Nintendo, Game Freak, Creatures Inc. ni The Pokémon Company. Minecraft es marca de Mojang Synergies AB. Pokémon y sus personajes son marcas de sus respectivos titulares. Cobblemon es un mod de la comunidad con licencia propia. Las ilustraciones del launcher pertenecen a sus autores y se usan con permiso."
+  },
+  "teclas": {
+    "version": 1,
+    "mapa": {
+      "Open Backpack": "key.keyboard.comma",
+      "Toggle belt": "key.keyboard.period",
+      "gui.xaero_new_waypoint": "key.keyboard.semicolon",
+      "key.cobblemon-battle-extras.battle_logs": "key.keyboard.f4",
+      "key.emotecraft.fastchoose": "key.keyboard.j",
+      "key.punchy.triggerable.punchy_sword_inspect_old": "key.keyboard.unknown",
+      "key.punchy.triggerable.punchy_sword_inspect_rework": "key.keyboard.unknown",
+      "key.punchy.inspect": "key.keyboard.unknown",
+      "key.saveToolbarActivator": "key.keyboard.keypad.divide",
+      "key.loadToolbarActivator": "key.keyboard.keypad.subtract",
+      "key.travelersbackpack.cycle_tool": "key.keyboard.x",
+      "key.shouldersurfing.adjust_camera_out": "key.keyboard.unknown",
+      "key.shouldersurfing.adjust_camera_in": "key.keyboard.unknown",
+      "key.shouldersurfing.adjust_camera_left": "key.keyboard.unknown",
+      "key.shouldersurfing.adjust_camera_right": "key.keyboard.unknown",
+      "key.shouldersurfing.adjust_camera_up": "key.keyboard.unknown",
+      "key.shouldersurfing.adjust_camera_down": "key.keyboard.unknown",
+      "key.shouldersurfing.free_look": "key.keyboard.unknown",
+      "key.shouldersurfing.swap_shoulder": "key.keyboard.keypad.5",
+      "key.jade.narrate": "key.keyboard.unknown",
+      "key.voice_chat_group": "key.keyboard.backslash",
+      "key.mute_microphone": "key.keyboard.equal",
+      "key.disable_voice_chat": "key.keyboard.minus",
+      "supplementaries.keybind.quiver": "key.keyboard.keypad.3",
+      "key.cobblemonraiddens.mouse": "key.keyboard.caps.lock",
+      "axiom.keybind.context": "key.keyboard.right.control",
+      "axiom.keybind.toggle_editor_ui": "key.keyboard.insert",
+      "axiom.keybind.toggle_replace_mode_cap": "key.keyboard.unknown",
+      "emotecraft_borrow_their_emote.keybinding.reverse_sound": "key.keyboard.unknown",
+      "legendarytooltips.key.scrollTooltips": "key.keyboard.unknown",
+      "iris.keybind.shaderPackSelection": "key.keyboard.f12",
+      "key.fancytoasts.config_menu": "key.keyboard.unknown",
+      "key.pokebike.headlight": "key.keyboard.keypad.8",
+      "key.pokebike.bell": "key.keyboard.keypad.7",
+      "key.hide_icons": "key.keyboard.keypad.6",
+      "gui.xaero_minimap_settings": "key.keyboard.left.bracket",
+      "key.itemzoomer.toggle_zoom": "key.keyboard.keypad.9"
+    }
   }
 }

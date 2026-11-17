@@ -5,6 +5,12 @@
  },
  "mods": [
   {
+   "nombre": "3D Skin Layers",
+   "version": "1.11.4",
+   "licencia": "tr7zw Protective License",
+   "url": "https://modrinth.com/project/3dskinlayers"
+  },
+  {
    "nombre": "[EMF] Entity Model Features",
    "version": "3.3.12-fabric-1.21",
    "licencia": "LGPL 3.0 only",
@@ -69,6 +75,12 @@
    "version": "5.14.2",
    "licencia": "MIT",
    "url": "https://modrinth.com/mod/adventure-platform-mod"
+  },
+  {
+   "nombre": "AmbientSounds",
+   "version": "6.3.11",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/project/ambientsounds"
   },
   {
    "nombre": "Amendments",
@@ -318,6 +330,18 @@
    "url": "https://modrinth.com/mod/cobblemonraiddens"
   },
   {
+   "nombre": "Cobblemon RLM",
+   "version": "1.7.2",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/project/cobblemon-rlm"
+  },
+  {
+   "nombre": "Cobblemon Spawn Notification",
+   "version": "2.3.0",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/project/cobblemon-spawn-notification"
+  },
+  {
    "nombre": "Cobblemon Trainer Battle Commands",
    "version": "0.15.0-beta",
    "licencia": "MCOML",
@@ -367,6 +391,12 @@
    "url": "https://modrinth.com/mod/cobbreeding"
   },
   {
+   "nombre": "Continuity",
+   "version": "3.0.0",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/project/continuity"
+  },
+  {
    "nombre": "Controlling",
    "version": "19.0.5",
    "licencia": "MIT",
@@ -377,6 +407,12 @@
    "version": "2.13.54",
    "licencia": "LGPL 3.0 only",
    "url": "https://modrinth.com/mod/creativecore"
+  },
+  {
+   "nombre": "Distant Horizons",
+   "version": "3.3.3",
+   "licencia": "LGPL 3.0 only",
+   "url": "https://modrinth.com/project/distanthorizons"
   },
   {
    "nombre": "Drippy Loading Screen",
@@ -485,6 +521,12 @@
    "version": "1.14.2+kotlin.2.4.21",
    "licencia": "Apache 2.0",
    "url": "https://modrinth.com/mod/fabric-language-kotlin"
+  },
+  {
+   "nombre": "Falling Leaves",
+   "version": "1.17.1",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/project/fallingleaves"
   },
   {
    "nombre": "Fancy Toasts | Better Advancements",
@@ -641,6 +683,12 @@
    "version": "1.9.9-1.21-fabric",
    "licencia": "Apache 2.0",
    "url": "https://modrinth.com/mod/konkrete"
+  },
+  {
+   "nombre": "LambDynamicLights",
+   "version": "4.8.11",
+   "licencia": "Lambda License",
+   "url": "https://modrinth.com/project/lambdynamiclights"
   },
   {
    "nombre": "Language Reload",
@@ -823,6 +871,12 @@
    "url": "https://modrinth.com/mod/pokeblocks"
   },
   {
+   "nombre": "Presence Footsteps",
+   "version": "1.11.2",
+   "licencia": "Polyform Shield 1.0",
+   "url": "https://modrinth.com/project/presence-footsteps"
+  },
+  {
    "nombre": "Prickle",
    "version": "21.1.11",
    "licencia": "LGPL 2.1 only",
@@ -938,6 +992,12 @@
    "url": "https://modrinth.com/mod/sodium-extra"
   },
   {
+   "nombre": "Sound Physics Remastered",
+   "version": "1.5.2",
+   "licencia": "GPL 3.0 only",
+   "url": "https://modrinth.com/project/sound-physics-remastered"
+  },
+  {
    "nombre": "spark",
    "version": "1.10.109-fabric",
    "licencia": "GPL 3.0 only",
@@ -1004,6 +1064,12 @@
    "url": "https://modrinth.com/mod/wakes"
   },
   {
+   "nombre": "Wavey Capes",
+   "version": "1.11.3",
+   "licencia": "tr7zw Protective License",
+   "url": "https://modrinth.com/project/wavey-capes"
+  },
+  {
    "nombre": "Waystones",
    "version": "21.1.47+fabric-1.21.1",
    "licencia": "All Rights Reserved",
@@ -1047,6 +1113,12 @@
   }
  ],
  "servidor": [
+  {
+   "nombre": "Almost Perfect Legendary IVs",
+   "version": "2.0.0",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/project/almost-perfect-legendary-ivs"
+  },
   {
    "nombre": "AntiXray",
    "version": "1.4.8+1.21.1",
@@ -1126,6 +1198,18 @@
    "url": "https://modrinth.com/mod/cobblemon-hunt"
   },
   {
+   "nombre": "Cobblemon Repel",
+   "version": "1.4",
+   "licencia": "Apache 2.0",
+   "url": "https://modrinth.com/project/cobblemon-repel"
+  },
+  {
+   "nombre": "Cobblemon Tim Core",
+   "version": "1.38.0",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/project/cobblemon-tim-core"
+  },
+  {
    "nombre": "Cobblemon Wonder Trade(ServerOnly)",
    "version": "1.0.0",
    "licencia": "All Rights Reserved",
@@ -1178,6 +1262,12 @@
    "version": "3.1.1-Fabric",
    "licencia": "LGPL 3.0 or later",
    "url": "https://modrinth.com/mod/gooeylibs"
+  },
+  {
+   "nombre": "Inventory Menu",
+   "version": "1.0.8",
+   "licencia": "LGPL 3.0 or later",
+   "url": "https://modrinth.com/project/inventory-menu"
   },
   {
    "nombre": "Ledger",
@@ -1264,6 +1354,18 @@
    "url": "https://modrinth.com/project/cobbledstops"
   },
   {
+   "nombre": "Cobblemon - Legendary",
+   "tipo": "Datapack (estructuras)",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/project/cobblemon-legendary"
+  },
+  {
+   "nombre": "Cobblemon Bonus Variants",
+   "tipo": "Datapack y texturas",
+   "licencia": "MPL 2.0",
+   "url": "https://modrinth.com/project/cobblemon-bonus-textures"
+  },
+  {
    "nombre": "Cobblemon Halloween Costumes",
    "tipo": "Datapack y texturas",
    "licencia": "Todos los derechos reservados",
@@ -1318,10 +1420,22 @@
    "url": "https://modrinth.com/project/TAIMVZCL"
   },
   {
+   "nombre": "GG&T Fakemon Pack",
+   "tipo": "Datapack y texturas",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/project/ggt-pack"
+  },
+  {
    "nombre": "Immersive Interfaces",
    "tipo": "Paquete de texturas",
    "licencia": "Licencia del autor (ver página)",
    "url": "https://modrinth.com/project/3sV1gvyJ"
+  },
+  {
+   "nombre": "Insignias de rango Quantum",
+   "tipo": "Fuente del paquete QuantumMenus",
+   "licencia": "Quantum Network",
+   "url": ""
   },
   {
    "nombre": "Pokopia Cosmetic Forms (Beezy)",
@@ -1330,16 +1444,40 @@
    "url": "https://modrinth.com/project/pokopia"
   },
   {
+   "nombre": "Poké Costume",
+   "tipo": "Datapack y texturas",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/project/poke-costume"
+  },
+  {
    "nombre": "Qrafty's Capitalized Font",
    "tipo": "Paquete de texturas",
    "licencia": "Licencia del autor (ver página)",
    "url": "https://modrinth.com/project/FA4ebMMU"
   },
   {
+   "nombre": "Seavls Bizarremons",
+   "tipo": "Datapack y texturas",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/project/cobblemon-seavls-bizarremons"
+  },
+  {
    "nombre": "Vivillon Pride Patterns",
    "tipo": "Datapack y texturas",
    "licencia": "MPL 2.0",
    "url": "https://modrinth.com/project/vivillon-pride-patterns"
+  },
+  {
+   "nombre": "Winterglide's Extra Animations",
+   "tipo": "Datapack y texturas",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/project/winterglides-extra-animations-cobblemon"
+  },
+  {
+   "nombre": "Xadok's Megas",
+   "tipo": "Datapack y texturas",
+   "licencia": "CC BY 4.0",
+   "url": "https://modrinth.com/project/xadoks-megas"
   }
  ],
  "launcher": [

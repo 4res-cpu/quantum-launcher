@@ -80,11 +80,6 @@ img { -webkit-user-drag: none; }
 [data-anim='si'] .arte-capa.visible img, [data-anim='si'] .arte-capa.visible video { animation: deriva 40s ease-in-out infinite alternate; }
 [data-anim='si'] .arte-capa.horizontal.visible img { animation: deriva-h 40s ease-in-out infinite alternate; }
 .arte-capa.horizontal img { object-position: 85% 50%; }
-/* Ilustraciones verticales: nítidas a su tamaño real (sin estirar) con un fondo difuminado de la misma obra */
-.arte-capa::before { content: ''; position: absolute; inset: -60px; background: var(--fondo-arte, none) center / cover no-repeat; filter: blur(60px) saturate(1.15); opacity: 0.35; }
-.arte-capa.horizontal::before { display: none; }
-.arte-capa:not(.horizontal) img, .arte-capa:not(.horizontal) video { object-fit: contain; object-position: 100% 50%; -webkit-mask-image: linear-gradient(to left, #000 0, #000 34vh, transparent 52vh); }
-[data-anim='si'] .arte-capa:not(.horizontal).visible img, [data-anim='si'] .arte-capa:not(.horizontal).visible video { animation: none; }
 @keyframes deriva-h { from { transform: scale(1.02); } to { transform: scale(1.1) translateX(-1.5%); } }
 @keyframes deriva { from { object-position: 50% 12%; transform: scale(1.02); } to { object-position: 50% 78%; transform: scale(1.1); } }
 .arte-velo { position: absolute; inset: 0; background: linear-gradient(90deg, var(--fondo), transparent 30%); opacity: 0.4; }
@@ -597,3 +592,9 @@ article.norma { padding: 14px 16px; } article.norma p { margin: 4px 0 0; }
 .mini-sw input:disabled + span { opacity: 0.45; } .mini-sw input:disabled { cursor: not-allowed; }
 .lista-mods .quitar { width: 24px; height: 24px; font-size: 11px; }
 .modal.soporte .pasos-soporte li::before { content: none; }
+
+/* Edición Normal / Plus */
+.edicion { display: inline-flex; gap: 2px; padding: 3px; margin-bottom: 8px; border-radius: 999px; background: var(--panel); border: 1px solid var(--linea); }
+.edicion button { padding: 5px 14px; border: 0; border-radius: 999px; background: transparent; color: var(--texto-2, inherit); font: inherit; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: background 0.2s, color 0.2s; }
+.edicion button[aria-checked="true"] { background: var(--acento); color: #0b0b12; }
+.edicion button[data-ed="plus"][aria-checked="true"] { background: linear-gradient(135deg, #ffd98a, #ffbf3c); color: #1a1205; }
