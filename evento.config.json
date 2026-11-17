@@ -308,6 +308,26 @@
       "color": "#f0dcb8",
       "claro": true,
       "horizontal": true
+    },
+    {
+      "id": "rotom",
+      "archivo": "rotom.jpg",
+      "video": "rotom.webm",
+      "titulo": "Rotom eléctrico",
+      "autor": "ownyousumer",
+      "color": "#f3dfc2",
+      "claro": true,
+      "horizontal": true
+    },
+    {
+      "id": "tyranitar",
+      "archivo": "tyranitar.jpg",
+      "video": "tyranitar.webm",
+      "titulo": "Tyranitar de la tormenta",
+      "autor": "ownyousumer",
+      "color": "#ecd7b8",
+      "claro": true,
+      "horizontal": true
     }
   ],
   "enlaces": {
