@@ -1128,6 +1128,54 @@
    "tipo": "Datapack y texturas",
    "licencia": "MIT",
    "url": "https://modrinth.com/project/metroids-for-cobblemon"
+  },
+  {
+   "nombre": "Lobby japonés (kubj)",
+   "tipo": "Construcción del lobby",
+   "licencia": "Gratuito",
+   "url": ""
+  },
+  {
+   "nombre": "Cottagecore Lobby",
+   "tipo": "Construcción en la Región de Quanta",
+   "licencia": "Gratuito",
+   "url": ""
+  },
+  {
+   "nombre": "NanoLimbo",
+   "tipo": "Sala de login",
+   "licencia": "GPL-3.0",
+   "url": "https://github.com/Nan1t/NanoLimbo"
+  },
+  {
+   "nombre": "LibreLoginProd",
+   "tipo": "Login del proxy",
+   "licencia": "Mozilla Public License 2.0",
+   "url": "https://modrinth.com/plugin/libreloginprod"
+  },
+  {
+   "nombre": "LibertyBans",
+   "tipo": "Sanciones de la red",
+   "licencia": "AGPL-3.0",
+   "url": "https://modrinth.com/plugin/libertybans"
+  },
+  {
+   "nombre": "Cobblemon Smartphone",
+   "tipo": "Móvil Rotom",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/cobblemon-smartphone"
+  },
+  {
+   "nombre": "Cobblemon Arena",
+   "tipo": "Combates competitivos",
+   "licencia": "Todos los derechos reservados",
+   "url": "https://modrinth.com/mod/cobblemon-arena"
+  },
+  {
+   "nombre": "Cobblemon Random Battles",
+   "tipo": "Combates aleatorios",
+   "licencia": "MIT",
+   "url": "https://modrinth.com/mod/cobblemon-random-battles"
   }
  ],
  "servidor": [
