@@ -72,7 +72,7 @@
       "grupo": "plus",
       "nombre": "Quantum Plus",
       "defecto": false,
-      "desc": "Edición gráfica: horizonte lejano (Distant Horizons), luces dinámicas, sonido 3D realista, ambiente y pasos, hojas que caen, capas 3D de skin, capas onduladas y texturas conectadas. Necesita un PC potente; quita FPS.",
+      "desc": "Edición gráfica: horizonte lejano (Distant Horizons), luces dinámicas, sonido 3D realista, ambiente y pasos, hojas que caen, capas 3D de skin, capas onduladas. Necesita un PC potente; quita FPS.",
       "efecto": "Gráficos ++",
       "prefijos": [
         "DistantHorizons",
@@ -82,8 +82,7 @@
         "fallingleaves",
         "waveycapes",
         "skinlayers3d",
-        "lambdynamiclights",
-        "continuity"
+        "lambdynamiclights"
       ]
     },
     {
